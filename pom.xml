@@ -11,9 +11,10 @@
     <modules>
         <module>util</module>
         <module>web</module>
-        <module>tool</module>
         <module>admin</module>
         <module>wechat</module>
+        <module>tool-spider</module>
+        <module>webservice</module>
     </modules>
 
 
@@ -38,7 +39,11 @@
 
     <dependencyManagement>
         <dependencies>
-
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.4</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
