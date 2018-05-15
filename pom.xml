@@ -18,6 +18,8 @@
         <module>web-multi</module>
         <module>tool-scheduler</module>
         <module>tool-cache-ehcache</module>
+        <module>web-admin</module>
+        <module>web-wechat</module>
     </modules>
 
 
