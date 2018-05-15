@@ -1,0 +1,8 @@
+/logs
+/.idea
+/tool-cache-ehcache/target
+/tool-scheduler/target
+/web/target
+/web/logs
+/web-multi/logs
+/web-multi/target
