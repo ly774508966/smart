@@ -15,6 +15,9 @@
         <module>wechat</module>
         <module>tool-spider</module>
         <module>webservice</module>
+        <module>web-multi</module>
+        <module>tool-scheduler</module>
+        <module>tool-cache-ehcache</module>
     </modules>
 
 
@@ -34,7 +37,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.6.RELEASE</version>
+        <version>2.0.2.RELEASE</version>
     </parent>
 
     <properties>
@@ -67,6 +70,11 @@
             <dependency>
                 <groupId>com.rabbit</groupId>
                 <artifactId>util</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rabbit</groupId>
+                <artifactId>web</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
