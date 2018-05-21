@@ -32,7 +32,12 @@
         <table schema="wwjcpt" tableName="FRM_CODE"/>
         <table schema="wwjcpt" tableName="FRM_DEPARTMENT"/>
 
-        <!--<table schema="wwjcpt" tableName="%"></table>-->
+        <!--<table schema="wwjcpt" tableName="%">-->
+        <!--&lt;!&ndash;mysql 配置&ndash;&gt;-->
+        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--&lt;!&ndash;oracle 配置&ndash;&gt;-->
+        <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
+        <!--</table>-->
 
     </context>
 </generatorConfiguration>
