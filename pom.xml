@@ -10,14 +10,9 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>util</module>
-        <module>web</module>
-        <module>admin</module>
-        <module>wechat</module>
         <module>tool-spider</module>
         <module>webservice</module>
         <module>web-multi</module>
-        <module>tool-scheduler</module>
-        <module>tool-cache-ehcache</module>
         <module>web-admin</module>
         <module>web-wechat</module>
     </modules>
@@ -39,7 +34,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.2.RELEASE</version>
+        <version>1.5.6.RELEASE</version>
     </parent>
 
     <properties>
@@ -49,34 +44,55 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--模板-->
             <dependency>
                 <groupId>net.sourceforge.nekohtml</groupId>
                 <artifactId>nekohtml</artifactId>
                 <version>1.9.22</version>
             </dependency>
+            <!--json-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>1.1.41</version>
             </dependency>
+            <!--工具类-->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.4</version>
             </dependency>
+            <!--鉴权-->
             <dependency>
                 <groupId>org.apache.shiro</groupId>
                 <artifactId>shiro-spring</artifactId>
                 <version>1.4.0</version>
             </dependency>
+            <!--数据库-->
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc6</artifactId>
+                <version>11.2.0.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.0.28</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>4.1.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>1.3.1</version>
+            </dependency>
+            <!--自定义工具类-->
             <dependency>
                 <groupId>com.rabbit</groupId>
                 <artifactId>util</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.rabbit</groupId>
-                <artifactId>web</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
