@@ -16,6 +16,7 @@ E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\frame
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\dao\entity\FrmDepartmentExample.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\config\DruidConfiguration.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\dao\entity\SysRoleRefMenuExample.java
+E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\config\MybatisDb2Config.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\frame\aop\ControllerAspect.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\dao\entity\FrmCode.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\dao\mapper\FrmCodeMapper.java
@@ -25,9 +26,11 @@ E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\dao\m
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\frame\protocol\Response.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\filter\LogFilter.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\config\FilterConfig.java
+E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\config\MybatisDbConfig.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\dao\entity\FrmCodeExample.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\config\SchedulerConfig.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\dao\entity\SysMenu.java
+E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\config\MybatisDb1Config.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\dao\mapper\FrmDepartmentMapper.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\filter\ResponseHeaderFilter.java
 E:\github\2508658887@qq.com\smart\web-admin\src\main\java\com\rabbit\smart\dao\mapper\SysMenuMapper.java

@@ -3,6 +3,8 @@ package com.rabbit.smart.test;
 import com.alibaba.fastjson.JSONObject;
 import com.rabbit.smart.util.ConvertUtil;
 import com.rabbit.smart.util.DateUtil;
+import com.rabbit.smart.util.io.FileUtil;
+import com.rabbit.smart.util.io.ResourceUtil;
 import com.rabbit.smart.util.security.AESUtil;
 import com.rabbit.smart.util.security.Base64Util;
 import com.rabbit.smart.util.security.MD5Util;
@@ -13,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -151,5 +154,22 @@ public class UtilTest {
         System.out.println(DateUtil.getString("yyyy-MM-dd HH:mm:ss", new Date()));
         System.out.println(DateUtil.getDate("yyyy-MM-dd HH:mm:ss", "2017-05-01 01:02:03").toString());
         System.out.println(DateUtil.getTime());
+    }
+
+    @Test
+    public void ResourceTest() {
+        String root = ResourceUtil.getAbsolutePath();
+        System.out.println(root);
+
+        String path = ResourceUtil.getAbsolutePath("logback.xml");
+        System.out.println(path);
+    }
+
+    @Test
+    public void FileTest() throws Exception {
+        String xml = FileUtil.readToString(ResourceUtil.getAbsolutePath("logback.xml"));
+        System.out.println(xml);
+        FileUtil.saveText(ResourceUtil.getAbsolutePath() + "/empty.txt", "1\r\n2\r\n3");
+        FileUtil.saveUrl(ResourceUtil.getAbsolutePath() + "/logo.png", "https://www.baidu.com/img/bd_logo1.png");
     }
 }

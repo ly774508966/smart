@@ -24,11 +24,11 @@ public class DruidConfiguration {
 
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
-    @Value("${spring.datasource.url}")
+    @Value("${spring.datasource.db1.url}")
     private String url;
-    @Value("${spring.datasource.username}")
+    @Value("${spring.datasource.db1.username}")
     private String username;
-    @Value("${spring.datasource.password}")
+    @Value("${spring.datasource.db1.password}")
     private String password;
     @Value("${spring.datasource.initialSize}")
     private int initialSize;

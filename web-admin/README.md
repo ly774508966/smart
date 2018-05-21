@@ -8,7 +8,7 @@
 ### 定时任务能力
 ### 数据库层能力
     代码自动生成
-    多数据源支持 //TODO 尚未封装
+    多数据源支持
     合理的javabean //TODO 尚未封装
 ### AOP能力
     请求拦截 
@@ -20,14 +20,15 @@
     字符串操作 
     随机数生成 
     日期函数
-    Http/Https请求 //TODO 尚未封装
+    Http、Https请求
     加解密（AES、Md5、Base64、RSA） 
-    File读写 //TODO 尚未封装
+    File读写
     Xml序列化/反序列化 //TODO 尚未封装
     Json序列化/反序列化 //TODO 尚未封装
     Excel操作 //TODO 尚未封装
     图片操作（放大、缩小、旋转、水印、圆角、压缩） //TODO 尚未封装
-    pub/sub //TODO 尚未封装
+    pub、sub //TODO 尚未封装
+
 
 # 框架能力
 ### 接口协议
@@ -54,7 +55,7 @@
     数据库慢查询日志
     用户登录时间、IP记录 //TODO 尚未封装
 ### 项目管理
-    本地jar包引入 //TODO 尚未封装
+    本地jar包引入
     项目打包发布
     热更新
     webjars使用 //TODO 尚未封装
@@ -64,6 +65,9 @@
     负载均衡
     分布式缓存
 ### 页面模板
+    复用 //TODO 尚未封装
+    for if //TODO 尚未封装
+    传值  //TODO 尚未封装
 
 # 业务能力
 ### 基础功能
@@ -112,14 +116,12 @@
     spring-boot
     logback
     ehcache
-    quartz
     thymeleaf
     shiro
     mybatis
     mybatis-generator
     pagehelper
     fastjson
-    fluentvalidator
     
     jenkins
     maven
