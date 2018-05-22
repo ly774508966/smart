@@ -1,4 +1,5 @@
 # 基础能力
+``` lua
 ### 日志能力
     控制台日志
     文本日志
@@ -28,9 +29,10 @@
     Excel操作 //TODO 尚未封装
     图片操作（放大、缩小、旋转、水印、圆角、压缩） //TODO 尚未封装
     pub、sub //TODO 尚未封装
-
+```
 
 # 框架能力
+``` lua
 ### 接口协议
     接口协议定义
     前台统一管理   //TODO 尚未封装
@@ -65,8 +67,10 @@
     复用 //TODO 尚未封装
     for if //TODO 尚未封装
     传值  //TODO 尚未封装
+```
 
 # 业务能力
+``` lua
 ### 基础功能
     登录
     注销
@@ -85,7 +89,7 @@
 ### 监控
     服务器状态
     组件状态
-    
+```
     
 # 实现
 ### 项目结构
@@ -93,26 +97,26 @@
     smart
     ├── assembly -- 打包脚本
     ├── java -- 代码
-    ├       ├── config -- 配置
-    ├       ├── controller -- 控制层
-    ├       ├── dao -- 数据库访问层
-    ├       ├── dto -- 传输对象
-    ├       ├── filter -- 拦截器
-    ├       ├── frame -- 框架代码
-    ├       ├── model -- 领域模型
-    ├       ├── service -- 服务层
-    ├       ├── task -- 任务
-    ├       ├── Application.java -- 启动入口
+    ├    ├── config -- 配置
+    ├    ├── controller -- 控制层
+    ├    ├── dao -- 数据库访问层
+    ├    ├── dto -- 传输对象
+    ├    ├── filter -- 拦截器
+    ├    ├── frame -- 框架代码
+    ├    ├── model -- 领域模型
+    ├    ├── service -- 服务层
+    ├    ├── task -- 任务
+    ├    ├── Application.java -- 启动入口
     ├── lib -- 本地jar包
     ├── resource -- 资源
-    ├       ├── mapper -- 数据库脚本
-    ├       ├── public -- 静态资源
-    ├       ├── template -- 模板资源
-    ├       ├── application.properties -- 配置文件
-    ├       ├── ehcache.xml -- 缓存配置
-    ├       ├── generator_db1.xml -- 自动生成dao代码配置文件，数据源1
-    ├       ├── generator_db2.xml -- 自动生成dao代码配置文件，数据源2
-    ├       ├── logback.xml -- 日志配置
+    ├    ├── mapper -- 数据库脚本
+    ├    ├── public -- 静态资源
+    ├    ├── template -- 模板资源
+    ├    ├── application.properties -- 配置文件
+    ├    ├── ehcache.xml -- 缓存配置
+    ├    ├── generator_db1.xml -- 自动生成dao代码配置文件，数据源1
+    ├    ├── generator_db2.xml -- 自动生成dao代码配置文件，数据源2
+    ├    ├── logback.xml -- 日志配置
 
 ```
 ### 技术选型
