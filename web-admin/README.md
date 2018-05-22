@@ -26,7 +26,7 @@
     File读写
     Xml序列化、反序列化
     Json序列化、反序列化
-    Excel操作 //TODO 开发中
+    Excel操作 
     图片操作（放大、缩小、旋转、水印、圆角、压缩） //TODO 开发中
     pub、sub //TODO 开发中
 ```

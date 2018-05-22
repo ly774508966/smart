@@ -8,6 +8,7 @@ import com.rabbit.smart.test.dto.User;
 import com.rabbit.smart.util.ConvertUtil;
 import com.rabbit.smart.util.DateUtil;
 import com.rabbit.smart.util.XMLUtil;
+import com.rabbit.smart.util.io.ExcelUtil;
 import com.rabbit.smart.util.io.FileUtil;
 import com.rabbit.smart.util.io.HttpUtil;
 import com.rabbit.smart.util.io.ResourceUtil;
@@ -18,9 +19,16 @@ import com.rabbit.smart.util.security.RSAUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.annotation.Resource;
+import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -225,5 +233,34 @@ public class UtilTest {
         System.out.println(userJson);
         User userBean = JSONObject.parseObject(userJson, User.class);
         System.out.println(JSONObject.toJSONString(userBean));
+    }
+
+    @Test
+    public void ExcelTest() throws IOException {
+        String path = ResourceUtil.getAbsolutePath("1.xlsx");
+        readExcel(path);
+        path = ResourceUtil.getAbsolutePath("1.xls");
+        readExcel(path);
+
+        Workbook workbook = ExcelUtil.readExcel(path);
+        Sheet sheet = workbook.getSheetAt(0);
+        sheet.createRow(4);
+        sheet.getRow(4).createCell(0);
+        sheet.getRow(4).createCell(1);
+        sheet.getRow(4).getCell(0).setCellValue("添加测试行");
+        sheet.getRow(4).getCell(1).setCellValue(100);
+        OutputStream os = new FileOutputStream(ResourceUtil.getAbsolutePath() + "/2.xls");
+        workbook.write(os);
+        os.flush();
+        os.close();
+    }
+
+    private void readExcel(String path) throws IOException {
+        Sheet sheet = ExcelUtil.readSheet(path, 0);
+        for (int i = 0; i < 4; i++) {
+            Cell cell_1 = sheet.getRow(i).getCell(0);
+            Cell cell_2 = sheet.getRow(i).getCell(1);
+            System.out.println(ExcelUtil.getCellValue(cell_1) + "|" + ExcelUtil.getCellValue(cell_2));
+        }
     }
 }
