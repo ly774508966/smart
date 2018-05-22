@@ -1,9 +1,15 @@
 package com.rabbit.smart.test;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.rabbit.smart.test.dto.ResponseLink;
+import com.rabbit.smart.test.dto.Role;
+import com.rabbit.smart.test.dto.User;
 import com.rabbit.smart.util.ConvertUtil;
 import com.rabbit.smart.util.DateUtil;
+import com.rabbit.smart.util.XMLUtil;
 import com.rabbit.smart.util.io.FileUtil;
+import com.rabbit.smart.util.io.HttpUtil;
 import com.rabbit.smart.util.io.ResourceUtil;
 import com.rabbit.smart.util.security.AESUtil;
 import com.rabbit.smart.util.security.Base64Util;
@@ -15,8 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -171,5 +177,54 @@ public class UtilTest {
         System.out.println(xml);
         FileUtil.saveText(ResourceUtil.getAbsolutePath() + "/empty.txt", "1\r\n2\r\n3");
         FileUtil.saveUrl(ResourceUtil.getAbsolutePath() + "/logo.png", "https://www.baidu.com/img/bd_logo1.png");
+    }
+
+
+    @Test
+    public void XMLTest() {
+        String input = "<?xml version=\"1.0\" encoding=\"gb2312\"?>" +
+                "<message System=\"ATMS\" Ver=\"1.0\">" +
+                "<systemtype>UTC</systemtype>" +
+                "<messagetype>LINK</messagetype>" +
+                "<sourceIP>127.0.0.1</sourceIP>" +
+                "<targetIP>127.0.0.2</targetIP>" +
+                "<vendor></vendor>" +
+                "<user>张三</user>" +
+                "<password>123456</password>" +
+                "</message>\n";
+        ResponseLink bean = XMLUtil.toJavaBean(input, ResponseLink.class);
+        System.out.println(JSONObject.toJSONString(bean));
+
+        String xml = XMLUtil.toXml(bean);
+        System.out.println(xml);
+    }
+
+    @Test
+    public void JSONTest() {
+        //JSONObject、JSONArray基本用法
+        String amap_url = "http://restapi.amap.com/v3/direction/driving?origin=%s&destination=%s&extensions=all&output=json&key=9dc7a7674fe9033d76a99072cd74c5d5&strategy=2";
+        String url = String.format(amap_url, "115.385981,33.260727", "115.385134,33.258026");
+        String result = HttpUtil.doGet(url);
+        System.out.println(result);
+        JSONObject json = JSONObject.parseObject(result);
+        JSONArray steps = json.getJSONObject("route").getJSONArray("paths").getJSONObject(0).getJSONArray("steps");
+        for (Object object : steps) {
+            JSONObject step = (JSONObject) object;
+            System.out.println(step.toJSONString());
+        }
+
+        //序列化、反序列化
+        User user = new User();
+        user.setName("张三");
+        user.setPassword("123456");
+        List<Role> roles = new ArrayList<Role>();
+        for (int i = 0; i < 2; i++) {
+            roles.add(new Role(String.valueOf(i), "角色" + i));
+        }
+        user.setRoles(roles);
+        String userJson = JSONObject.toJSONString(user);
+        System.out.println(userJson);
+        User userBean = JSONObject.parseObject(userJson, User.class);
+        System.out.println(JSONObject.toJSONString(userBean));
     }
 }
