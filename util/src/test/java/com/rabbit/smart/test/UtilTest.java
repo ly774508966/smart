@@ -179,7 +179,6 @@ public class UtilTest {
         FileUtil.saveUrl(ResourceUtil.getAbsolutePath() + "/logo.png", "https://www.baidu.com/img/bd_logo1.png");
     }
 
-
     @Test
     public void XMLTest() {
         String input = "<?xml version=\"1.0\" encoding=\"gb2312\"?>" +

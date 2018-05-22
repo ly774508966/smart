@@ -91,23 +91,29 @@
 ### 项目结构
 ``` lua
     smart
-    ├── java --
+    ├── assembly -- 打包脚本
+    ├── java -- 代码
     ├       ├── config -- 配置
     ├       ├── controller -- 控制层
     ├       ├── dao -- 数据库访问层
     ├       ├── dto -- 传输对象
     ├       ├── filter -- 拦截器
+    ├       ├── frame -- 框架代码
     ├       ├── model -- 领域模型
     ├       ├── service -- 服务层
     ├       ├── task -- 任务
-    ├       ├── WebAdminApplication.java -- 启动入口
-    ├── resource --
+    ├       ├── Application.java -- 启动入口
+    ├── lib -- 本地jar包
+    ├── resource -- 资源
     ├       ├── mapper -- 数据库脚本
     ├       ├── public -- 静态资源
     ├       ├── template -- 模板资源
     ├       ├── application.properties -- 配置文件
-    ├       ├── logback.xml -- 日志配置
     ├       ├── ehcache.xml -- 缓存配置
+    ├       ├── generator_db1.xml -- 自动生成dao代码配置文件，数据源1
+    ├       ├── generator_db2.xml -- 自动生成dao代码配置文件，数据源2
+    ├       ├── logback.xml -- 日志配置
+
 ```
 ### 技术选型
     spring-boot
