@@ -6,3 +6,9 @@
 /web/logs
 /web-multi/logs
 /web-multi/target
+/web-admin/target
+/util/logs
+/util/target
+/tool-spider/target
+/webservice/target
+/web-wechat/target
