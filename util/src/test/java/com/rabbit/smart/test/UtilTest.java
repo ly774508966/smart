@@ -4,10 +4,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.rabbit.smart.test.dto.ResponseLink;
 import com.rabbit.smart.test.dto.Role;
+import com.rabbit.smart.test.dto.Sick;
 import com.rabbit.smart.test.dto.User;
+import com.rabbit.smart.test.service.FuKeService;
+import com.rabbit.smart.test.service.GuKeService;
+import com.rabbit.smart.test.service.KouQiangServcie;
 import com.rabbit.smart.util.ConvertUtil;
 import com.rabbit.smart.util.DateUtil;
 import com.rabbit.smart.util.XMLUtil;
+import com.rabbit.smart.util.event.EventBus;
 import com.rabbit.smart.util.io.ExcelUtil;
 import com.rabbit.smart.util.io.FileUtil;
 import com.rabbit.smart.util.io.HttpUtil;
@@ -16,19 +21,22 @@ import com.rabbit.smart.util.security.AESUtil;
 import com.rabbit.smart.util.security.Base64Util;
 import com.rabbit.smart.util.security.MD5Util;
 import com.rabbit.smart.util.security.RSAUtil;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.annotation.Resource;
-import java.io.*;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -180,6 +188,12 @@ public class UtilTest {
     }
 
     @Test
+    public void HttpTest() {
+        System.out.println(HttpUtil.doGet("http://www.bootcss.com/"));
+        System.out.println(HttpUtil.doGet("https://www.baidu.com/"));
+    }
+
+    @Test
     public void FileTest() throws Exception {
         String xml = FileUtil.readToString(ResourceUtil.getAbsolutePath("logback.xml"));
         System.out.println(xml);
@@ -191,7 +205,7 @@ public class UtilTest {
     public void XMLTest() {
         String input = "<?xml version=\"1.0\" encoding=\"gb2312\"?>" +
                 "<message System=\"ATMS\" Ver=\"1.0\">" +
-                "<systemtype>UTC</systemtype>" +
+                "<systemtype>LINK</systemtype>" +
                 "<messagetype>LINK</messagetype>" +
                 "<sourceIP>127.0.0.1</sourceIP>" +
                 "<targetIP>127.0.0.2</targetIP>" +
@@ -262,5 +276,73 @@ public class UtilTest {
             Cell cell_2 = sheet.getRow(i).getCell(1);
             System.out.println(ExcelUtil.getCellValue(cell_1) + "|" + ExcelUtil.getCellValue(cell_2));
         }
+    }
+
+    @Test
+    public void ImageTest() throws Exception {
+        String path = ResourceUtil.getAbsolutePath("1.jpg");
+        String water = ResourceUtil.getAbsolutePath("water.jpg");
+        String dest = ResourceUtil.getAbsolutePath();
+
+        //按缩放比缩小
+        Thumbnails.of(path)
+                .size(500, 500)
+                .toFile(dest + "/2.jpg");
+
+        //不按缩放比缩小
+        Thumbnails.of(path)
+                .size(500, 500)
+                .keepAspectRatio(false)
+                .toFile(dest + "/3.jpg");
+
+        //按比例缩小放大
+        Thumbnails.of(path)
+                .scale(0.25f)
+                .toFile(dest + "/4.jpg");
+
+        Thumbnails.of(path)
+                .scale(1.5f)
+                .toFile(dest + "/5.jpg");
+
+        //旋转
+        Thumbnails.of(path)
+                .size(1280, 1024)
+                .rotate(90)
+                .toFile(dest + "/6.jpg");
+
+        Thumbnails.of(path)
+                .size(1280, 1024)
+                .rotate(-90)
+                .toFile(dest + "/7.jpg");
+
+        //旋转
+        Thumbnails.of(path)
+                .size(1280, 1024)
+                .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(water)), 0.5f)
+                .outputQuality(0.8f)
+                .toFile(dest + "/8.jpg");
+
+        //剪裁
+        Thumbnails.of(path)
+                .sourceRegion(Positions.CENTER, 400, 400)
+                .size(200, 200)
+                .keepAspectRatio(false)
+                .toFile(dest + "/9.jpg");
+
+        //格式转换
+        Thumbnails.of(path)
+                .size(1280, 1024)
+                .outputFormat("png")
+                .toFile(dest + "/10.png");
+    }
+
+    @Test
+    public void EventTest() throws Exception {
+        EventBus.addEventListener(new FuKeService(), "看病");
+        EventBus.addEventListener(new GuKeService(), "看病");
+        EventBus.addEventListener(new KouQiangServcie(), "看病");
+        EventBus.dispatchEvent("看病", new Sick("张三", "牙疼"));
+        EventBus.dispatchEvent("看病", new Sick("李四", "骨折"));
+        EventBus.dispatchEvent("看病", new Sick("小红", "产检"));
     }
 }

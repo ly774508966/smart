@@ -17,7 +17,7 @@ public class ResponseLink extends Response {
     }
 
     @XmlElement(name = "vendor")
-    private String vendor;//供应商及型号
+    private String vendor;
 
     public String getVendor() {
         return vendor;
