@@ -30,8 +30,6 @@ public class HomeController {
 
     @RequestMapping("index")
     public String index() {
-        String[] array = {"1"};
-        logger.info(array[2]);
         return "index";
     }
 
