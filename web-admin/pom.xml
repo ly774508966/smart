@@ -33,11 +33,11 @@
             <artifactId>nekohtml</artifactId>
         </dependency>
         <!--热更新-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-devtools</artifactId>-->
-        <!--<optional>true</optional>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
         <!--常用工具类-->
         <dependency>
             <groupId>com.rabbit</groupId>
@@ -86,6 +86,7 @@
 
     <build>
         <plugins>
+            <!--打包工具-->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -103,12 +104,13 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--数据库代码生成工具-->
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>1.3.2</version>
                 <configuration>
-                    <configurationFile>src/main/resources/generator_second.xml</configurationFile>
+                    <configurationFile>src/main/resources/generator_first.xml</configurationFile>
                     <verbose>true</verbose>
                     <overwrite>true</overwrite>
                 </configuration>
