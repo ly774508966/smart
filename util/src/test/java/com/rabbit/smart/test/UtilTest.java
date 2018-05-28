@@ -204,15 +204,15 @@ public class UtilTest {
     @Test
     public void XMLTest() {
         String input = "<?xml version=\"1.0\" encoding=\"gb2312\"?>" +
-                "<message System=\"ATMS\" Ver=\"1.0\">" +
-                "<systemtype>LINK</systemtype>" +
-                "<messagetype>LINK</messagetype>" +
-                "<sourceIP>127.0.0.1</sourceIP>" +
-                "<targetIP>127.0.0.2</targetIP>" +
-                "<vendor></vendor>" +
-                "<user>张三</user>" +
-                "<password>123456</password>" +
-                "</message>\n";
+                        "<message System=\"ATMS\" Ver=\"1.0\">" +
+                            "<systemtype>LINK</systemtype>" +
+                            "<messagetype>LINK</messagetype>" +
+                            "<sourceIP>127.0.0.1</sourceIP>" +
+                            "<targetIP>127.0.0.2</targetIP>" +
+                            "<vendor></vendor>" +
+                            "<user>张三</user>" +
+                            "<password>123456</password>" +
+                        "</message>\n";
         ResponseLink bean = XMLUtil.toJavaBean(input, ResponseLink.class);
         System.out.println(JSONObject.toJSONString(bean));
 
@@ -315,7 +315,7 @@ public class UtilTest {
                 .rotate(-90)
                 .toFile(dest + "/7.jpg");
 
-        //旋转
+        //水印
         Thumbnails.of(path)
                 .size(1280, 1024)
                 .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(water)), 0.5f)

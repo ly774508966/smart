@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="application.properties"/>
+
+    <context id="oracleGenerator" targetRuntime="MyBatis3">
+
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="false"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+                        connectionURL="${app.datasource.second.url}"
+                        userId="${app.datasource.second.username}"
+                        password="${app.datasource.second.password}">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="${package}.dao.second.entity" targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="mapper.second" targetProject="src/main/resources"/>
+
+        <javaClientGenerator targetPackage="${package}.dao.second.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
+
+        <table schema="utcdba" tableName="XHXT_CODE"/>
+
+        <!--<table schema="wwjcpt" tableName="%">-->
+        <!--&lt;!&ndash;mysql 配置&ndash;&gt;-->
+        <!--<generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
+        <!--&lt;!&ndash;oracle 配置&ndash;&gt;-->
+        <!--<generatedKey column="id" sqlStatement="select SEQ_{1}.nextval from dual" identity="false" type="pre"/>-->
+        <!--</table>-->
+
+    </context>
+</generatorConfiguration>

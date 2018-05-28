@@ -7,6 +7,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * Created by xuzhang on 2018/5/13.
  */
 @Configuration
-//@EnableScheduling
+@EnableScheduling
 public class SchedulerConfig {
 }

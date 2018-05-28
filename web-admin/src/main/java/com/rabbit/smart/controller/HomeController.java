@@ -1,10 +1,10 @@
 package com.rabbit.smart.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.rabbit.smart.dao.db1.entity.FrmCodeExample;
-import com.rabbit.smart.dao.db1.mapper.FrmCodeMapper;
-import com.rabbit.smart.dao.db2.entity.XhxtCodeExample;
-import com.rabbit.smart.dao.db2.mapper.XhxtCodeMapper;
+import com.rabbit.smart.dao.first.entity.FrmCodeExample;
+import com.rabbit.smart.dao.first.mapper.FrmCodeMapper;
+import com.rabbit.smart.dao.second.entity.XhxtCodeExample;
+import com.rabbit.smart.dao.second.mapper.XhxtCodeMapper;
 import com.rabbit.smart.frame.protocol.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

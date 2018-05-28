@@ -22,7 +22,7 @@ public class LogFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        logger.debug("请求:{} {} {}{}", request.getRemoteHost(), request.getMethod(), request.getRequestURI(), StringUtils.isEmpty(request.getQueryString()) ? "" : "?" + request.getQueryString());
+        logger.info("请求:{} {} {}{}", request.getRemoteHost(), request.getMethod(), request.getRequestURI(), StringUtils.isEmpty(request.getQueryString()) ? "" : "?" + request.getQueryString());
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
