@@ -224,7 +224,7 @@ public class UtilTest {
     public void JSONTest() {
         //JSONObject、JSONArray基本用法
         String amap_url = "http://restapi.amap.com/v3/direction/driving?origin=%s&destination=%s&extensions=all&output=json&key=9dc7a7674fe9033d76a99072cd74c5d5&strategy=2";
-        String url = String.format(amap_url, "115.385981,33.260727", "115.385134,33.258026");
+        String url = String.format(amap_url, "115.811246,32.88612", "115.813161,32.895273");
         String result = HttpUtil.doGet(url);
         System.out.println(result);
         JSONObject json = JSONObject.parseObject(result);
