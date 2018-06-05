@@ -1,7 +1,7 @@
 package com.rabbit.smart.config;
 
 import com.rabbit.smart.filter.ResponseHeaderFilter;
-import com.rabbit.smart.filter.LogFilter;
+import com.rabbit.smart.filter.XssFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +11,13 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class FilterConfig {
+
     @Bean
-    public FilterRegistrationBean logFilter() {
+    public FilterRegistrationBean xssFilter() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new LogFilter());
+        registration.setFilter(new XssFilter());
         registration.addUrlPatterns("/*");
-        registration.setName(LogFilter.class.getSimpleName());
+        registration.setName(XssFilter.class.getSimpleName());
         registration.setOrder(1);
         return registration;
     }

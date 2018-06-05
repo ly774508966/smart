@@ -12,12 +12,8 @@ import org.springframework.stereotype.Service;
 public class PrintJob {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private int i = 0;
 
     @Scheduled(fixedRate = 1000)
-//    @Scheduled(cron="*/10 * * * * ?")
     public void execute() {
-        i++;
-        logger.info("PrintJob :{}", i);
     }
 }
