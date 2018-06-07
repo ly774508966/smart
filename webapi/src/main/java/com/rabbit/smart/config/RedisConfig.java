@@ -49,11 +49,11 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @param redisTemplate
      * @return
      */
-    @Bean
-    public CacheManager cacheManager(RedisTemplate<?, ?> redisTemplate) {
-        CacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        return cacheManager;
-    }
+//    @Bean
+//    public CacheManager cacheManager(RedisTemplate<?, ?> redisTemplate) {
+//        CacheManager cacheManager = new RedisCacheManager(redisTemplate);
+//        return cacheManager;
+//    }
 
     /**
      * Redis对象存储序列化方式【会影响Redis的查看，但不影响功能】
@@ -61,17 +61,17 @@ public class RedisConfig extends CachingConfigurerSupport {
      * @param factory
      * @return
      */
-    @Bean
-    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
-        StringRedisTemplate template = new StringRedisTemplate(factory);
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
-        template.setValueSerializer(jackson2JsonRedisSerializer);
-        template.afterPropertiesSet();
-        return template;
-    }
+//    @Bean
+//    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
+//        StringRedisTemplate template = new StringRedisTemplate(factory);
+//        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+//        ObjectMapper om = new ObjectMapper();
+//        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+//        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+//        jackson2JsonRedisSerializer.setObjectMapper(om);
+//        template.setValueSerializer(jackson2JsonRedisSerializer);
+//        template.afterPropertiesSet();
+//        return template;
+//    }
 }
 
