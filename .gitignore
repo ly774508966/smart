@@ -13,3 +13,5 @@
 /webservice/target
 /web-wechat/target
 /web-admin/logs
+/webapi/logs
+/webapi/target
