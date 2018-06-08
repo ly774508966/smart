@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Created by xuzhang on 2018/5/21.
  */
 @SpringBootApplication
-@EnableCaching//开启缓存
 @EnableScheduling//开启定时任务
 @EnableTransactionManagement//开启事务
 @MapperScan("com.rabbit.smart.dao")//mybatis包扫描
