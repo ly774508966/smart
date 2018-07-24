@@ -50,13 +50,15 @@ public class UtilTest {
 
     @Test
     public void ArrayTest() {
-        //将给定的数据添加到指定的数组中，返回一个新的数组
+        //动态数组
         String[] newArray = ArrayUtils.add(new String[]{"AB", "CD"}, "EF");
         System.out.println(JSONObject.toJSONString(newArray));
 
+        //数组转列表
         List<String> list = ConvertUtil.arrayToList(newArray);
         System.out.println(JSONObject.toJSONString(list));
 
+        //列表转数组
         String[] array = ConvertUtil.listToArray(list);
         System.out.println(JSONObject.toJSONString(array));
     }
@@ -204,15 +206,15 @@ public class UtilTest {
     @Test
     public void XMLTest() {
         String input = "<?xml version=\"1.0\" encoding=\"gb2312\"?>" +
-                        "<message System=\"ATMS\" Ver=\"1.0\">" +
-                            "<systemtype>LINK</systemtype>" +
-                            "<messagetype>LINK</messagetype>" +
-                            "<sourceIP>127.0.0.1</sourceIP>" +
-                            "<targetIP>127.0.0.2</targetIP>" +
-                            "<vendor></vendor>" +
-                            "<user>张三</user>" +
-                            "<password>123456</password>" +
-                        "</message>\n";
+                "<message System=\"ATMS\" Ver=\"1.0\">" +
+                "<systemtype>LINK</systemtype>" +
+                "<messagetype>LINK</messagetype>" +
+                "<sourceIP>127.0.0.1</sourceIP>" +
+                "<targetIP>127.0.0.2</targetIP>" +
+                "<vendor></vendor>" +
+                "<user>张三</user>" +
+                "<password>123456</password>" +
+                "</message>\n";
         ResponseLink bean = XMLUtil.toJavaBean(input, ResponseLink.class);
         System.out.println(JSONObject.toJSONString(bean));
 

@@ -5,9 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 
-public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
+public class RequestXssFilterWrapper extends HttpServletRequestWrapper {
 
-    public XssHttpServletRequestWrapper(HttpServletRequest servletRequest) {
+    public RequestXssFilterWrapper(HttpServletRequest servletRequest) {
         super(servletRequest);
     }
 

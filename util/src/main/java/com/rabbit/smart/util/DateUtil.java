@@ -58,7 +58,6 @@ public class DateUtil {
         return formatter.parse(date);
     }
 
-
     /**
      * 获取当前时间对应的毫秒数
      *

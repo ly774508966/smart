@@ -1,12 +1,13 @@
 package com.rabbit.smart.config;
 
 import com.rabbit.smart.filter.ResponseHeaderFilter;
-import com.rabbit.smart.filter.XssFilter;
+import com.rabbit.smart.filter.RequestXssFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ *
  * Created by xuzhang on 2018/5/13.
  */
 @Configuration
@@ -15,9 +16,9 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean xssFilter() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new XssFilter());
+        registration.setFilter(new RequestXssFilter());
         registration.addUrlPatterns("/*");
-        registration.setName(XssFilter.class.getSimpleName());
+        registration.setName(RequestXssFilter.class.getSimpleName());
         registration.setOrder(1);
         return registration;
     }

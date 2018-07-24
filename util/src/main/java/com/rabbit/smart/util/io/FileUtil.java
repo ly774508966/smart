@@ -14,7 +14,6 @@ public class FileUtil {
     private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
     //region 文件读取
-
     /**
      * 读取文件
      *
@@ -47,6 +46,28 @@ public class FileUtil {
             logger.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    /**
+     * 获取某个路径下的所有文件
+     *
+     * @param path 路径，支持文件和文件夹
+     * @return 文件列表
+     */
+    public static List<File> getFiles(File path) {
+        List<File> files = new ArrayList<File>();
+        if (path.isDirectory()) {
+            File[] inputSubFiles = path.listFiles();
+            for (File file : inputSubFiles) {
+                List<File> listFiles = getFiles(file);
+                for (File listFile : listFiles) {
+                    files.add(listFile);
+                }
+            }
+        } else {
+            files.add(path);
+        }
+        return files;
     }
     //endregion
 
@@ -109,26 +130,5 @@ public class FileUtil {
     }
     //endregion
 
-    /**
-     * 获取某个路径下的所有文件
-     *
-     * @param path 路径，支持文件和文件夹
-     * @return 文件列表
-     */
-    public static List<File> getFiles(File path) {
-        List<File> files = new ArrayList<File>();
-        if (path.isDirectory()) {
-            File[] inputSubFiles = path.listFiles();
-            for (File file : inputSubFiles) {
-                List<File> listFiles = getFiles(file);
-                for (File listFile : listFiles) {
-                    files.add(listFile);
-                }
-            }
-        } else {
-            files.add(path);
-        }
-        return files;
-    }
 
 }

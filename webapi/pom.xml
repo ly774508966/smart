@@ -29,10 +29,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
-        <!--框架工具类-->
+        <!--自定义类-->
         <dependency>
             <groupId>com.rabbit</groupId>
-            <artifactId>util</artifactId>
+            <artifactId>service</artifactId>
         </dependency>
         <!--内存数据库-->
         <dependency>
@@ -44,23 +44,7 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
-        <!--数据库-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-        </dependency>
+
         <!--本地jar-->
         <!--<dependency>-->
         <!--<groupId>uia</groupId>-->
@@ -68,11 +52,6 @@
         <!--<version>1.0</version>-->
         <!--<scope>system</scope>-->
         <!--<systemPath>${basedir}/src/main/lib/uia.utils-0.1.0-SNAPSHOT.jar</systemPath>-->
-        <!--</dependency>-->
-        <!--oracle-->
-        <!--<dependency>-->
-        <!--<groupId>com.oracle</groupId>-->
-        <!--<artifactId>ojdbc6</artifactId>-->
         <!--</dependency>-->
     </dependencies>
 
@@ -95,30 +74,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <!--数据库代码生成工具-->
-            <plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>1.3.2</version>
-                <configuration>
-                    <configurationFile>src/main/resources/generator.xml</configurationFile>
-                    <verbose>true</verbose>
-                    <overwrite>true</overwrite>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.43</version>
-                    </dependency>
-                    <!--oracle-->
-                    <!--<dependency>-->
-                    <!--<groupId>com.oracle</groupId>-->
-                    <!--<artifactId>ojdbc6</artifactId>-->
-                    <!--<version>11.2.0.3</version>-->
-                    <!--</dependency>-->
-                </dependencies>
             </plugin>
         </plugins>
     </build>

@@ -11,6 +11,9 @@
     <modules>
         <module>util</module>
         <module>webapi</module>
+        <module>dao</module>
+        <module>service</module>
+        <module>tool-job</module>
     </modules>
 
     <repositories>
@@ -43,6 +46,16 @@
             <dependency>
                 <groupId>com.rabbit</groupId>
                 <artifactId>util</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rabbit</groupId>
+                <artifactId>dao</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rabbit</groupId>
+                <artifactId>service</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <!--鉴权-->
