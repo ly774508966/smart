@@ -12,6 +12,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 切面记录所有业务请求
+ */
 @Component
 @Aspect
 public class ControllerAspect {

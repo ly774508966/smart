@@ -340,11 +340,13 @@ public class UtilTest {
 
     @Test
     public void EventTest() throws Exception {
-        EventBus.addEventListener(new FuKeService(), "看病");
-        EventBus.addEventListener(new GuKeService(), "看病");
-        EventBus.addEventListener(new KouQiangServcie(), "看病");
-        EventBus.dispatchEvent("看病", new Sick("张三", "牙疼"));
-        EventBus.dispatchEvent("看病", new Sick("李四", "骨折"));
-        EventBus.dispatchEvent("看病", new Sick("小红", "产检"));
+        EventBus.addEventListener(new FuKeService(), "产检");
+        EventBus.addEventListener(new GuKeService(), "骨折");
+        EventBus.addEventListener(new KouQiangServcie(), "牙疼");
+        EventBus.addEventListener(new KouQiangServcie(), "种植牙");
+        EventBus.dispatchEvent("牙疼", new Sick("张三", 18, "男"));
+        EventBus.dispatchEvent("骨折", new Sick("李四", 28, "男"));
+        EventBus.dispatchEvent("产检", new Sick("小红", 20, "女"));
+        EventBus.dispatchEvent("种植牙", new Sick("小白", 28, "女"));
     }
 }

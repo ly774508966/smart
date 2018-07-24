@@ -11,8 +11,6 @@ public class GuKeService implements EventHandle {
     @Override
     public void processEvent(String msg, Object data) {
         Sick sick = (Sick) data;
-        if (sick.getCondition().equals("产检")) {
-            System.out.println(sick.getName() + "->妇产科");
-        }
+        System.out.println(sick.getName() + "->妇产科");
     }
 }

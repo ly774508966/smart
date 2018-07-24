@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- *
+ * 过滤器配置
  * Created by xuzhang on 2018/5/13.
  */
 @Configuration

@@ -10,8 +10,6 @@ public class KouQiangServcie implements EventHandle {
     @Override
     public void processEvent(String msg, Object data) {
         Sick sick = (Sick) data;
-        if (sick.getCondition().equals("牙疼")) {
-            System.out.println(sick.getName() + "->口腔科");
-        }
+        System.out.println(sick.getName() + "->口腔科");
     }
 }

@@ -24,14 +24,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>redis缓存配置</p>
- * Created by zhezhiyong@163.com on 2017/9/21.
+ * 缓存配置，使用redis作为缓存
  */
 @Configuration
-@EnableCaching//开启缓存
+@EnableCaching
 public class RedisCacheConfig extends CachingConfigurerSupport {
     public static final String CACHE_GET = "get";
     public static final String CACHE_POST = "post";
+
     @Autowired
     private LettuceConnectionFactory lettuceConnectionFactory;
 

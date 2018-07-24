@@ -8,13 +8,15 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
+/**
+ * 分页配置
+ */
 @Configuration
 public class PagingConfig {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Bean
     public PageHelper pageHelper() {
-        logger.info("------{} 初始化中------,", "PageHelper");
         PageHelper pageHelper = new PageHelper();
         Properties p = new Properties();
         p.setProperty("offsetAsPageNum", "true");

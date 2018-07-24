@@ -11,8 +11,6 @@ public class FuKeService implements EventHandle {
     @Override
     public void processEvent(String msg, Object data) {
         Sick sick = (Sick) data;
-        if (sick.getCondition().equals("骨折")) {
-            System.out.println(sick.getName() + "->骨科");
-        }
+        System.out.println(sick.getName() + "->骨科");
     }
 }

@@ -7,13 +7,15 @@ public class Sick {
     public Sick() {
     }
 
-    public Sick(String name, String condition) {
+    public Sick(String name, int age, String sex) {
         this.name = name;
-        this.condition = condition;
+        this.age = age;
+        this.sex = sex;
     }
 
     private String name;
-    private String condition;
+    private int age;
+    private String sex;
 
     public String getName() {
         return name;
@@ -23,11 +25,19 @@ public class Sick {
         this.name = name;
     }
 
-    public String getCondition() {
-        return condition;
+    public int getAge() {
+        return age;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 }

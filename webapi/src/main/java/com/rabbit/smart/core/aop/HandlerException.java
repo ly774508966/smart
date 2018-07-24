@@ -13,6 +13,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 全局异常处理
+ */
 @ControllerAdvice
 public class HandlerException {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
