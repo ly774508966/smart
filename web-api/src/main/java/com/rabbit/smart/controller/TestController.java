@@ -33,7 +33,7 @@ public class TestController {
 
     @RequestMapping("/get")
     @Cacheable(value = RedisCacheConfig.CACHE_GET, key = "#account")
-    public SessionUser get(String account, String password) {
+    public SessionUser get(String account) {
         logger.info("get:" + account);
         return createUser();
     }
