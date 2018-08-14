@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.rabbit.smart.dao.diy.mapper.DiySysUserMapper">
-    <resultMap id="BaseResultMap" type="com.rabbit.smart.dao.diy.entity.DiySysUser">
+    <resultMap id="DiySysUser" type="com.rabbit.smart.dao.diy.entity.DiySysUser">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
@@ -10,11 +10,24 @@
         <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <select id="selectByAccount" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <resultMap id="SysRolePermission" type="com.rabbit.smart.dao.entity.SysRolePermission">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="permission_id" jdbcType="INTEGER" property="permissionId" />
+    </resultMap>
+
+    <select id="selectDiyUserByAccount" resultMap="DiySysUser" parameterType="java.lang.String">
         select sys_user.*,sys_role.name role_name,sys_department.name department_name
         from sys_user
         left join sys_role on sys_user.role_id=sys_role.id
         left join sys_department on sys_user.department_id=sys_department.id
         where sys_user.account=#{account}
     </select>
+
+    <select id="selectPermissionByRoleId" resultMap="SysRolePermission" parameterType="java.lang.Integer">
+        select sys_permission.*
+        from sys_permission inner join sys_role_permission on sys_permission.id=sys_role_permission.permission_id
+        where sys_role_permission.role_id=#{roleId}
+    </select>
+
 </mapper>

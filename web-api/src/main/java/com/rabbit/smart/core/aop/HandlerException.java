@@ -3,6 +3,7 @@ package com.rabbit.smart.core.aop;
 import com.alibaba.fastjson.JSONObject;
 import com.rabbit.smart.core.protocol.Response;
 import com.rabbit.smart.core.protocol.ResponseStatus;
+import com.rabbit.smart.util.param.ParamError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,11 +25,15 @@ public class HandlerException {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseEntity ExceptionHandler(Exception ex) {
+    public ResponseEntity<String> ExceptionHandler(Exception ex) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String info = String.format("请求异常:%s %s %s %s", request.getRemoteHost(), request.getMethod(), request.getRequestURI(), JSONObject.toJSONString(request.getParameterMap()));
         logger.error(info, ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        if (ex instanceof ParamError) {
+            return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }

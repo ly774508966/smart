@@ -32,14 +32,14 @@ public class TestController {
     }
 
     @RequestMapping("/get")
-    @Cacheable(value = RedisCacheConfig.CACHE_GET, key = "#account")
+    @Cacheable(value = RedisCacheConfig.CACHE_MINUTE, key = "#account")
     public SessionUser get(String account) {
         logger.info("get:" + account);
         return createUser();
     }
 
     @RequestMapping("/post")
-    @Cacheable(value = RedisCacheConfig.CACHE_POST, key = "#user.account")
+    @Cacheable(value = RedisCacheConfig.CACHE_MINUTE, key = "#user.account")
     public SessionUser post(SessionUser user) {
         logger.info("post:" + user.getName());
         return user;

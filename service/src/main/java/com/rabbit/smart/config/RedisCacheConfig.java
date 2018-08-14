@@ -29,8 +29,9 @@ import java.util.Map;
 @Configuration
 @EnableCaching
 public class RedisCacheConfig extends CachingConfigurerSupport {
-    public static final String CACHE_GET = "get";
-    public static final String CACHE_POST = "post";
+    public static final String CACHE_DAY = "CACHE_DAY";
+    public static final String CACHE_HOUR = "CACHE_HOUR";
+    public static final String CACHE_MINUTE = "CACHE_MINUTE";
 
     @Autowired
     private LettuceConnectionFactory lettuceConnectionFactory;
@@ -47,8 +48,9 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
 
     private Map<String, RedisCacheConfiguration> getRedisCacheConfigurationMap() {
         Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
-        redisCacheConfigurationMap.put(CACHE_GET, this.getRedisCacheConfigurationWithTtl(3000));
-        redisCacheConfigurationMap.put(CACHE_POST, this.getRedisCacheConfigurationWithTtl(18000));
+        redisCacheConfigurationMap.put(CACHE_DAY, this.getRedisCacheConfigurationWithTtl(24 * 60 * 60));
+        redisCacheConfigurationMap.put(CACHE_HOUR, this.getRedisCacheConfigurationWithTtl(60 * 60));
+        redisCacheConfigurationMap.put(CACHE_MINUTE, this.getRedisCacheConfigurationWithTtl(60));
         return redisCacheConfigurationMap;
     }
 

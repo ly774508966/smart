@@ -34,11 +34,6 @@
             <groupId>com.rabbit</groupId>
             <artifactId>service</artifactId>
         </dependency>
-        <!--内存数据库-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
         <!--会话持久化-->
         <dependency>
             <groupId>org.springframework.session</groupId>
@@ -52,6 +47,11 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+        <!-- shiro 权限控制相关的依赖 -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
         </dependency>
 
         <!--本地jar-->

@@ -1,6 +1,5 @@
 package com.rabbit.smart.controller;
 
-import com.github.pagehelper.PageInfo;
 import com.rabbit.smart.dao.entity.SysRole;
 import com.rabbit.smart.dao.mapper.SysRoleMapper;
 import com.rabbit.smart.dto.Recursion;
@@ -10,7 +9,10 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -21,43 +23,44 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("role")
 public class RoleController {
     @Autowired
-    private SysRoleService sysRoleService;
+    private SysRoleService roleService;
     @Autowired
-    private SysRoleMapper sysRoleMapper;
+    private SysRoleMapper roleMapper;
 
     //region 增删改查
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<Void> add(SysRole role) {
         Validator.checkNotNull(role.getId(), "角色编号");
         Validator.checkNotNull(role.getParentId(), "父角色编号");
         Validator.checkNotNull(role.getName(), "角色名称");
-        sysRoleMapper.insertSelective(role);
+        roleMapper.insertSelective(role);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     public ResponseEntity<Void> delete(@RequestParam(value = "id") int id) {
         Validator.checkNotNull(id, "角色编号");
-        sysRoleMapper.deleteByPrimaryKey(id);
+        roleMapper.deleteByPrimaryKey(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "update", method = RequestMethod.POST)
     public ResponseEntity<Void> update(SysRole role) {
         Validator.checkNotNull(role.getId(), "角色编号");
-        sysRoleMapper.updateByPrimaryKeySelective(role);
+        roleMapper.updateByPrimaryKeySelective(role);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public SysRole query(@PathVariable("id") Integer id) {
-        return sysRoleService.queryById(id);
-    }
-
-
-    @RequestMapping(value = "tree", method = RequestMethod.GET)
-    public Recursion<SysRole> query_tree() {
-        return sysRoleService.queryRecursions(0);
+    @RequestMapping(value = "query", method = RequestMethod.POST)
+    public SysRole query(Integer id) {
+        return roleService.queryById(id);
     }
     //endregion
+
+
+    @RequestMapping(value = "query/tree", method = RequestMethod.POST)
+    public Recursion<SysRole> query_tree() {
+        return roleService.queryTree();
+    }
+
 }
