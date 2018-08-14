@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by xuzhang on 2018/5/15.
+ * 测试类
  */
-@RestController
-@RequestMapping("/test")
+//@RestController
+//@RequestMapping("/test")
 public class TestController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired

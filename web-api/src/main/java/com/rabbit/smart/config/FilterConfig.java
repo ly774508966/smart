@@ -24,7 +24,7 @@ public class FilterConfig {
     }
 
     @Bean
-    public FilterRegistrationBean sessionFilter() {
+    public FilterRegistrationBean headFilter() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new ResponseHeaderFilter());
         registration.addUrlPatterns("/*");

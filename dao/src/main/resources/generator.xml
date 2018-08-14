@@ -6,6 +6,8 @@
     <properties resource="application.properties"/>
 
     <context id="generator" targetRuntime="MyBatis3">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
 
         <commentGenerator>
             <property name="suppressDate" value="true"/>

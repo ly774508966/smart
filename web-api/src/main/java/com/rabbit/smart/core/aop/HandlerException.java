@@ -5,6 +5,8 @@ import com.rabbit.smart.core.protocol.Response;
 import com.rabbit.smart.core.protocol.ResponseStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,11 +24,11 @@ public class HandlerException {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public Response ExceptionHandler(Exception ex) {
+    public ResponseEntity ExceptionHandler(Exception ex) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String info = String.format("请求异常:%s %s %s %s", request.getRemoteHost(), request.getMethod(), request.getRequestURI(), JSONObject.toJSONString(request.getParameterMap()));
         logger.error(info, ex);
-        return new Response(ResponseStatus.RESPONSE_INNER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
 }
