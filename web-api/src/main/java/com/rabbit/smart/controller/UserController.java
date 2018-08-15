@@ -32,7 +32,7 @@ public class UserController {
 
     //region 增删改查
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public void add(SysUser user) {
+    public ResponseEntity<Void> add(SysUser user) {
         //TODO 头像
         Validator.checkNotNull(user.getAccount(), "账号");
         Validator.checkNotNull(user.getPassword(), "密码");
@@ -45,6 +45,7 @@ public class UserController {
         user.setStatus(SysUserService.STATUS_USE);
         user.setPassword(PasswordHelper.encryptPassword(user.getPassword(), user.getSalt()));
         sysUserMapper.insertSelective(user);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @RequestMapping(value = "remove", method = RequestMethod.POST)
@@ -62,7 +63,7 @@ public class UserController {
         user.setPassword(null);
         user.setSalt(null);
         user.setCreatetime(null);
-
+        sysUserMapper.updateByPrimaryKeySelective(user);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
