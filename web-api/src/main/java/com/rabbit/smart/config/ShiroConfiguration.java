@@ -39,7 +39,7 @@ public class ShiroConfiguration {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
-        securityManager.setCacheManager(new MemoryConstrainedCacheManager());//TODO 内存缓存，考虑下是否要用redis
+        securityManager.setCacheManager(new MemoryConstrainedCacheManager());//TODO 要不要放入redis
         return securityManager;
     }
 
@@ -48,27 +48,25 @@ public class ShiroConfiguration {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> map = new HashMap<String, String>();
-        //登出
-        map.put("/account/login", "anon");
-        map.put("/account/logout", "anon");
-//        map.put("/account/unauthorized", "anon");
+        //图标
+        map.put("/favicon.ico", "anon");
+        //账号
+        map.put("/account/**", "anon");
         //匿名
         map.put("/swagger-ui.html", "anon");
         map.put("/v2/api-docs", "anon");
         map.put("/swagger-resources/**", "anon");
         map.put("/null/swagger-resources/**", "anon");
         map.put("/webjars/springfox-swagger-ui/**", "anon");
-        //对所有用户认证
+        //禁用
         map.put("/**", "authc");
         //数据库动态读取用户权限
         List<SysPermission> permissions = sysPermissionMapper.selectByExample(new SysPermissionExample());
         for (SysPermission permission : permissions) {
             if (permission.getIsRequest()) {
                 map.put(permission.getUrl(), String.format("perms[%s]", permission.getCode()));
-//                logger.info(permission.getUrl() + ":" + String.format("perms[%s]", permission.getCode()));
             }
         }
-
         //登录
         shiroFilterFactoryBean.setLoginUrl("/account/unauthorized");
         //首页
@@ -86,6 +84,7 @@ public class ShiroConfiguration {
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
+
 
 }
 

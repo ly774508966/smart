@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "right", tags = "权限管理")
 @RestController
 @RequestMapping("right")
-public class RightController {
+public class PermissionController {
     //region 增删改查
     @RequestMapping(method = RequestMethod.POST)
     public void add() {

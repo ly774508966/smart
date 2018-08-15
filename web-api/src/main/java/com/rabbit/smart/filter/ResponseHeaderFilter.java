@@ -24,6 +24,7 @@ public class ResponseHeaderFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         response.addHeader("Access-Control-Allow-Origin", "*");//跨域
         response.addHeader("P3P", "CP=CAO PSA OUR");//IE嵌入不同域名iframe，cookie失效问题
+        logger.info(((HttpServletRequest) servletRequest).getRequestURI());
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
