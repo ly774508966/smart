@@ -39,7 +39,7 @@ public class ShiroConfiguration {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
-        securityManager.setCacheManager(new MemoryConstrainedCacheManager());//TODO 内存缓存（权限验证）
+        securityManager.setCacheManager(new MemoryConstrainedCacheManager());//TODO 内存缓存，考虑下是否要用redis
         return securityManager;
     }
 
@@ -51,6 +51,7 @@ public class ShiroConfiguration {
         //登出
         map.put("/account/login", "anon");
         map.put("/account/logout", "anon");
+//        map.put("/account/unauthorized", "anon");
         //匿名
         map.put("/swagger-ui.html", "anon");
         map.put("/v2/api-docs", "anon");
@@ -64,11 +65,12 @@ public class ShiroConfiguration {
         for (SysPermission permission : permissions) {
             if (permission.getIsRequest()) {
                 map.put(permission.getUrl(), String.format("perms[%s]", permission.getCode()));
+//                logger.info(permission.getUrl() + ":" + String.format("perms[%s]", permission.getCode()));
             }
         }
 
         //登录
-        //shiroFilterFactoryBean.setLoginUrl("/login.html");
+        shiroFilterFactoryBean.setLoginUrl("/account/unauthorized");
         //首页
         //shiroFilterFactoryBean.setSuccessUrl("/index");
         //错误页面，认证不通过跳转

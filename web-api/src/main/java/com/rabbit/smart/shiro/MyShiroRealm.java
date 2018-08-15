@@ -1,5 +1,6 @@
 package com.rabbit.smart.shiro;
 
+import com.alibaba.fastjson.JSONObject;
 import com.rabbit.smart.dao.diy.entity.DiySysUser;
 import com.rabbit.smart.dao.entity.SysPermission;
 import com.rabbit.smart.dao.entity.SysUser;
@@ -44,12 +45,13 @@ public class MyShiroRealm extends AuthorizingRealm {
         authorizationInfo.setRoles(roleNames);
 
         //根据用户名查询当前用户权限
-        List<SysPermission> permissions = permissionService.selectPermissionsByRoleId(user.getRoleId());
-        Set<String> permissionNames = new HashSet<>();
+        List<SysPermission> permissions = permissionService.selectByRoleId(user.getRoleId());
+        Set<String> permissionCodes = new HashSet<>();
         for (SysPermission permission : permissions) {
-            permissionNames.add(permission.getName());
+            permissionCodes.add(permission.getCode());
         }
-        authorizationInfo.setStringPermissions(permissionNames);
+        logger.info(JSONObject.toJSONString(permissionCodes));
+        authorizationInfo.setStringPermissions(permissionCodes);
         return authorizationInfo;
     }
 

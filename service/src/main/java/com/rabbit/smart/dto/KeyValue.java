@@ -10,6 +10,11 @@ public class KeyValue {
     public KeyValue() {
     }
 
+    public KeyValue(String k, String v) {
+        this.k = k;
+        this.v = v;
+    }
+
     public String getK() {
         return k;
     }

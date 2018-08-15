@@ -7,6 +7,8 @@ import com.rabbit.smart.shiro.util.PasswordHelper;
 import com.rabbit.smart.util.param.Validator;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,18 +42,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "remove", method = RequestMethod.POST)
-    public void remove() {
-
+    public ResponseEntity<Void> remove() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @RequestMapping(value = "modify", method = RequestMethod.POST)
-    public void modify() {
-
+    public ResponseEntity<Void> modify() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @RequestMapping(value = "query", method = RequestMethod.POST)
-    public void query() {
-
+    public ResponseEntity<Void> query() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
     //endregion
 }

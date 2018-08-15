@@ -1,9 +1,13 @@
 package com.rabbit.smart.service;
 
+import com.rabbit.smart.config.RedisCacheConfig;
+import com.rabbit.smart.dao.diy.entity.DiySysUser;
+import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysUser;
 import com.rabbit.smart.dao.entity.SysUserExample;
 import com.rabbit.smart.dao.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,24 +20,18 @@ public class SysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private DiySysUserMapper diySysUserMapper;
+
+    public DiySysUser getDiyByAccount(String account) {
+        return diySysUserMapper.selectDiyUserByAccount(account);
+    }
 
     public SysUser getByAccount(String account) {
         SysUserExample example = new SysUserExample();
         example.createCriteria().andAccountEqualTo(account);
         List<SysUser> users = sysUserMapper.selectByExample(example);
         return users != null && users.size() > 0 ? users.get(0) : null;
-    }
-
-    public SysUser getById(int id) {
-        return sysUserMapper.selectByPrimaryKey(id);
-    }
-
-    public int updateUser(SysUser user) {
-        return sysUserMapper.updateByPrimaryKeySelective(user);
-    }
-
-    public int addUser(SysUser user) {
-        return sysUserMapper.insertSelective(user);
     }
 
 }
