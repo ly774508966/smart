@@ -2,24 +2,37 @@
   <div class="login-container">
     <el-form class="login-form" autoComplete="off" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <div class="title-container">
-        <h3 class="title">XXX物流管理系统</h3>
+        <h3 class="title">管理系统V1.0</h3>
       </div>
+
       <el-form-item prop="username">
-        <span class="svg-container svg-container_login">
+        <span class="svg-container">
          <i class="fa fa-user" aria-hidden="true"></i>
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="off" placeholder="请输入用户名"/>
+        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="off" placeholder="请输入账号"/>
       </el-form-item>
 
       <el-form-item prop="password">
         <span class="svg-container">
         <i class="fa fa-key" aria-hidden="true"></i>
         </span>
-        <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="off" placeholder="请输入密码"/>
-        <span class="show-pwd" @click="showPwd">
+        <el-input name="password" :type="passwordType" v-model="loginForm.password" autoComplete="off" placeholder="请输入密码"/>
+        <span class="right-icon" @click="togglePassword">
          <i class="fa fa-eye" aria-hidden="true"></i>
         </span>
       </el-form-item>
+
+      <el-form-item prop="captcha" style="width: 250px">
+        <span class="svg-container">
+        <i class="fa fa-picture-o" aria-hidden="true"></i>
+        </span>
+        <el-input name="captcha" @keyup.enter.native="handleLogin" v-model="loginForm.captcha" autoComplete="off" placeholder="请输入验证码"/>
+        <img class="captcha" :src="captchaSrc" @click="refreshCaptcha"/>
+        <span class="right-icon" style="right: -190px;font-size: 25px;">
+         <i class="fa fa-refresh" aria-hidden="true" @click="refreshCaptcha"></i>
+      </span>
+      </el-form-item>
+
 
       <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">立即登录</el-button>
 
@@ -30,7 +43,7 @@
 <script>
   export default {
     name: 'login',
-    data () {
+    data() {
       const validateUsername = (rule, value, callback) => {
         if (!value) {
           callback(new Error('用户名不能为空'))
@@ -52,18 +65,20 @@
       return {
         loginForm: {
           username: undefined,
-          password: undefined
+          password: undefined,
+          captcha: undefined
         },
         loginRules: {
           username: [{required: true, trigger: 'blur', validator: validateUsername}],
           password: [{required: true, trigger: 'blur', validator: validatePassword}]
         },
         passwordType: 'password',
-        loading: false
+        loading: false,
+        captchaSrc: undefined
       }
     },
     methods: {
-      showPwd() {
+      togglePassword() {
         if (this.passwordType === 'password') {
           this.passwordType = ''
         } else {
@@ -72,26 +87,33 @@
       },
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
-          if (valid) {
-            this.loading = true
-            this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
-              this.loading = false
-              this.$router.push({path: '/'})
-            }).catch(() => {
-              this.loading = false
-            })
-          } else {
-            console.log('error submit!!')
-            return false
+          if (!valid) {
+            console.log('登录失败')
+            return false;
           }
+          this.loading = true
+          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+            this.loading = false
+            this.$router.push({path: '/'})
+          }).catch(() => {
+            this.loading = false
+          })
         })
+      },
+      refreshCaptcha() {
+        this.captchaSrc = "http://localhost:10000/account/captcha.png?i=" + Math.random();
       }
     },
     created() {
-      console.log("created")
+      this.refreshCaptcha();
+      console.log("login created")
     },
+    mounted() {
+      console.log("login mounted")
+    }
+    ,
     destroyed() {
-      console.log("destroyed")
+      console.log("login destroyed")
     }
   }
 </script>
@@ -151,11 +173,6 @@
       font-size: 14px;
       color: #fff;
       margin-bottom: 10px;
-      span {
-        &:first-of-type {
-          margin-right: 16px;
-        }
-      }
     }
     .svg-container {
       padding: 6px 5px 6px 15px;
@@ -163,9 +180,6 @@
       vertical-align: middle;
       width: 30px;
       display: inline-block;
-      &_login {
-        font-size: 20px;
-      }
     }
     .title-container {
       position: relative;
@@ -177,14 +191,8 @@
         text-align: center;
         font-weight: bold;
       }
-      .set-language {
-        color: #fff;
-        position: absolute;
-        top: 5px;
-        right: 0px;
-      }
     }
-    .show-pwd {
+    .right-icon {
       position: absolute;
       right: 10px;
       top: 7px;
@@ -193,10 +201,15 @@
       cursor: pointer;
       user-select: none;
     }
-    .thirdparty-button {
+    img.captcha {
       position: absolute;
-      right: 35px;
-      bottom: 28px;
+      right: -160px;
+      top: 0px;
+      width: 150px;
+      height: 52.5px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
     }
+
   }
 </style>
