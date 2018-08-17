@@ -1,6 +1,5 @@
 package com.rabbit.smart.filter;
 
-import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +25,14 @@ public class ResponseHeaderFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         response.addHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));//跨域
         response.setHeader("Access-Control-Allow-Methods", "*");//跨域
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE");//跨域
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type,token");//跨域
         response.setHeader("Access-Control-Allow-Credentials", "true");//跨域
         response.addHeader("P3P", "CP=CAO PSA OUR");//IE嵌入不同域名iframe，cookie失效问题
-//        logger.info(((HttpServletRequest) servletRequest).getRequestURI());
-        filterChain.doFilter(servletRequest, servletResponse);
+        if (request.getMethod().equals("OPTIONS")) {
+            response.setStatus(200);
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
     }
 
     @Override

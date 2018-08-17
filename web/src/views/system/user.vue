@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input size="mini" class="filter-item item" v-model="form.account" placeholder="账号"></el-input>
       <el-input size="mini" class="filter-item item" v-model="form.name" placeholder="姓名"></el-input>
-      <el-select size="mini" class="filter-item item" v-model="form.dept_id" placeholder="部门">
+      <el-select size="mini" class="filter-item item" v-model="form.deptId" placeholder="部门">
         <el-option
           v-for="item in all_dept"
           :key="item.value"
@@ -11,7 +11,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-select size="mini" class="filter-item item" v-model="form.role_id" placeholder="角色">
+      <el-select size="mini" class="filter-item item" v-model="form.roleId" placeholder="角色">
         <el-option
           v-for="item in all_roles"
           :key="item.id"
@@ -28,7 +28,7 @@
         </el-option>
       </el-select>
       <el-button size="mini" class="filter-item" type="primary" icon="el-icon-search" @click="ajax_query" v-waves>搜索</el-button>
-      <el-button size="mini" class="filter-item" type="primary" icon="el-icon-plus" @click="add_form.visible=true" v-waves>添加</el-button>
+      <el-button size="mini" class="filter-item" type="primary" icon="el-icon-plus" @click="add_form_open" v-waves>添加</el-button>
     </div>
 
     <el-table
@@ -73,9 +73,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" type="warning" v-waves>编辑</el-button>
-          <el-button size="mini" type="warning" v-waves>重置密码</el-button>
-          <el-button size="mini" type="danger" v-waves>删除</el-button>
+          <el-button size="mini" type="warning" @click="update_form_open(scope.row.account)" v-waves>编辑</el-button>
+          <el-button size="mini" type="danger" @click="handle_delete(scope.row.account)" v-waves>删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -86,12 +85,12 @@
       layout="total, prev, pager, next"
       @size-change="handle_size_change"
       @current-change="handle_current_change"
-      :page-size="form.page_size"
-      :current-page="form.page_index"
+      :page-size="form.pageSize"
+      :current-page="form.pageIndex"
       :total="total">
     </el-pagination>
 
-    <el-dialog title="添加用户" :visible.sync="add_form.visible" class="dialog_mini" width="500px">
+    <el-dialog title="添加用户" :visible.sync="add_form_visible" width="500px">
       <el-form size="mini" label-width="100px">
         <el-form-item label="用户账号">
           <el-input v-model="add_form.account" placeholder="请输入用户账号"/>
@@ -103,7 +102,7 @@
           <el-input v-model="add_form.password" placeholder="请输入用户密码"/>
         </el-form-item>
         <el-form-item label="所属部门">
-          <el-select v-model="add_form.dept_id" placeholder="所属部门">
+          <el-select v-model="add_form.deptId" placeholder="所属部门">
             <el-option
               v-for="item in all_dept"
               :key="item.value"
@@ -113,7 +112,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="用户角色">
-          <el-select v-model="add_form.role_id" placeholder="用户角色">
+          <el-select v-model="add_form.roleId" placeholder="用户角色">
             <el-option
               v-for="item in roles"
               :key="item.id"
@@ -124,16 +123,56 @@
         </el-form-item>
       </el-form>
       <div slot="footer">
-        <el-button size="mini" @click="add_form.visible = false">取 消</el-button>
-        <el-button size="mini" type="primary" @click="add_form.visible = false">确 定</el-button>
+        <el-button size="mini" @click="add_form_visible = false">取 消</el-button>
+        <el-button size="mini" type="primary" @click="handle_add">确 定</el-button>
       </div>
     </el-dialog>
 
-    <el-dialog title="修改用户" :visible.sync="update_form.visible">
-      修改用户
+    <el-dialog title="修改用户" :visible.sync="update_form_visible" width="500px">
+      <el-form size="mini" label-width="100px">
+        <el-form-item label="用户账号">
+          <el-input v-model="update_form.account" placeholder="请输入用户账号"/>
+        </el-form-item>
+        <el-form-item label="用户姓名">
+          <el-input v-model="update_form.name" placeholder="请输入用户姓名"/>
+        </el-form-item>
+        <el-form-item label="用户密码">
+          <el-input v-model="update_form.password" placeholder="请输入用户密码"/>
+        </el-form-item>
+        <el-form-item label="所属部门">
+          <el-select v-model="update_form.deptId" placeholder="所属部门">
+            <el-option
+              v-for="item in all_dept"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="用户角色">
+          <el-select v-model="update_form.roleId" placeholder="用户角色">
+            <el-option
+              v-for="item in roles"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="用户状态">
+          <el-select v-model="update_form.status" placeholder="用户状态">
+            <el-option
+              v-for="item in status"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
       <div slot="footer">
-        <el-button size="mini" @click="update_form.visible = false">取 消</el-button>
-        <el-button size="mini" type="primary" @click="update_form.visible = false">确 定</el-button>
+        <el-button size="mini" @click="update_form_visible = false">取 消</el-button>
+        <el-button size="mini" type="primary" @click="handle_update">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -141,8 +180,9 @@
 
 <script>
   import waves from '@/directive/waves' // 水波纹指令
-  import {user_query} from '@/api/user'
+  import {user_query, user_get, user_add, user_delete, user_modify} from '@/api/user'
   import store from '@/store'
+  import {Message} from 'element-ui'
 
   export default {
     directives: {
@@ -150,8 +190,7 @@
     },
     data() {
       return {
-        all_status: [
-          {label: '全部状态', value: 0},
+        status: [
           {label: '启用', value: 1},
           {label: '冻结', value: 2},
           {label: '删除', value: 3}
@@ -162,27 +201,15 @@
           status: 0,
           account: undefined,
           name: undefined,
-          dept_id: 0,
-          role_id: 0,
-          page_index: 1,
-          page_size: 10
+          deptId: 0,
+          roleId: 0,
+          pageIndex: 1,
+          pageSize: 10
         },
-        add_form: {
-          visible: false,
-          password: undefined,
-          account: undefined,
-          name: undefined,
-          dept_id: undefined,
-          role_id: undefined
-        },
-        update_form: {
-          visible: false,
-          status: undefined,
-          account: undefined,
-          name: undefined,
-          dept_id: undefined,
-          role_id: undefined
-        },
+        add_form_visible: false,
+        add_form: {},
+        update_form_visible: false,
+        update_form: {},
         tableData: [],
         total: undefined
       }
@@ -190,29 +217,65 @@
     computed: {
       all_roles: function () {
         return [].concat([{name: '全部角色', id: 0}]).concat(this.roles)
+      },
+      all_status: function () {
+        return [].concat([{label: '全部状态', value: 0},]).concat(this.status)
       }
     },
     methods: {
+      add_form_open() {
+        this.add_form = {
+          password: undefined,
+          account: undefined,
+          name: undefined,
+          deptId: undefined,
+          roleId: undefined
+        }
+        this.add_form_visible = true
+      },
+      update_form_open(account) {
+        this.update_form = {
+          status: undefined,
+          account: undefined,
+          password: undefined,
+          name: undefined,
+          deptId: undefined,
+          roleId: undefined
+        }
+        var that = this
+        this.update_form_visible = true
+        user_get(account).then(res => {
+          that.update_form = {
+            status: res.data.status,
+            account: res.data.account,
+            name: res.data.name,
+            deptId: res.data.deptId,
+            roleId: res.data.roleId
+          }
+        })
+      },
       handle_size_change(val) {
-        this.form.page_size = val
-        this.form.page_index = 1
+        this.form.pageSize = val
+        this.form.pageIndex = 1
         this.ajax_query()
       },
       handle_current_change(val) {
-        this.form.page_index = val
+        this.form.pageIndex = val
         this.ajax_query()
       },
-      handle_reset() {
-
+      handle_update() {
+        this.update_form_visible = false
       },
-      handle_edit() {
-
-      },
-      handle_delete() {
+      handle_delete(account) {
 
       },
       handle_add() {
-
+        var that = this;
+        user_add(this.add_form).then(res => {
+          that.add_form_visible = false
+          Message({message: '添加成功', type: 'success'});
+          that.ajax_query()
+        })
       },
       ajax_query: function () {
         var that = this
@@ -221,17 +284,6 @@
           that.tableData = res.data.list
         })
       },
-      ajax_get: function (account) {
-
-      },
-      ajax_add: function () {
-
-      },
-      ajax_modify: function () {
-
-      },
-      ajax_delete: function () {
-      }
     },
     created() {
       console.log("【view created】->" + this.$route.path)

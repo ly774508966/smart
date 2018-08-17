@@ -3,17 +3,22 @@ package com.rabbit.smart.config;
 import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysPermission;
 import com.rabbit.smart.shiro.MyShiroRealm;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +63,7 @@ public class ShiroConfiguration {
         map.put("/webjars/springfox-swagger-ui/**", "anon");
         //禁用
         map.put("/**", "authc");
+
         //读入请求权限
         List<SysPermission> permissions = diySysUserMapper.queryRequestPermission();
         for (SysPermission permission : permissions) {
@@ -80,7 +86,5 @@ public class ShiroConfiguration {
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
-
-
 }
 

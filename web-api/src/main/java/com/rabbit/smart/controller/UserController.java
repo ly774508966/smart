@@ -5,6 +5,7 @@ import com.rabbit.smart.dao.diy.entity.DiySysUser;
 import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysUser;
 import com.rabbit.smart.dao.mapper.SysUserMapper;
+import com.rabbit.smart.dto.in.UserAddDto;
 import com.rabbit.smart.dto.in.UserQueryDto;
 import com.rabbit.smart.service.SysUserService;
 import com.rabbit.smart.shiro.util.PasswordHelper;
@@ -37,18 +38,21 @@ public class UserController {
 
     //region 增删改查
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Void> add(SysUser user) {
-        //TODO 头像
-        Validator.checkNotNull(user.getAccount(), "账号");
-        Validator.checkNotNull(user.getPassword(), "密码");
-        Validator.checkNotNull(user.getName(), "姓名");
-        Validator.checkNotNull(user.getRoleId(), "角色编号");
-        Validator.checkNotNull(user.getDepartmentId(), "部门编号");
-        user.setId(null);
+    public ResponseEntity<Void> add(UserAddDto params) {
+        Validator.checkNotNull(params.getAccount(), "账号");
+        Validator.checkNotNull(params.getPassword(), "密码");
+        Validator.checkNotNull(params.getName(), "姓名");
+        Validator.checkNotNull(params.getRoleId(), "角色编号");
+        Validator.checkNotNull(params.getDeptId(), "部门编号");
+        SysUser user = new SysUser();
+        user.setAccount(params.getAccount());
+        user.setName(params.getName());
+        user.setRoleId(params.getRoleId());
+        user.setDepartmentId(params.getDeptId());
         user.setCreatetime(new Date());
-        user.setSalt(PasswordHelper.generateSalt());
         user.setStatus(SysUserService.STATUS_USE);
-        user.setPassword(PasswordHelper.encryptPassword(user.getPassword(), user.getSalt()));
+        user.setSalt(PasswordHelper.generateSalt());
+        user.setPassword(PasswordHelper.encryptPassword(params.getPassword(), user.getSalt()));
         sysUserMapper.insertSelective(user);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -78,7 +82,7 @@ public class UserController {
         return new ResponseEntity(users, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "get", method = RequestMethod.GET)
+    @RequestMapping(value = "get", method = RequestMethod.POST)
     public ResponseEntity<DiySysUser> get(String account) {
         Validator.checkNotNull(account, "账号");
         DiySysUser user = diySysUserMapper.getDiyUserByAccount(account);

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import {getToken} from '@/utils/auth' // getToken from cookie
 import store from '@/store'
 import {account_user} from '@/api/account'
 import {Message} from 'element-ui'
@@ -71,7 +70,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   NProgress.start()
 
-  var token = getToken();
+  var token = store.getters.token
 
   //未登录
   if (!token) {

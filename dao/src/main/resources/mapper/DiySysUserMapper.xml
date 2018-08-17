@@ -58,10 +58,10 @@
             and u.status=#{status}
         </if>
         <if test="role_id!=0">
-            and u.role_id=#{role_id}
+            and u.role_id=#{roleId}
         </if>
         <if test="dept_id!=0">
-            and u.department_id=#{dept_id}
+            and u.department_id=#{deptId}
         </if>
         order by id desc
     </select>

@@ -8,8 +8,8 @@ public class UserQueryDto extends PageDto {
 
     private String account;
     private String name;
-    private Integer role_id;
-    private Integer dept_id;
+    private Integer roleId;
+    private Integer deptId;
     private Integer status;
 
     public String getAccount() {
@@ -28,20 +28,20 @@ public class UserQueryDto extends PageDto {
         this.name = name;
     }
 
-    public Integer getRole_id() {
-        return role_id;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRole_id(Integer role_id) {
-        this.role_id = role_id;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
-    public Integer getDept_id() {
-        return dept_id;
+    public Integer getDeptId() {
+        return deptId;
     }
 
-    public void setDept_id(Integer dept_id) {
-        this.dept_id = dept_id;
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
     }
 
     public Integer getStatus() {

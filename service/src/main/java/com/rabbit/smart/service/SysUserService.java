@@ -42,7 +42,7 @@ public class SysUserService {
     }
 
     public PageInfo<DiySysUser> querySysUser(UserQueryDto params) {
-        PageHelper.startPage(params.getPage_index(), params.getPage_size());
+        PageHelper.startPage(params.getPageIndex(), params.getPageSize());
         List<DiySysUser> users = diySysUserMapper.queryDiySysUser(params);
         return new PageInfo<>(users);
     }

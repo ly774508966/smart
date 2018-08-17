@@ -1,7 +1,7 @@
 package com.rabbit.smart.config;
 
-import com.rabbit.smart.filter.ResponseHeaderFilter;
 import com.rabbit.smart.filter.RequestXssFilter;
+import com.rabbit.smart.filter.ResponseHeaderFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,4 +32,5 @@ public class FilterConfig {
         registration.setOrder(2);
         return registration;
     }
+
 }
