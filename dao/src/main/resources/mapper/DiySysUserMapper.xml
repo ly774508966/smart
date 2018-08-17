@@ -57,10 +57,10 @@
         <if test="status!=0">
             and u.status=#{status}
         </if>
-        <if test="role_id!=0">
+        <if test="roleId!=0">
             and u.role_id=#{roleId}
         </if>
-        <if test="dept_id!=0">
+        <if test="deptId!=0">
             and u.department_id=#{deptId}
         </if>
         order by id desc
@@ -69,12 +69,12 @@
 
     <!--权限-->
     <select id="queryRequestPermissionByRoleId" resultMap="SysPermission" parameterType="java.lang.Integer">
-        select p.code,p.url
+        select p.code,p.url,p.name
         from sys_permission p inner join sys_role_permission s  on p.id=s.permission_id
         where s.role_id=#{roleId} and p.is_menu=0 and p.status=1
     </select>
     <select id="queryRequestPermission" resultMap="SysPermission" parameterType="java.lang.Integer">
-        select p.code,p.url
+        select p.code,p.url,p.name
         from sys_permission p
         where p.is_menu=0 and p.status=1
     </select>

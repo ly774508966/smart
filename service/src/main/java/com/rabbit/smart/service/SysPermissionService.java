@@ -17,7 +17,7 @@ public class SysPermissionService {
     private DiySysUserMapper diySysUserMapper;
 
     //查询请求url和name的映射关系
-    public Map<String, String> queryRequestUrlAndPerm() {
+    public Map<String, String> queryRequestUrlAndName() {
         Map<String, String> maps = new HashMap<>();
         List<SysPermission> permissions = diySysUserMapper.queryRequestPermission();
         if (permissions != null) {

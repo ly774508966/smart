@@ -1,7 +1,10 @@
 package com.rabbit.smart.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.rabbit.smart.dao.entity.SysOperationLog;
 import com.rabbit.smart.dao.mapper.SysOperationLogMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +14,7 @@ import java.util.concurrent.Executors;
 
 @Service
 public class SysOperationLogService {
-
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private SysOperationLogMapper logMapper;
 

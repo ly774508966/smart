@@ -20,14 +20,18 @@ service.interceptors.request.use(config => {
   return config
 }, error => {
   // Do something with request error
-  console.log(error) // for debug
+  // console.log(error) // for debug
   Promise.reject(error)
 })
 
 // respone interceptor
 service.interceptors.response.use(
   response => {
-    if (response.status === 401) {
+    return response;
+  },
+  error => {
+    // console.error(error)// for debug
+    if (error.response.status == 401) {
       MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
         confirmButtonText: '重新登录',
         cancelButtonText: '取消',
@@ -37,24 +41,21 @@ service.interceptors.response.use(
           location.reload();// 为了重新实例化vue-router对象 避免bug
         });
       })
-    } else if (response.status !== 200) {
-      console.log(response.status)
-      // Message({
-      //   message: response.data,
-      //   type: 'error',
-      //   duration: 5 * 1000
-      // });
-    } else {
-      return response;
     }
-  },
-  error => {
-    console.log('err' + error)// for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    else if (error.response.status == 400) {
+      Message({
+        message: error.response.data,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    }
+    else {
+      Message({
+        message: error.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    }
     return Promise.reject(error)
   }
 )

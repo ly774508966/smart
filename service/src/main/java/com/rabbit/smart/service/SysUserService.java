@@ -34,11 +34,12 @@ public class SysUserService {
     }
 
     //更新用户状态
-    public void updateUserStatus(int userId, int status) {
+    public void updateUserStatus(String account, int status) {
+        SysUserExample example = new SysUserExample();
+        example.createCriteria().andAccountEqualTo(account);
         SysUser user = new SysUser();
-        user.setId(userId);
         user.setStatus(status);
-        sysUserMapper.updateByPrimaryKeySelective(user);
+        sysUserMapper.updateByExampleSelective(user, example);
     }
 
     public PageInfo<DiySysUser> querySysUser(UserQueryDto params) {

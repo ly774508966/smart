@@ -4,13 +4,16 @@ import com.github.pagehelper.PageInfo;
 import com.rabbit.smart.dao.diy.entity.DiySysUser;
 import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysUser;
+import com.rabbit.smart.dao.entity.SysUserExample;
 import com.rabbit.smart.dao.mapper.SysUserMapper;
 import com.rabbit.smart.dto.in.UserAddDto;
+import com.rabbit.smart.dto.in.UserModifyDto;
 import com.rabbit.smart.dto.in.UserQueryDto;
 import com.rabbit.smart.service.SysUserService;
 import com.rabbit.smart.shiro.util.PasswordHelper;
 import com.rabbit.smart.util.param.Validator;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,11 +42,13 @@ public class UserController {
     //region 增删改查
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<Void> add(UserAddDto params) {
-        Validator.checkNotNull(params.getAccount(), "账号");
-        Validator.checkNotNull(params.getPassword(), "密码");
-        Validator.checkNotNull(params.getName(), "姓名");
-        Validator.checkNotNull(params.getRoleId(), "角色编号");
-        Validator.checkNotNull(params.getDeptId(), "部门编号");
+        //检查
+        Validator.checkNotNull(params.getAccount(), "用户账号");
+        Validator.checkNotNull(params.getPassword(), "用户密码");
+        Validator.checkNotNull(params.getName(), "用户姓名");
+        Validator.checkNotNull(params.getRoleId(), "用户角色");
+        Validator.checkNotNull(params.getDeptId(), "所属部门");
+        //对象
         SysUser user = new SysUser();
         user.setAccount(params.getAccount());
         user.setName(params.getName());
@@ -53,26 +58,42 @@ public class UserController {
         user.setStatus(SysUserService.STATUS_USE);
         user.setSalt(PasswordHelper.generateSalt());
         user.setPassword(PasswordHelper.encryptPassword(params.getPassword(), user.getSalt()));
+        //插入
         sysUserMapper.insertSelective(user);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @RequestMapping(value = "remove", method = RequestMethod.POST)
-    public ResponseEntity<Void> remove(int userId) {
+    public ResponseEntity<Void> remove(String account) {
         //逻辑删除
-        Validator.checkNotNull(userId, "用户编号");
-        sysUserService.updateUserStatus(userId, SysUserService.STATUS_DEL);
+        Validator.checkNotNull(account, "用户账号");
+        sysUserService.updateUserStatus(account, SysUserService.STATUS_DEL);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @RequestMapping(value = "modify", method = RequestMethod.POST)
-    public ResponseEntity<Void> modify(SysUser user) {
-        //TODO 头像
-        Validator.checkNotNull(user.getId(), "用户编号");
-        user.setPassword(null);
-        user.setSalt(null);
-        user.setCreatetime(null);
-        sysUserMapper.updateByPrimaryKeySelective(user);
+    public ResponseEntity<Void> modify(UserModifyDto params) {
+        //检查
+        Validator.checkNotNull(params.getAccount(), "用户账号");
+        Validator.checkNotNull(params.getName(), "用户姓名");
+        Validator.checkNotNull(params.getRoleId(), "用户角色");
+        Validator.checkNotNull(params.getDeptId(), "所属部门");
+        Validator.checkNotNull(params.getStatus(), "用户状态");
+        //条件
+        SysUserExample example = new SysUserExample();
+        example.createCriteria().andAccountEqualTo(params.getAccount());
+        //对象
+        SysUser user = new SysUser();
+        user.setName(params.getName());
+        user.setRoleId(params.getRoleId());
+        user.setDepartmentId(params.getDeptId());
+        user.setStatus(params.getStatus());
+        if (StringUtils.isNotEmpty(params.getPassword())) {
+            user.setSalt(PasswordHelper.generateSalt());
+            user.setPassword(PasswordHelper.encryptPassword(params.getPassword(), user.getSalt()));
+        }
+        //更新
+        sysUserMapper.updateByExampleSelective(user, example);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

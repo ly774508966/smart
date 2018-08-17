@@ -48,7 +48,7 @@
       </el-table-column>
       <el-table-column
         prop="phone"
-        label="手机"
+        label="手机号"
         width="180">
       </el-table-column>
       <el-table-column
@@ -66,20 +66,21 @@
         align="center"
         label="状态">
         <template slot-scope="scope">
-          <el-tag size="mini" type="success" v-if="scope.row.status" v-waves>启用</el-tag>
-          <el-tag size="mini" type="warning" v-if="!scope.row.status" v-waves>冻结</el-tag>
-          <el-tag size="mini" type="danger" v-if="!scope.row.status" v-waves>删除</el-tag>
+          <el-tag size="mini" type="success" v-if="scope.row.status==1" v-waves>启用</el-tag>
+          <el-tag size="mini" type="warning" v-if="scope.row.status==2" v-waves>冻结</el-tag>
+          <el-tag size="mini" type="danger" v-if="scope.row.status==3" v-waves>删除</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button size="mini" type="warning" @click="update_form_open(scope.row.account)" v-waves>编辑</el-button>
-          <el-button size="mini" type="danger" @click="handle_delete(scope.row.account)" v-waves>删除</el-button>
+          <el-button size="mini" type="danger" :disabled="scope.row.status==3" @click="handle_delete(scope.row.account)" v-waves>删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-pagination
+      style="margin-top:10px "
       background
       :small="true"
       layout="total, prev, pager, next"
@@ -131,7 +132,7 @@
     <el-dialog title="修改用户" :visible.sync="update_form_visible" width="500px">
       <el-form size="mini" label-width="100px">
         <el-form-item label="用户账号">
-          <el-input v-model="update_form.account" placeholder="请输入用户账号"/>
+          <el-input v-model="update_form.account" placeholder="请输入用户账号" disabled/>
         </el-form-item>
         <el-form-item label="用户姓名">
           <el-input v-model="update_form.name" placeholder="请输入用户姓名"/>
@@ -182,7 +183,7 @@
   import waves from '@/directive/waves' // 水波纹指令
   import {user_query, user_get, user_add, user_delete, user_modify} from '@/api/user'
   import store from '@/store'
-  import {Message} from 'element-ui'
+  import {Message, MessageBox} from 'element-ui'
 
   export default {
     directives: {
@@ -198,7 +199,7 @@
         all_dept: [{label: "全部部门", value: 0}],
         roles: store.getters.roles,
         form: {
-          status: 0,
+          status: 1,
           account: undefined,
           name: undefined,
           deptId: 0,
@@ -264,9 +265,27 @@
         this.ajax_query()
       },
       handle_update() {
-        this.update_form_visible = false
+        var that = this;
+        user_modify(this.update_form).then(res => {
+          that.update_form_visible = false
+          Message({message: '修改成功', type: 'success'});
+          that.ajax_query()
+        })
+
       },
       handle_delete(account) {
+        var that = this;
+        MessageBox.confirm('此操作将删除此用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'error'
+        }).then(() => {
+          user_delete(account).then(res => {
+            Message({message: '删除成功', type: 'success'});
+            that.ajax_query()
+          })
+        }).catch(() => {
+        })
 
       },
       handle_add() {

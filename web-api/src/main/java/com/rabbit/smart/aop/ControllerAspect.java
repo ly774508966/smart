@@ -37,7 +37,8 @@ public class ControllerAspect {
 
     @PostConstruct
     public void init() {
-        urlNameMaps = permissionService.queryRequestUrlAndPerm();
+        urlNameMaps = permissionService.queryRequestUrlAndName();
+        logger.info(JSONObject.toJSONString(urlNameMaps));
     }
 
     /**
