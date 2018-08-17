@@ -1,8 +1,10 @@
 package com.rabbit.smart.config;
 
+import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysPermission;
 import com.rabbit.smart.dao.entity.SysPermissionExample;
 import com.rabbit.smart.dao.mapper.SysPermissionMapper;
+import com.rabbit.smart.service.SysPermissionService;
 import com.rabbit.smart.shiro.MyShiroRealm;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -24,8 +26,7 @@ public class ShiroConfiguration {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private SysPermissionMapper sysPermissionMapper;
-
+    private DiySysUserMapper diySysUserMapper;
 
     //将自己的验证方式加入容器
     @Bean
@@ -60,12 +61,10 @@ public class ShiroConfiguration {
         map.put("/webjars/springfox-swagger-ui/**", "anon");
         //禁用
         map.put("/**", "authc");
-        //数据库动态读取用户权限
-        List<SysPermission> permissions = sysPermissionMapper.selectByExample(new SysPermissionExample());
+        //读入请求权限
+        List<SysPermission> permissions = diySysUserMapper.selectRequestPermission();
         for (SysPermission permission : permissions) {
-            if (permission.getIsRequest()) {
-                map.put(permission.getUrl(), String.format("perms[%s]", permission.getCode()));
-            }
+            map.put(permission.getUrl(), String.format("perms[%s]", permission.getCode()));
         }
         //登录
         shiroFilterFactoryBean.setLoginUrl("/account/unauthorized");

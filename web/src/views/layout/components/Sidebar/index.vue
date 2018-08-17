@@ -10,7 +10,7 @@
       active-text-color="#409EFF"
       :unique-opened="true"
     >
-      <sidebar-item :routes="permission_routers"></sidebar-item>
+      <sidebar-item :routes="menus"></sidebar-item>
     </el-menu>
   </el-scrollbar>
 </template>
@@ -23,7 +23,7 @@
     components: {SidebarItem},
     computed: {
       ...mapGetters([
-        'permission_routers',
+        'menus',
         'sidebar'
       ]),
       isCollapse() {

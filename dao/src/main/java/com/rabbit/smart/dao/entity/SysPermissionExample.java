@@ -534,66 +534,6 @@ public class SysPermissionExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsRequestIsNull() {
-            addCriterion("is_request is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestIsNotNull() {
-            addCriterion("is_request is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestEqualTo(Boolean value) {
-            addCriterion("is_request =", value, "isRequest");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestNotEqualTo(Boolean value) {
-            addCriterion("is_request <>", value, "isRequest");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestGreaterThan(Boolean value) {
-            addCriterion("is_request >", value, "isRequest");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_request >=", value, "isRequest");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestLessThan(Boolean value) {
-            addCriterion("is_request <", value, "isRequest");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_request <=", value, "isRequest");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestIn(List<Boolean> values) {
-            addCriterion("is_request in", values, "isRequest");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestNotIn(List<Boolean> values) {
-            addCriterion("is_request not in", values, "isRequest");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_request between", value1, value2, "isRequest");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsRequestNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_request not between", value1, value2, "isRequest");
-            return (Criteria) this;
-        }
-
         public Criteria andIsMenuIsNull() {
             addCriterion("is_menu is null");
             return (Criteria) this;
@@ -651,6 +591,66 @@ public class SysPermissionExample {
 
         public Criteria andIsMenuNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_menu not between", value1, value2, "isMenu");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleIsNull() {
+            addCriterion("is_menu_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleIsNotNull() {
+            addCriterion("is_menu_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleEqualTo(Boolean value) {
+            addCriterion("is_menu_title =", value, "isMenuTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleNotEqualTo(Boolean value) {
+            addCriterion("is_menu_title <>", value, "isMenuTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleGreaterThan(Boolean value) {
+            addCriterion("is_menu_title >", value, "isMenuTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_menu_title >=", value, "isMenuTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleLessThan(Boolean value) {
+            addCriterion("is_menu_title <", value, "isMenuTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_menu_title <=", value, "isMenuTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleIn(List<Boolean> values) {
+            addCriterion("is_menu_title in", values, "isMenuTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleNotIn(List<Boolean> values) {
+            addCriterion("is_menu_title not in", values, "isMenuTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_menu_title between", value1, value2, "isMenuTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMenuTitleNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_menu_title not between", value1, value2, "isMenuTitle");
             return (Criteria) this;
         }
 

@@ -25,8 +25,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("api文档")
-                .description("基于smart框架开发")
+                .title("后端接口文档")
+                .description("后端主要用到了SpringBoot2.0、Mybatis、Shiro、Mysql、Redis、SSO等")
                 .version("1.0")
                 .build();
     }

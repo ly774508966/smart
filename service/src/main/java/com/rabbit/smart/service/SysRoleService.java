@@ -18,17 +18,12 @@ public class SysRoleService {
     @Autowired
     private SysRoleMapper sysRoleMapper;
 
-
+    //查询某个角色
     public SysRole queryById(Integer id) {
         return sysRoleMapper.selectByPrimaryKey(id);
     }
 
-
-    /**
-     * 查询树形结构
-     *
-     * @return
-     */
+    //查询树形结构
     public Recursion<SysRole> queryTree() {
         List<SysRole> roles = sysRoleMapper.selectByExample(new SysRoleExample());
         SysRole sysRole = new SysRole();
@@ -37,7 +32,7 @@ public class SysRoleService {
         return recursion(roles, results);
     }
 
-
+    //递归调用
     private Recursion<SysRole> recursion(List<SysRole> roles, Recursion<SysRole> results) {
         List<Recursion<SysRole>> subs = new ArrayList<>();
         results.setSubs(subs);//子元素
@@ -48,7 +43,6 @@ public class SysRoleService {
                 recursion(roles, sub);
             }
         }
-
         return results;
     }
 

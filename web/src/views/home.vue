@@ -1,80 +1,6 @@
 <template>
-  <div style="position: relative">
-    <div id="container" :style="{height:clientHeight}"></div>
-    <div id="rightBar" style="display: none">
-      <div class="pointList">
-        <div class="pointListTitle">
-          <ul>
-            <li style="width: 50px;text-align: center">编号</li>
-            <li style="width: 100px;text-align: center">车牌</li>
-            <li style="width: 100px;text-align: center">司机</li>
-            <li style="width: 50px;text-align: center">状态</li>
-          </ul>
-        </div>
-        <div class="pointListBody">
-          <ul>
-            <li style="width: 50px;text-align: center"><b>1</b></li>
-            <li style="width: 100px;text-align: center">皖AH12345</li>
-            <li style="width: 100px;text-align: center">王师傅</li>
-            <li style="width: 50px;text-align: center">运送中</li>
-          </ul>
-          <ul>
-            <li style="width: 50px;text-align: center"><b>1</b></li>
-            <li style="width: 100px;text-align: center">皖AH12345</li>
-            <li style="width: 100px;text-align: center">王师傅</li>
-            <li style="width: 50px;text-align: center">运送中</li>
-          </ul>
-          <ul>
-            <li style="width: 50px;text-align: center"><b>1</b></li>
-            <li style="width: 100px;text-align: center">皖AH12345</li>
-            <li style="width: 100px;text-align: center">王师傅</li>
-            <li style="width: 50px;text-align: center">运送中</li>
-          </ul>
-          <ul>
-            <li style="width: 50px;text-align: center"><b>1</b></li>
-            <li style="width: 100px;text-align: center">皖AH12345</li>
-            <li style="width: 100px;text-align: center">王师傅</li>
-            <li style="width: 50px;text-align: center">运送中</li>
-          </ul>
-          <ul>
-            <li style="width: 50px;text-align: center"><b>1</b></li>
-            <li style="width: 100px;text-align: center">皖AH12345</li>
-            <li style="width: 100px;text-align: center">王师傅</li>
-            <li style="width: 50px;text-align: center">运送中</li>
-          </ul>
-          <ul>
-            <li style="width: 50px;text-align: center"><b>1</b></li>
-            <li style="width: 100px;text-align: center">皖AH12345</li>
-            <li style="width: 100px;text-align: center">王师傅</li>
-            <li style="width: 50px;text-align: center">运送中</li>
-          </ul>
-          <ul>
-            <li style="width: 50px;text-align: center"><b>1</b></li>
-            <li style="width: 100px;text-align: center">皖AH12345</li>
-            <li style="width: 100px;text-align: center">王师傅</li>
-            <li style="width: 50px;text-align: center">运送中</li>
-          </ul>
-          <ul>
-            <li style="width: 50px;text-align: center"><b>1</b></li>
-            <li style="width: 100px;text-align: center">皖AH12345</li>
-            <li style="width: 100px;text-align: center">王师傅</li>
-            <li style="width: 50px;text-align: center">运送中</li>
-          </ul>
-          <ul>
-            <li style="width: 50px;text-align: center"><b>1</b></li>
-            <li style="width: 100px;text-align: center">皖AH12345</li>
-            <li style="width: 100px;text-align: center">王师傅</li>
-            <li style="width: 50px;text-align: center">运送中</li>
-          </ul>
-          <ul>
-            <li style="width: 50px;text-align: center"><b>1</b></li>
-            <li style="width: 100px;text-align: center">皖AH12345</li>
-            <li style="width: 100px;text-align: center">王师傅</li>
-            <li style="width: 50px;text-align: center">运送中</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+  <div>
+    首页
   </div>
 </template>
 <style scoped>
@@ -126,24 +52,14 @@
 
 </style>
 <script>
-  function computeClientHeight () {
-    return (document.documentElement.clientHeight - 50 - 34) + "px";
-  }
 
-  export default{
+  export default {
     name: 'home',
     data() {
-      return {
-        clientHeight: undefined
-      }
+      return {}
     },
     mounted: function () {
-      //计算地图高度
-      const that = this;
-      that.clientHeight = computeClientHeight()
-      window.onresize = function temp () {
-        that.clientHeight = computeClientHeight();
-      };
+
 
     }
   }

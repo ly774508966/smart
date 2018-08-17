@@ -26,8 +26,8 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="parent_code" jdbcType="VARCHAR" property="parentCode"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
-        <result column="is_request" jdbcType="BIT" property="isRequest"/>
         <result column="is_menu" jdbcType="BIT" property="isMenu"/>
+        <result column="is_menu_title" property="isMenuTitle" jdbcType="BIT"/>
         <result column="is_menu_open" jdbcType="BIT" property="isMenuOpen"/>
         <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
@@ -42,10 +42,23 @@
         where sys_user.account=#{account}
     </select>
 
-    <select id="selectPermissionByRoleId" resultMap="SysPermission" parameterType="java.lang.Integer">
-        select sys_permission.*
-        from sys_permission inner join sys_role_permission on sys_permission.id=sys_role_permission.permission_id
-        where sys_role_permission.role_id=#{roleId}
+    <select id="selectRequestPermissionByRoleId" resultMap="SysPermission" parameterType="java.lang.Integer">
+        select p.code,p.url
+        from sys_permission p inner join sys_role_permission s  on p.id=s.permission_id
+        where s.role_id=#{roleId} and p.is_menu=0 and p.status=1
     </select>
+
+    <select id="selectRequestPermission" resultMap="SysPermission" parameterType="java.lang.Integer">
+        select p.code,p.url
+        from sys_permission p
+        where p.is_menu=0 and p.status=1
+    </select>
+
+    <select id="selectMenuPermissionByRoleId" resultMap="SysPermission" parameterType="java.lang.Integer">
+        select p.code,p.name,p.parent_code,p.url,p.is_menu_title,p.is_menu_open,p.menu_icon
+        from sys_permission p inner join sys_role_permission s on p.id=s.permission_id
+        where s.role_id=#{roleId} and p.is_menu=1 and p.status=1 order by menu_sort asc
+    </select>
+
 
 </mapper>

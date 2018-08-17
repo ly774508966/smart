@@ -2,9 +2,9 @@ package com.rabbit.smart.shiro;
 
 import com.alibaba.fastjson.JSONObject;
 import com.rabbit.smart.dao.diy.entity.DiySysUser;
+import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysPermission;
 import com.rabbit.smart.dao.entity.SysUser;
-import com.rabbit.smart.service.RedisService;
 import com.rabbit.smart.service.SysPermissionService;
 import com.rabbit.smart.service.SysUserService;
 import org.apache.shiro.authc.*;
@@ -16,7 +16,6 @@ import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +30,8 @@ public class MyShiroRealm extends AuthorizingRealm {
     private SysUserService userService;
     @Autowired
     private SysPermissionService permissionService;
+    @Autowired
+    private DiySysUserMapper diySysUserMapper;
 
 
     /**
@@ -48,7 +49,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         authorizationInfo.setRoles(roleNames);
 
         //根据用户名查询当前用户权限
-        List<SysPermission> permissions = permissionService.selectByRoleId(user.getRoleId());
+        List<SysPermission> permissions = diySysUserMapper.selectRequestPermissionByRoleId(user.getRoleId());
         Set<String> permissionCodes = new HashSet<>();
         for (SysPermission permission : permissions) {
             permissionCodes.add(permission.getCode());

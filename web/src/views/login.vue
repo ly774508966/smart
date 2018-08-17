@@ -9,7 +9,7 @@
         <span class="svg-container">
          <i class="fa fa-user" aria-hidden="true"></i>
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="off" placeholder="请输入账号"/>
+        <el-input name="username" type="text" v-model="loginForm.account" autoComplete="off" placeholder="请输入账号"/>
       </el-form-item>
 
       <el-form-item prop="password">
@@ -41,36 +41,46 @@
 </template>
 
 <script>
+  import {captcha} from "@/api/account";
+  import {Message} from 'element-ui'
+
   export default {
     name: 'login',
     data() {
       const validateUsername = (rule, value, callback) => {
         if (!value) {
           callback(new Error('用户名不能为空'))
-        } else if (value.length > 11) {
-          callback(new Error('用户名长度不能大于11'))
-        } else {
+        }
+        else {
           callback()
         }
       }
       const validatePassword = (rule, value, callback) => {
         if (!value) {
           callback(new Error('密码不能为空'))
-        } else if (value.length < 6) {
-          callback(new Error('密码长度不能小于6'))
-        } else {
+        }
+        else {
+          callback()
+        }
+      }
+      const validateCaptcha = (rule, value, callback) => {
+        if (!value) {
+          callback(new Error('验证码不能为空'))
+        }
+        else {
           callback()
         }
       }
       return {
         loginForm: {
-          username: undefined,
+          account: undefined,
           password: undefined,
           captcha: undefined
         },
         loginRules: {
-          username: [{required: true, trigger: 'blur', validator: validateUsername}],
-          password: [{required: true, trigger: 'blur', validator: validatePassword}]
+          account: [{required: true, trigger: 'blur', validator: validateUsername}],
+          password: [{required: true, trigger: 'blur', validator: validatePassword}],
+          captcha: [{required: true, trigger: 'blur', validator: validateCaptcha}]
         },
         passwordType: 'password',
         loading: false,
@@ -85,23 +95,23 @@
           this.passwordType = 'password'
         }
       },
+      refreshCaptcha() {
+        this.captchaSrc = captcha();
+      },
+      //有后台交互
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
           if (!valid) {
-            console.log('登录失败')
             return false;
           }
           this.loading = true
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+          this.$store.dispatch('login', this.loginForm).then(() => {
             this.loading = false
             this.$router.push({path: '/'})
           }).catch(() => {
             this.loading = false
           })
         })
-      },
-      refreshCaptcha() {
-        this.captchaSrc = "http://localhost:10000/account/captcha.png?i=" + Math.random();
       }
     },
     created() {
@@ -110,8 +120,7 @@
     },
     mounted() {
       console.log("login mounted")
-    }
-    ,
+    },
     destroyed() {
       console.log("login destroyed")
     }

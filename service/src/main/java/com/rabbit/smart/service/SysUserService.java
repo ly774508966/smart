@@ -21,10 +21,13 @@ public class SysUserService {
     @Autowired
     private DiySysUserMapper diySysUserMapper;
 
+    //查询用户信息
     public DiySysUser getDiyByAccount(String account) {
-        return diySysUserMapper.selectDiyUserByAccount(account);
+        DiySysUser user = diySysUserMapper.selectDiyUserByAccount(account);
+        return user;
     }
 
+    //查询用户信息
     public SysUser getByAccount(String account) {
         SysUserExample example = new SysUserExample();
         example.createCriteria().andAccountEqualTo(account);
@@ -32,9 +35,10 @@ public class SysUserService {
         return users != null && users.size() > 0 ? users.get(0) : null;
     }
 
-    public void updateUserStatus(int userid, int status) {
+    //更新用户状态
+    public void updateUserStatus(int userId, int status) {
         SysUser user = new SysUser();
-        user.setId(userid);
+        user.setId(userId);
         user.setStatus(status);
         sysUserMapper.updateByPrimaryKeySelective(user);
     }

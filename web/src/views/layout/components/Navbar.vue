@@ -10,7 +10,7 @@
       </el-tooltip>
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
+          <img class="user-avatar">
           <span class="user-name right-menu-item">张三</span>
           <i class="el-icon-arrow-down"></i>
         </div>
@@ -47,7 +47,7 @@
       <el-form size="mini" label-width="80px">
         <el-form-item label="头像">
           <el-tooltip effect="dark" content="点击可替换头像" placement="right-start">
-            <img class="user-avatar" :src="avatar+'?imageView2/1/w/200/h/200'">
+            <img class="user-avatar">
           </el-tooltip>
         </el-form-item>
         <el-form-item label="账号">
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
   import Breadcrumb from '@/components/Breadcrumb'
   import Hamburger from '@/components/Hamburger'
   import Screenfull from '@/components/Screenfull'
@@ -89,15 +89,14 @@
     computed: {
       ...mapGetters([
         'sidebar',
-        'name',
-        'avatar'
+        'user'
       ])
     },
     methods: {
-      showUserInfo(){
+      showUserInfo() {
         this.userInfoDialogVisible = true;
       },
-      showModifyPwd(){
+      showModifyPwd() {
         this.userModifyPwdDialogVisible = true;
       },
       toggleSideBar() {

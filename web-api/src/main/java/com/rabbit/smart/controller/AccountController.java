@@ -3,8 +3,13 @@ package com.rabbit.smart.controller;
 import com.rabbit.smart.Consts;
 import com.rabbit.smart.dao.diy.entity.DiySysUser;
 import com.rabbit.smart.dao.entity.SysLoginLog;
+import com.rabbit.smart.dao.entity.SysPermission;
 import com.rabbit.smart.dao.mapper.SysLoginLogMapper;
+import com.rabbit.smart.dto.AccountLoginDto;
+import com.rabbit.smart.dto.AccountUserDto;
+import com.rabbit.smart.dto.Recursion;
 import com.rabbit.smart.service.RedisService;
+import com.rabbit.smart.service.SysPermissionService;
 import com.rabbit.smart.service.SysUserService;
 import com.rabbit.smart.shiro.util.PasswordHelper;
 import com.rabbit.smart.util.CaptchaUtil;
@@ -28,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.UUID;
 
 @Api(value = "account", tags = "账号管理")
 @RestController
@@ -40,23 +46,23 @@ public class AccountController {
     private SysLoginLogMapper loginLogMapper;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private SysPermissionService permissionService;
 
     @RequestMapping(value = "unauthorized", method = RequestMethod.GET)
     public ResponseEntity<String> unauthorized() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    /**
-     * 登录
-     */
+    //登录
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(String account, String password, String code, HttpServletRequest request) {
+    public ResponseEntity<AccountLoginDto> login(String account, String password, String captcha, HttpServletRequest request) {
         //TODO 图形验证码
         //TODO Https
         //验证
         Validator.checkNotNull(account, "账号");
         Validator.checkNotNull(password, "密码");
-        Validator.checkNotNull(code, "验证码");
+        Validator.checkNotNull(captcha, "验证码");
 
         String ip = IPUtil.getClientIP(request);
         Subject subject = SecurityUtils.getSubject();
@@ -68,7 +74,7 @@ public class AccountController {
         }
 
         //验证码校验
-        if (!code.equals(subject.getSession().getAttribute(Consts.SESSION_CAPTCHA))) {
+        if (!captcha.equals(subject.getSession().getAttribute(Consts.SESSION_CAPTCHA))) {
             return login_fail(ip, "验证码错误", account);
         }
 
@@ -78,12 +84,16 @@ public class AccountController {
             return login_fail(ip, "账号不存在", account);
         }
 
+        String token = UUID.randomUUID().toString();
         try {
             //登录
-            UsernamePasswordToken token = new UsernamePasswordToken(account, PasswordHelper.encryptPassword(password, sysUser.getSalt()), false);
-            subject.login(token);
+            UsernamePasswordToken loginToken = new UsernamePasswordToken(account, PasswordHelper.encryptPassword(password, sysUser.getSalt()), false);
+            subject.login(loginToken);
             //Session中保存用户基本信息
+            sysUser.setPassword(null);
+            sysUser.setSalt(null);
             subject.getSession().setAttribute(Consts.SESSION_USER, sysUser);
+            subject.getSession().setAttribute(Consts.SESSION_TOKEN, token);
         } catch (IncorrectCredentialsException ex) {
             return login_fail(ip, "密码错误", account);
         } catch (UnknownAccountException ex) {
@@ -91,26 +101,14 @@ public class AccountController {
         } catch (DisabledAccountException ex) {
             return login_fail(ip, "账号不可用", account);
         }
-//        catch (ExcessiveAttemptsException ex) {
-//            return login_fail(ip, "连续5次登录失败", account);
-//        }
 
         //记录登录成功日志
         redisService.deleteLoginFaildLimit(account);
         addLoginLog(ip, true, "成功", account);
-        return new ResponseEntity("成功", HttpStatus.OK);
+        return new ResponseEntity(new AccountLoginDto("成功", token), HttpStatus.OK);
     }
 
-    private ResponseEntity<String> login_fail(String ip, String reason, String account) {
-        redisService.addLoginFailLimit(account);
-        addLoginLog(ip, true, reason, account);
-        return new ResponseEntity(reason, HttpStatus.OK);
-    }
-
-
-    /**
-     * 注销
-     */
+    //注销
     @RequestMapping(value = "logout", method = RequestMethod.POST)
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
@@ -128,6 +126,18 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    //用户信息
+    @RequestMapping(value = "user", method = RequestMethod.POST)
+    public ResponseEntity<AccountUserDto> user() {
+        Subject subject = SecurityUtils.getSubject();
+        if (!subject.isAuthenticated())
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        DiySysUser user = (DiySysUser) subject.getSession().getAttribute(Consts.SESSION_USER);
+        Recursion<SysPermission> permissions = permissionService.selectMenuByRole(user.getRoleId());
+        return new ResponseEntity(new AccountUserDto(user, permissions), HttpStatus.OK);
+    }
+
+    //验证码
     @RequestMapping(value = "captcha.png", method = RequestMethod.GET)
     public ResponseEntity<?> captcha() throws Exception {
         String code = CaptchaUtil.randomStr(4);
@@ -146,5 +156,12 @@ public class AccountController {
         log.setResult(result);
         log.setAccount(account);
         loginLogMapper.insertSelective(log);
+    }
+
+    //登录失败统一处理
+    private ResponseEntity<AccountLoginDto> login_fail(String ip, String reason, String account) {
+        redisService.addLoginFailLimit(account);
+        addLoginLog(ip, true, reason, account);
+        return new ResponseEntity(new AccountLoginDto(reason), HttpStatus.OK);
     }
 }
