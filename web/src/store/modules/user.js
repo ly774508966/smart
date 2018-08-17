@@ -1,19 +1,30 @@
-import {login, logout} from '@/api/account'
+import {account_login, account_logout} from '@/api/account'
 import {getToken, removeToken, setToken} from '@/utils/auth'
 import {Message} from 'element-ui'
 
 const user = {
   state: {
     user: undefined,
-    token: getToken()
+    token: getToken(),
+    roles: [],
+    departments: []
   },
 
   mutations: {
     SET_USER: (state, user) => {
+      console.log("【store】->SET_USER")
       state.user = user;
     },
     SET_TOKEN: (state, token) => {
+      console.log("【store】->SET_TOKEN")
       state.token = token
+    },
+    SET_ROLES: (state, roles) => {
+      console.log("【store】->SET_ROLES")
+      state.roles = roles
+    },
+    SET_DEPARTMENTS: (state, departments) => {
+      state.departments = departments
     }
   },
 
@@ -21,7 +32,7 @@ const user = {
     // 登录
     login({commit}, form) {
       return new Promise((resolve, reject) => {
-        login(form.account, form.password, form.captcha).then(response => {
+        account_login(form).then(response => {
           const data = response.data
           if (data.msg == "成功") {
             commit('SET_TOKEN', data.token)
@@ -39,7 +50,7 @@ const user = {
     // 后端登出
     logout({commit, state}) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
+        account_logout(state.token).then(() => {
           commit('SET_TOKEN', '')
           removeToken()
           resolve()

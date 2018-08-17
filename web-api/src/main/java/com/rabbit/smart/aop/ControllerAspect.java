@@ -37,7 +37,7 @@ public class ControllerAspect {
 
     @PostConstruct
     public void init() {
-        urlNameMaps = permissionService.selectRequestUrlAndPerm();
+        urlNameMaps = permissionService.queryRequestUrlAndPerm();
     }
 
     /**

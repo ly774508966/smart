@@ -18,6 +18,7 @@ const store = new Vuex.Store({
     status: state => state.user.status,
     user: state => state.user.user,
     menus: state => state.menu.menus,
+    roles: state => state.user.roles,
     sidebar: state => state.app.sidebar,
 
 

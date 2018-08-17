@@ -2,15 +2,17 @@ package com.rabbit.smart.controller;
 
 import com.rabbit.smart.Consts;
 import com.rabbit.smart.dao.diy.entity.DiySysUser;
+import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysLoginLog;
 import com.rabbit.smart.dao.entity.SysPermission;
+import com.rabbit.smart.dao.entity.SysRole;
 import com.rabbit.smart.dao.mapper.SysLoginLogMapper;
-import com.rabbit.smart.dto.AccountLoginDto;
-import com.rabbit.smart.dto.AccountUserDto;
 import com.rabbit.smart.dto.Recursion;
+import com.rabbit.smart.dto.out.AccountLoginDto;
+import com.rabbit.smart.dto.out.AccountUserDto;
 import com.rabbit.smart.service.RedisService;
 import com.rabbit.smart.service.SysPermissionService;
-import com.rabbit.smart.service.SysUserService;
+import com.rabbit.smart.service.SysRoleService;
 import com.rabbit.smart.shiro.util.PasswordHelper;
 import com.rabbit.smart.util.CaptchaUtil;
 import com.rabbit.smart.util.IPUtil;
@@ -33,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Api(value = "account", tags = "账号管理")
@@ -41,7 +44,9 @@ import java.util.UUID;
 public class AccountController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private SysUserService userService;
+    private SysRoleService roleService;
+    @Autowired
+    private DiySysUserMapper diySysUserMapper;
     @Autowired
     private SysLoginLogMapper loginLogMapper;
     @Autowired
@@ -79,7 +84,7 @@ public class AccountController {
         }
 
         //获取用户信息
-        DiySysUser sysUser = userService.getDiyByAccount(account);
+        DiySysUser sysUser = diySysUserMapper.getDiyUserByAccount(account);
         if (sysUser == null) {
             return login_fail(ip, "账号不存在", account);
         }
@@ -133,8 +138,9 @@ public class AccountController {
         if (!subject.isAuthenticated())
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         DiySysUser user = (DiySysUser) subject.getSession().getAttribute(Consts.SESSION_USER);
-        Recursion<SysPermission> permissions = permissionService.selectMenuByRole(user.getRoleId());
-        return new ResponseEntity(new AccountUserDto(user, permissions), HttpStatus.OK);
+        Recursion<SysPermission> permissions = permissionService.queryMenuByRole(user.getRoleId());
+        List<SysRole> roles=roleService.query();
+        return new ResponseEntity(new AccountUserDto(user, permissions,roles), HttpStatus.OK);
     }
 
     //验证码

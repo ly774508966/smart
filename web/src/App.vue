@@ -18,6 +18,7 @@
   .table_container {
     padding: 20px;
   }
+
 </style>
 
 <script>

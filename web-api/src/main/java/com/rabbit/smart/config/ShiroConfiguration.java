@@ -2,9 +2,6 @@ package com.rabbit.smart.config;
 
 import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysPermission;
-import com.rabbit.smart.dao.entity.SysPermissionExample;
-import com.rabbit.smart.dao.mapper.SysPermissionMapper;
-import com.rabbit.smart.service.SysPermissionService;
 import com.rabbit.smart.shiro.MyShiroRealm;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -62,7 +59,7 @@ public class ShiroConfiguration {
         //禁用
         map.put("/**", "authc");
         //读入请求权限
-        List<SysPermission> permissions = diySysUserMapper.selectRequestPermission();
+        List<SysPermission> permissions = diySysUserMapper.queryRequestPermission();
         for (SysPermission permission : permissions) {
             map.put(permission.getUrl(), String.format("perms[%s]", permission.getCode()));
         }

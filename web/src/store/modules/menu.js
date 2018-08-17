@@ -5,6 +5,7 @@ const menu = {
 
   mutations: {
     SET_MENUS: (state, routers) => {
+      console.log("【store】-> SET_MENUS")
       state.menus = routers
     }
   }

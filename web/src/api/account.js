@@ -1,32 +1,18 @@
 import request from '@/utils/request'
+import qs from 'Qs'
 
-export function login(account, password, captcha) {
-  const data = {
-    account,
-    password,
-    captcha
-  }
-  return request({
-    url: '/account/login',
-    method: 'post',
-    params: data
-  })
+export function account_login(form) {
+  return request.post('/account/login', qs.stringify(form))
 }
 
-export function logout() {
-  return request({
-    url: '/account/logout',
-    method: 'post'
-  })
+export function account_logout() {
+  return request.post('/account/logout')
 }
 
-export function user() {
-  return request({
-    url: '/account/user',
-    method: 'post'
-  })
+export function account_user() {
+  return request.post('/account/user')
 }
 
-export function captcha() {
+export function account_captcha() {
   return process.env.BASE_API + "/account/captcha.png?i=" + Math.random();
 }

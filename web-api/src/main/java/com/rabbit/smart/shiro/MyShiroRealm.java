@@ -44,12 +44,12 @@ public class MyShiroRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         //根据用户名查询当前用户拥有的角色
         Set<String> roleNames = new HashSet<>();
-        DiySysUser user = userService.getDiyByAccount(account);
+        DiySysUser user = diySysUserMapper.getDiyUserByAccount(account);
         roleNames.add(user.getRoleName());
         authorizationInfo.setRoles(roleNames);
 
         //根据用户名查询当前用户权限
-        List<SysPermission> permissions = diySysUserMapper.selectRequestPermissionByRoleId(user.getRoleId());
+        List<SysPermission> permissions = diySysUserMapper.queryRequestPermissionByRoleId(user.getRoleId());
         Set<String> permissionCodes = new HashSet<>();
         for (SysPermission permission : permissions) {
             permissionCodes.add(permission.getCode());

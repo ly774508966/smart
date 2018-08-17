@@ -16,11 +16,10 @@ public class SysPermissionService {
     @Autowired
     private DiySysUserMapper diySysUserMapper;
 
-
     //查询请求url和name的映射关系
-    public Map<String, String> selectRequestUrlAndPerm() {
+    public Map<String, String> queryRequestUrlAndPerm() {
         Map<String, String> maps = new HashMap<>();
-        List<SysPermission> permissions = diySysUserMapper.selectRequestPermission();
+        List<SysPermission> permissions = diySysUserMapper.queryRequestPermission();
         if (permissions != null) {
             for (SysPermission permission : permissions) {
                 maps.put(permission.getUrl(), permission.getName());
@@ -30,8 +29,8 @@ public class SysPermissionService {
     }
 
     //查询某个用户的菜单权限
-    public Recursion<SysPermission> selectMenuByRole(Integer roleId) {
-        List<SysPermission> permissions = diySysUserMapper.selectMenuPermissionByRoleId(roleId);
+    public Recursion<SysPermission> queryMenuByRole(Integer roleId) {
+        List<SysPermission> permissions = diySysUserMapper.queryMenuPermissionByRoleId(roleId);
         SysPermission permission = new SysPermission();
         permission.setCode("0");
         Recursion<SysPermission> results = new Recursion<>(permission);

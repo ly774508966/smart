@@ -207,26 +207,27 @@
           fromDate: undefined,
           toDate: undefined
         },
-        options: [{
-          value: '选项1',
-          label: '添加订单'
-        }, {
-          value: '选项3',
-          label: '修改订单'
-        }, {
-          value: '选项4',
-          label: '删除订单'
-        }]
+        options: [
+          {
+            value: '选项1',
+            label: '添加订单'
+          }, {
+            value: '选项3',
+            label: '修改订单'
+          }, {
+            value: '选项4',
+            label: '删除订单'
+          }]
       }
     },
     mounted: function () {
-      function computeClientHeight () {
+      function computeClientHeight() {
         return (document.documentElement.clientHeight - 50 - 34 - 68 - 56 ) + "px";
       }
 
       const that = this;
       that.clientHeight = computeClientHeight()
-      window.onresize = function temp () {
+      window.onresize = function temp() {
         that.clientHeight = computeClientHeight();
       };
     }

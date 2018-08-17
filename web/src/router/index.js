@@ -4,7 +4,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import {getToken} from '@/utils/auth' // getToken from cookie
 import store from '@/store'
-import {user} from '@/api/account'
+import {account_user} from '@/api/account'
 import {Message} from 'element-ui'
 import Layout from '@/views/layout/Layout'
 
@@ -86,7 +86,7 @@ router.beforeEach((to, from, next) => {
   //已登录
   if (token) {
     if (!store.getters.user) {//内存无权限数据
-      user().then(res => {
+      account_user().then(res => {
         var menus = [].concat([{
           meta: {title: '首页', icon: 'fa-file-text'},
           path: '/',
@@ -95,9 +95,9 @@ router.beforeEach((to, from, next) => {
           name: 'home',
           children: [{name: 'home-index', meta: {title: '首页'}, path: 'home', component: () => import('@/views/home')}]
         }]).concat(convertMenus(res.data.perms));
-        // console.log(menus)
         store.commit("SET_USER", res.data.user)
         store.commit("SET_MENUS", menus)
+        store.commit("SET_ROLES", res.data.roles)
         router.addRoutes(menus) // 动态添加可访问路由表
         next({...to, replace: true}) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
       }).catch(err => {

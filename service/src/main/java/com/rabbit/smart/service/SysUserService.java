@@ -1,10 +1,13 @@
 package com.rabbit.smart.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.rabbit.smart.dao.diy.entity.DiySysUser;
 import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysUser;
 import com.rabbit.smart.dao.entity.SysUserExample;
 import com.rabbit.smart.dao.mapper.SysUserMapper;
+import com.rabbit.smart.dto.in.UserQueryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +24,6 @@ public class SysUserService {
     @Autowired
     private DiySysUserMapper diySysUserMapper;
 
-    //查询用户信息
-    public DiySysUser getDiyByAccount(String account) {
-        DiySysUser user = diySysUserMapper.selectDiyUserByAccount(account);
-        return user;
-    }
 
     //查询用户信息
     public SysUser getByAccount(String account) {
@@ -41,6 +39,12 @@ public class SysUserService {
         user.setId(userId);
         user.setStatus(status);
         sysUserMapper.updateByPrimaryKeySelective(user);
+    }
+
+    public PageInfo<DiySysUser> querySysUser(UserQueryDto params) {
+        PageHelper.startPage(params.getPage_index(), params.getPage_size());
+        List<DiySysUser> users = diySysUserMapper.queryDiySysUser(params);
+        return new PageInfo<>(users);
     }
 
 }

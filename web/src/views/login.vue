@@ -41,7 +41,7 @@
 </template>
 
 <script>
-  import {captcha} from "@/api/account";
+  import {account_captcha} from "@/api/account";
   import {Message} from 'element-ui'
 
   export default {
@@ -96,7 +96,7 @@
         }
       },
       refreshCaptcha() {
-        this.captchaSrc = captcha();
+        this.captchaSrc = account_captcha();
       },
       //有后台交互
       handleLogin() {

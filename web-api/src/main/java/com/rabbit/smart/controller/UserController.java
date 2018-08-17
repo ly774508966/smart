@@ -1,12 +1,15 @@
 package com.rabbit.smart.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.rabbit.smart.dao.diy.entity.DiySysUser;
+import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysUser;
 import com.rabbit.smart.dao.mapper.SysUserMapper;
+import com.rabbit.smart.dto.in.UserQueryDto;
 import com.rabbit.smart.service.SysUserService;
 import com.rabbit.smart.shiro.util.PasswordHelper;
 import com.rabbit.smart.util.param.Validator;
 import io.swagger.annotations.Api;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,8 @@ import java.util.Date;
 @RestController
 @RequestMapping("user")
 public class UserController {
+    @Autowired
+    private DiySysUserMapper diySysUserMapper;
 
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -68,8 +73,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "query", method = RequestMethod.POST)
-    public ResponseEntity<String> query() {
-        return new ResponseEntity(SecurityUtils.getSubject().isAuthenticated() + "", HttpStatus.OK);
+    public ResponseEntity<PageInfo<DiySysUser>> query(UserQueryDto params) {
+        PageInfo<DiySysUser> users = sysUserService.querySysUser(params);
+        return new ResponseEntity(users, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "get", method = RequestMethod.GET)
+    public ResponseEntity<DiySysUser> get(String account) {
+        Validator.checkNotNull(account, "账号");
+        DiySysUser user = diySysUserMapper.getDiyUserByAccount(account);
+        user.setSalt(null);
+        user.setPassword(null);
+        return new ResponseEntity(user, HttpStatus.OK);
     }
     //endregion
 }

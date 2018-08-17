@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 /**
  * 角色管理
@@ -51,16 +53,23 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @RequestMapping(value = "get", method = RequestMethod.POST)
+    public ResponseEntity<SysRole> get(Integer id) {
+        return null;
+    }
+
+    @RequestMapping(value = "query/tree", method = RequestMethod.POST)
+    public ResponseEntity<Recursion<SysRole>> query_tree() {
+        Recursion<SysRole> tree = roleService.queryTree();
+        return new ResponseEntity(tree, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "query", method = RequestMethod.POST)
-    public SysRole query(Integer id) {
-        return roleService.queryById(id);
+    public ResponseEntity<List<SysRole>> query() {
+        List<SysRole> roles = roleService.query();
+        return new ResponseEntity(roles, HttpStatus.OK);
     }
     //endregion
 
-
-    @RequestMapping(value = "query/tree", method = RequestMethod.POST)
-    public Recursion<SysRole> query_tree() {
-        return roleService.queryTree();
-    }
 
 }
