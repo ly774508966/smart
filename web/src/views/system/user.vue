@@ -205,7 +205,7 @@
           deptId: 0,
           roleId: 0,
           pageIndex: 1,
-          pageSize: 20
+          pageSize: 15
         },
         add_form_visible: false,
         add_form: {},

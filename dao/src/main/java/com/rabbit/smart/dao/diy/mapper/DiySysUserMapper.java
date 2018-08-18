@@ -22,6 +22,9 @@ public interface DiySysUserMapper {
     //查询请求权限
     List<SysPermission> queryRequestPermission();
 
+    //查询请求权限名称
+    List<String> queryRequestPermissionName();
+
     //查询角色菜单权限
     List<SysPermission> queryMenuPermissionByRoleId(Integer roleId);
     //endregion

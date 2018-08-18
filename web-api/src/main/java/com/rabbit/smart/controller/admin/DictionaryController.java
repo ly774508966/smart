@@ -1,4 +1,4 @@
-package com.rabbit.smart.controller;
+package com.rabbit.smart.controller.admin;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;

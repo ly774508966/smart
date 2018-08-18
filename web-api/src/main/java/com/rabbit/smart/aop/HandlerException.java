@@ -68,7 +68,7 @@ public class HandlerException {
             SysOperationLog log = new SysOperationLog();
             log.setCost(0);
             log.setAccount(SecurityUtils.getSubject().getPrincipal().toString());
-            log.setDescription(String.format("参数：%s\r\n%s", params, ex.getMessage()));
+            log.setDescription(String.format("【参数】：%s,【异常】:%s", params, ex.getMessage()));
             log.setPermissionName(permissionName.toString());
             log.setSuccess(false);
             logService.addLog(log);

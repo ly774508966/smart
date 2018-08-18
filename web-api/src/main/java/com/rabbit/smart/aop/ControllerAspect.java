@@ -84,7 +84,7 @@ public class ControllerAspect {
             SysOperationLog log = new SysOperationLog();
             log.setCost(cost);
             log.setAccount(SecurityUtils.getSubject().getPrincipal().toString());
-            log.setDescription(String.format("参数：%s", params));
+            log.setDescription(String.format("【参数】：%s", params));
             log.setPermissionName(permissionName.toString());
             log.setSuccess(true);
             logService.addLog(log);

@@ -1,4 +1,4 @@
-package com.rabbit.smart.controller;
+package com.rabbit.smart.controller.admin;
 
 import com.rabbit.smart.dao.entity.SysRole;
 import com.rabbit.smart.dao.mapper.SysRoleMapper;

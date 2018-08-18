@@ -1,4 +1,4 @@
-package com.rabbit.smart.controller;
+package com.rabbit.smart.controller.admin;
 
 import com.rabbit.smart.Consts;
 import com.rabbit.smart.dao.diy.entity.DiySysUser;
