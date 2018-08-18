@@ -49,7 +49,8 @@ function convertMenu(perm) {
   var menu = {}
   menu.name = node.code
   menu.meta = {title: node.name, icon: node.menuIcon}
-  if (node.isMenuTitle) {
+  // console.log(node)
+  if (node.type == 2) {
     menu.alwaysShow = true
     menu.redirect = 'noredirect'
     menu.path = node.url

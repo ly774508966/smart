@@ -138,7 +138,7 @@ public class AccountController {
         if (!subject.isAuthenticated())
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         DiySysUser user = (DiySysUser) subject.getSession().getAttribute(Consts.SESSION_USER);
-        Recursion<SysPermission> permissions = permissionService.queryMenuByRole(user.getRoleId());
+        Recursion<SysPermission> permissions = permissionService.queryMenuTreeByRole(user.getRoleId());
         List<SysRole> roles=roleService.query();
         return new ResponseEntity(new AccountUserDto(user, permissions,roles), HttpStatus.OK);
     }

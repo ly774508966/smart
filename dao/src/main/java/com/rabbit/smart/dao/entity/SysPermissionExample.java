@@ -534,123 +534,63 @@ public class SysPermissionExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuIsNull() {
-            addCriterion("is_menu is null");
+        public Criteria andTypeIsNull() {
+            addCriterion("type is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuIsNotNull() {
-            addCriterion("is_menu is not null");
+        public Criteria andTypeIsNotNull() {
+            addCriterion("type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuEqualTo(Boolean value) {
-            addCriterion("is_menu =", value, "isMenu");
+        public Criteria andTypeEqualTo(Integer value) {
+            addCriterion("type =", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuNotEqualTo(Boolean value) {
-            addCriterion("is_menu <>", value, "isMenu");
+        public Criteria andTypeNotEqualTo(Integer value) {
+            addCriterion("type <>", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuGreaterThan(Boolean value) {
-            addCriterion("is_menu >", value, "isMenu");
+        public Criteria andTypeGreaterThan(Integer value) {
+            addCriterion("type >", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_menu >=", value, "isMenu");
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("type >=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuLessThan(Boolean value) {
-            addCriterion("is_menu <", value, "isMenu");
+        public Criteria andTypeLessThan(Integer value) {
+            addCriterion("type <", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_menu <=", value, "isMenu");
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("type <=", value, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuIn(List<Boolean> values) {
-            addCriterion("is_menu in", values, "isMenu");
+        public Criteria andTypeIn(List<Integer> values) {
+            addCriterion("type in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuNotIn(List<Boolean> values) {
-            addCriterion("is_menu not in", values, "isMenu");
+        public Criteria andTypeNotIn(List<Integer> values) {
+            addCriterion("type not in", values, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_menu between", value1, value2, "isMenu");
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
+            addCriterion("type between", value1, value2, "type");
             return (Criteria) this;
         }
 
-        public Criteria andIsMenuNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_menu not between", value1, value2, "isMenu");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleIsNull() {
-            addCriterion("is_menu_title is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleIsNotNull() {
-            addCriterion("is_menu_title is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleEqualTo(Boolean value) {
-            addCriterion("is_menu_title =", value, "isMenuTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleNotEqualTo(Boolean value) {
-            addCriterion("is_menu_title <>", value, "isMenuTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleGreaterThan(Boolean value) {
-            addCriterion("is_menu_title >", value, "isMenuTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_menu_title >=", value, "isMenuTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleLessThan(Boolean value) {
-            addCriterion("is_menu_title <", value, "isMenuTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_menu_title <=", value, "isMenuTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleIn(List<Boolean> values) {
-            addCriterion("is_menu_title in", values, "isMenuTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleNotIn(List<Boolean> values) {
-            addCriterion("is_menu_title not in", values, "isMenuTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_menu_title between", value1, value2, "isMenuTitle");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsMenuTitleNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_menu_title not between", value1, value2, "isMenuTitle");
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
 
@@ -711,6 +651,66 @@ public class SysPermissionExample {
 
         public Criteria andIsMenuOpenNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_menu_open not between", value1, value2, "isMenuOpen");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortIsNull() {
+            addCriterion("menu_sort is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortIsNotNull() {
+            addCriterion("menu_sort is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortEqualTo(Integer value) {
+            addCriterion("menu_sort =", value, "menuSort");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortNotEqualTo(Integer value) {
+            addCriterion("menu_sort <>", value, "menuSort");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortGreaterThan(Integer value) {
+            addCriterion("menu_sort >", value, "menuSort");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortGreaterThanOrEqualTo(Integer value) {
+            addCriterion("menu_sort >=", value, "menuSort");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortLessThan(Integer value) {
+            addCriterion("menu_sort <", value, "menuSort");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortLessThanOrEqualTo(Integer value) {
+            addCriterion("menu_sort <=", value, "menuSort");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortIn(List<Integer> values) {
+            addCriterion("menu_sort in", values, "menuSort");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortNotIn(List<Integer> values) {
+            addCriterion("menu_sort not in", values, "menuSort");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortBetween(Integer value1, Integer value2) {
+            addCriterion("menu_sort between", value1, value2, "menuSort");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuSortNotBetween(Integer value1, Integer value2) {
+            addCriterion("menu_sort not between", value1, value2, "menuSort");
             return (Criteria) this;
         }
 
@@ -781,6 +781,66 @@ public class SysPermissionExample {
 
         public Criteria andMenuIconNotBetween(String value1, String value2) {
             addCriterion("menu_icon not between", value1, value2, "menuIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogIsNull() {
+            addCriterion("is_log is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogIsNotNull() {
+            addCriterion("is_log is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogEqualTo(Boolean value) {
+            addCriterion("is_log =", value, "isLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogNotEqualTo(Boolean value) {
+            addCriterion("is_log <>", value, "isLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogGreaterThan(Boolean value) {
+            addCriterion("is_log >", value, "isLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_log >=", value, "isLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogLessThan(Boolean value) {
+            addCriterion("is_log <", value, "isLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_log <=", value, "isLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogIn(List<Boolean> values) {
+            addCriterion("is_log in", values, "isLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogNotIn(List<Boolean> values) {
+            addCriterion("is_log not in", values, "isLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_log between", value1, value2, "isLog");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLogNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_log not between", value1, value2, "isLog");
             return (Criteria) this;
         }
 

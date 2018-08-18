@@ -1,7 +1,7 @@
 <template>
   <div class="table_container">
-    <tree-table :data="data" border size="mini" :columns="columns" :expandAll="true">
-      <el-table-column label="操作" align="center" width="300">
+    <tree-table :data="tableData" border size="mini" :columns="columns" :expandAll="true">
+      <el-table-column label="操作" align="center" width="500">
         <template slot-scope="scope">
           <el-button size="mini" type="success">添加子部门</el-button>
           <el-button size="mini" type="warning">编辑</el-button>
@@ -14,66 +14,54 @@
 
 <script>
   import treeTable from '@/components/TreeTable'
+  import {department_query_tree} from '@/api/department'
 
   export default {
-    name: 'treeTableDemo',
     components: {treeTable},
+    methods: {
+      ajax_query: function () {
+        function convertDate(items, nodes) {
+          nodes.forEach(node => {
+            var tmp = {
+              name: node.node.name,
+              description: node.node.description,
+              children: []
+            }
+            convertDate(tmp.children, node.subs);
+            items.push(tmp)
+          })
+          return items;
+
+        }
+
+        var that = this
+        department_query_tree().then(res => {
+          that.tableData = convertDate([], res.data.subs)
+        })
+      }
+    },
     data() {
       return {
         columns: [
           {
-            value: "event",
+            value: "name",
             text: "部门名称",
             width: 180
           }, {
-            value: "id",
-            text: "部门编号",
-            width: 180
-          }, {
-            value: "timeLine",
-            text: "主管",
-            width: 180
-          }, {
-            value: "comment",
-            text: "备注"
+            value: "description",
+            text: "部门描述"
           }],
-        data: [
-          {
-            id: 1,
-            event: 'XXX公司',
-            timeLine: '张三',
-            comment: '无',
-            children: [
-              {
-                id: 2,
-                event: '财务部',
-                timeLine: '张三',
-                comment: '无'
-              },
-              {
-                id: 3,
-                event: '市场部',
-                timeLine: '张三',
-                comment: '无',
-                children: [
-                  {
-                    id: 4,
-                    event: '市场一部',
-                    timeLine: '张三',
-                    comment: '无'
-                  },
-                  {
-                    id: 5,
-                    event: '市场二部',
-                    timeLine: '张三',
-                    comment: '无'
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        tableData: []
       }
+    }, created() {
+      console.log("【view created】->" + this.$route.path)
+    },
+    mounted() {
+      this.ajax_query();
+      console.log("【view mounted】->" + this.$route.path)
+    },
+    destroyed() {
+      console.log("【view destroyed】->" + this.$route.path)
     }
   }
 </script>

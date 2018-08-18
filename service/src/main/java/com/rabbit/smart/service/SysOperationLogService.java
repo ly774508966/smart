@@ -1,6 +1,5 @@
 package com.rabbit.smart.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.rabbit.smart.dao.entity.SysOperationLog;
 import com.rabbit.smart.dao.mapper.SysOperationLogMapper;
 import org.slf4j.Logger;

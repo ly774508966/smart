@@ -21,17 +21,18 @@
         <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
     </resultMap>
     <resultMap id="SysPermission" type="com.rabbit.smart.dao.entity.SysPermission">
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="code" jdbcType="VARCHAR" property="code"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="parent_code" jdbcType="VARCHAR" property="parentCode"/>
-        <result column="url" jdbcType="VARCHAR" property="url"/>
-        <result column="is_menu" jdbcType="BIT" property="isMenu"/>
-        <result column="is_menu_title" property="isMenuTitle" jdbcType="BIT"/>
-        <result column="is_menu_open" jdbcType="BIT" property="isMenuOpen"/>
-        <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
-        <result column="status" jdbcType="INTEGER" property="status"/>
-        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="is_menu_open" property="isMenuOpen" jdbcType="BIT" />
+        <result column="menu_sort" property="menuSort" jdbcType="INTEGER" />
+        <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
+        <result column="is_log" property="isLog" jdbcType="BIT" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
     </resultMap>
 
     <!--用户-->
@@ -71,22 +72,22 @@
     <select id="queryRequestPermissionByRoleId" resultMap="SysPermission" parameterType="java.lang.Integer">
         select p.code,p.url,p.name
         from sys_permission p inner join sys_role_permission s  on p.id=s.permission_id
-        where s.role_id=#{roleId} and p.is_menu=0 and p.status=1
+        where s.role_id=#{roleId} and p.type=3 and p.status=1
     </select>
     <select id="queryRequestPermission" resultMap="SysPermission" parameterType="java.lang.Integer">
         select p.code,p.url,p.name
         from sys_permission p
-        where p.is_menu=0 and p.status=1
+        where p.type=3 and p.status=1
     </select>
     <select id="queryRequestPermissionName" resultType="java.lang.String" parameterType="java.lang.Integer">
         select p.name
         from sys_permission p
-        where p.is_menu=0 and p.status=1
+        where p.type=3 and p.status=1
     </select>
     <select id="queryMenuPermissionByRoleId" resultMap="SysPermission" parameterType="java.lang.Integer">
-        select p.code,p.name,p.parent_code,p.url,p.is_menu_title,p.is_menu_open,p.menu_icon
+        select p.code,p.name,p.parent_code,p.url,p.type,p.is_menu_open,p.menu_icon
         from sys_permission p inner join sys_role_permission s on p.id=s.permission_id
-        where s.role_id=#{roleId} and p.is_menu=1 and p.status=1 order by menu_sort asc
+        where s.role_id=#{roleId} and p.type in (1,2) and p.status=1 order by menu_sort asc
     </select>
 
 
