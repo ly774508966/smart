@@ -99,6 +99,8 @@ public class UserController {
 
     @RequestMapping(value = "query", method = RequestMethod.POST)
     public ResponseEntity<PageInfo<DiySysUser>> query(UserQueryDto params) {
+        Validator.checkNotNull(params.getPageIndex(), "页码");
+        Validator.checkNotNull(params.getPageSize(), "页大小");
         PageInfo<DiySysUser> users = sysUserService.querySysUser(params);
         return new ResponseEntity(users, HttpStatus.OK);
     }

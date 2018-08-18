@@ -28,7 +28,7 @@
         </el-option>
       </el-select>
       <el-button size="mini" class="filter-item" type="primary" icon="el-icon-search" @click="ajax_query" v-waves>搜索</el-button>
-      <el-button size="mini" class="filter-item" type="primary" icon="el-icon-plus" @click="add_form_open" v-waves>添加</el-button>
+      <el-button size="mini" class="filter-item" type="primary" icon="el-icon-plus" @click="add_form_open">添加</el-button>
     </div>
 
     <el-table
@@ -66,15 +66,15 @@
         align="center"
         label="状态">
         <template slot-scope="scope">
-          <el-tag size="mini" type="success" v-if="scope.row.status==1" v-waves>启用</el-tag>
-          <el-tag size="mini" type="warning" v-if="scope.row.status==2" v-waves>冻结</el-tag>
-          <el-tag size="mini" type="danger" v-if="scope.row.status==3" v-waves>删除</el-tag>
+          <el-tag size="mini" type="success" v-if="scope.row.status==1">启用</el-tag>
+          <el-tag size="mini" type="warning" v-if="scope.row.status==2">冻结</el-tag>
+          <el-tag size="mini" type="danger" v-if="scope.row.status==3">删除</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" type="warning" @click="update_form_open(scope.row.account)" v-waves>编辑</el-button>
-          <el-button size="mini" type="danger" :disabled="scope.row.status==3" @click="handle_delete(scope.row.account)" v-waves>删除</el-button>
+          <el-button size="mini" type="warning" @click="update_form_open(scope.row.account)">编辑</el-button>
+          <el-button size="mini" type="danger" :disabled="scope.row.status==3" @click="handle_delete(scope.row.account)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -205,7 +205,7 @@
           deptId: 0,
           roleId: 0,
           pageIndex: 1,
-          pageSize: 10
+          pageSize: 20
         },
         add_form_visible: false,
         add_form: {},
@@ -302,7 +302,7 @@
           that.total = res.data.total
           that.tableData = res.data.list
         })
-      },
+      }
     },
     created() {
       console.log("【view created】->" + this.$route.path)
