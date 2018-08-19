@@ -11,7 +11,8 @@ const user = {
     token: getToken(),
     menus: [],
     roles: [],
-    departments: []
+    departments: [],
+    departmentsMap: {}
   },
 
   mutations: {
@@ -30,6 +31,10 @@ const user = {
     SET_DEPARTMENTS: (state, departments) => {
       console.log("【store】->SET_DEPARTMENTS")
       state.departments = departments
+    },
+    SET_DEPARTMENTS_MAP: (state, departmentsMap) => {
+      console.log("【store】->SET_DEPARTMENTS_MAP")
+      state.departmentsMap = departmentsMap
     },
     SET_MENUS: (state, routers) => {
       console.log("【store】-> SET_MENUS")
@@ -96,12 +101,23 @@ const user = {
         return items;
       }
 
+      function convertDepartmentsMap(map, item, nodes) {
+        nodes.forEach(node => {
+          map[node.node.id] = item.concat(node.node.id);
+          if (node.subs.length > 0) {
+            convertDepartmentsMap(map, item.concat(node.node.id), node.subs)
+          }
+        });
+        return map;
+      }
+
       return new Promise((resolve, reject) => {
         if (fromCache && state.departments.length > 0) {
           resolve(state.departments)
         }
         department_query_tree().then(res => {
           commit('SET_DEPARTMENTS', convertDepartments([], res.data.subs))
+          commit('SET_DEPARTMENTS_MAP', convertDepartmentsMap({}, [], res.data.subs));
           resolve(state.departments)
         }).catch(error => {
           reject(error)

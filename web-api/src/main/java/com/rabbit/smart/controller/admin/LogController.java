@@ -40,8 +40,6 @@ public class LogController {
 
     @RequestMapping(value = "operation", method = RequestMethod.POST)
     public ResponseEntity<Void> operation(LogOperationDto params) {
-        Validator.checkNotNull(params.getType(), "操作类型");
-        Validator.checkNotNull(params.getResult(), "操作结果");
         Validator.checkNotNull(params.getPageIndex(), "页码");
         Validator.checkNotNull(params.getPageSize(), "页大小");
 
@@ -49,14 +47,14 @@ public class LogController {
         SysOperationLogExample.Criteria criteria = example.createCriteria();
         //操作类型
         String type = params.getType();
-        if (!type.equals("0")) {
+        if (type != null && !type.equals("0")) {
             criteria.andPermissionNameEqualTo(type);
         }
         //操作结果
         Integer result = params.getResult();
-        if (result.equals(1)) {
+        if (result != null && result.equals(1)) {
             criteria.andSuccessEqualTo(true);
-        } else if (result.equals(2)) {
+        } else if (result != null && result.equals(2)) {
             criteria.andSuccessEqualTo(false);
         }
         //操作用时
@@ -96,7 +94,6 @@ public class LogController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<PageInfo<SysLoginLog>> login(LogLoginDto params) {
         //TODO 分页统一校验
-        Validator.checkNotNull(params.getType(), "操作类型");
         Validator.checkNotNull(params.getPageIndex(), "页码");
         Validator.checkNotNull(params.getPageSize(), "页大小");
 
@@ -104,9 +101,10 @@ public class LogController {
         SysLoginLogExample example = new SysLoginLogExample();
         SysLoginLogExample.Criteria criteria = example.createCriteria();
         //操作类型
-        if (params.getType().equals(1)) {
+        Integer type = params.getType();
+        if (type != null && type.equals(1)) {
             criteria.andIsLoginEqualTo(true);
-        } else if (params.getType().equals(2)) {
+        } else if (type != null && params.getType().equals(2)) {
             criteria.andIsLoginEqualTo(false);
         }
         //用户账号

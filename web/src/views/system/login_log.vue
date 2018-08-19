@@ -79,14 +79,14 @@
           pageIndex: 1,
           pageSize: 15,
           account: undefined,
-          type: 0,
+          type: undefined,
           fromDate: undefined,
           toDate: undefined
         },
         options: [
           {
             value: 0,
-            label: '全部操作类型'
+            label: '全部类型'
           }, {
             value: 1,
             label: '登录'

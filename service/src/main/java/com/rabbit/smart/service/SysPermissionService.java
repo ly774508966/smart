@@ -21,9 +21,9 @@ public class SysPermissionService {
     private SysPermissionMapper permissionMapper;
 
     //查询url和name的映射关系（请求）
-    public Map<String, String> queryRequestUrlAndName() {
+    public Map<String, String> queryRequestUrlAndName(Boolean isLog) {
         Map<String, String> maps = new HashMap<>();
-        List<SysPermission> permissions = diySysUserMapper.queryRequestPermission();
+        List<SysPermission> permissions = diySysUserMapper.queryRequestPermission(isLog);
         if (permissions != null) {
             for (SysPermission permission : permissions) {
                 maps.put(permission.getUrl(), permission.getName());

@@ -38,7 +38,7 @@ public class HandlerException {
 
     @PostConstruct
     public void init() {
-        urlNameMaps = permissionService.queryRequestUrlAndName();
+        urlNameMaps = permissionService.queryRequestUrlAndName(null);
     }
 
     @ExceptionHandler(Exception.class)

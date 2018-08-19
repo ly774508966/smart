@@ -65,7 +65,7 @@ public class ShiroConfiguration {
         map.put("/**", "authc");
 
         //读入请求权限
-        List<SysPermission> permissions = diySysUserMapper.queryRequestPermission();
+        List<SysPermission> permissions = diySysUserMapper.queryRequestPermission(null);
         for (SysPermission permission : permissions) {
             map.put(permission.getUrl(), String.format("perms[%s]", permission.getCode()));
         }

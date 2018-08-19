@@ -18,7 +18,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-input size="mini" v-model="form.cost" class="filter-item item" placeholder="操作耗时大于毫秒数"></el-input>
+      <el-input size="mini" v-model="form.cost" class="filter-item item" placeholder="用时大于毫秒数"></el-input>
       <el-date-picker class="filter-item item" v-model="form.fromDate" size="mini" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="开始时间"></el-date-picker>
       <el-date-picker class="filter-item item" v-model="form.toDate" size="mini" type="datetime" value-format="yyyy-MM-dd HH:mm:ss" placeholder="结束时间"></el-date-picker>
       <el-button class="filter-item" size="mini" type="primary" icon="el-icon-search" @click="ajax_query" v-waves>搜索</el-button>
@@ -93,9 +93,9 @@
           pageIndex: 1,
           pageSize: 15,
           account: undefined,
-          type: "0",
+          type: undefined,
           cost: undefined,
-          result: 0,
+          result: undefined,
           fromDate: undefined,
           toDate: undefined
         },

@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input size="mini" class="filter-item item" v-model="form.account" placeholder="请输入账号"></el-input>
       <el-input size="mini" class="filter-item item" v-model="form.name" placeholder="请输入姓名"></el-input>
-      <el-cascader size="mini" class="filter-item item" :options="all_departments" change-on-select v-model="form.deptIds" placeholder="请选择所属部门"></el-cascader>
+      <el-cascader size="mini" class="filter-item item" :options="all_departments" :show-all-levels="false" change-on-select @change="form_dept_change" placeholder="请选择所属部门"></el-cascader>
       <el-select size="mini" class="filter-item item" v-model="form.roleId" placeholder="请选择用户角色">
         <el-option
           v-for="item in all_roles"
@@ -96,7 +96,7 @@
           <el-input v-model="add_form.password" placeholder="请输入用户密码"/>
         </el-form-item>
         <el-form-item label="所属部门">
-          <el-cascader :options="departments" change-on-select v-model="add_form.deptId"></el-cascader>
+          <el-cascader :options="departments" change-on-select v-model="add_form.deptIds" :show-all-levels="false" @change="add_form_dept_change"></el-cascader>
         </el-form-item>
         <el-form-item label="用户角色">
           <el-select v-model="add_form.roleId" placeholder="用户角色">
@@ -127,7 +127,7 @@
           <el-input v-model="update_form.password" placeholder="请输入用户密码"/>
         </el-form-item>
         <el-form-item label="所属部门">
-          <el-cascader :options="departments" change-on-select v-model="update_form.deptId"></el-cascader>
+          <el-cascader :options="departments" change-on-select v-model="update_form.deptIds" :show-all-levels="false" @change="update_form_dept_change"></el-cascader>
         </el-form-item>
         <el-form-item label="用户角色">
           <el-select v-model="update_form.roleId" placeholder="用户角色">
@@ -181,7 +181,6 @@
           status: undefined,
           account: undefined,
           name: undefined,
-          deptIds: undefined,
           deptId: undefined,
           roleId: undefined,
           pageIndex: 1,
@@ -204,28 +203,37 @@
       },
       all_status: function () {
         return [].concat([{label: '全部状态', value: 0},]).concat(this.status)
-      },
-      convertDepartmentIds: function () {
-        function convertArrayToValue(form) {
-          if (form.deptIds == undefined || form.deptIds.length == 0) {
-            form.deptId = undefined
-          } else {
-            form.deptId = form.deptIds[form.deptIds.length - 1]
-          }
-        }
-        convertArrayToValue(this.form)
-        convertArrayToValue(this.add_form)
-        convertArrayToValue(this.update_form)
       }
     },
     methods: {
+      add_form_dept_change(val) {
+        if (val == undefined || val.length == 0) {
+          this.add_form.deptId = undefined
+        } else {
+          this.add_form.deptId = val[val.length - 1]
+        }
+      },
+      update_form_dept_change(val) {
+        if (val == undefined || val.length == 0) {
+          this.update_form.deptId = undefined
+        } else {
+          this.update_form.deptId = val[val.length - 1]
+        }
+      },
+      form_dept_change(val) {
+        if (val == undefined || val.length == 0) {
+          this.form.deptId = undefined
+        } else {
+          this.form.deptId = val[val.length - 1]
+        }
+      },
       add_form_open() {
         this.add_form = {
           password: undefined,
           account: undefined,
           name: undefined,
-          deptIds: undefined,
           deptId: undefined,
+          deptIds: undefined,
           roleId: undefined
         }
         this.add_form_visible = true
@@ -236,8 +244,8 @@
           account: undefined,
           password: undefined,
           name: undefined,
-          deptIds: undefined,
           deptId: undefined,
+          deptIds: undefined,
           roleId: undefined
         }
         var that = this
@@ -247,7 +255,8 @@
             status: res.data.status,
             account: res.data.account,
             name: res.data.name,
-            deptId: res.data.deptId,
+            deptIds: store.getters.departmentsMap[res.data.departmentId],
+            deptId: res.data.departmentId,
             roleId: res.data.roleId
           }
         })

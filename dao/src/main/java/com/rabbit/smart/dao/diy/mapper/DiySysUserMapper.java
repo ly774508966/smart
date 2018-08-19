@@ -20,7 +20,7 @@ public interface DiySysUserMapper {
     List<SysPermission> queryRequestPermissionByRoleId(Integer roleId);
 
     //查询请求权限
-    List<SysPermission> queryRequestPermission();
+    List<SysPermission> queryRequestPermission(Boolean isLog);
 
     //查询请求权限名称
     List<String> queryRequestPermissionName();

@@ -18,6 +18,7 @@ const store = new Vuex.Store({
     token: state => state.user.token,
     roles: state => state.user.roles,
     menus: state => state.user.menus,
+    departmentsMap: state => state.user.departmentsMap,
 
     sidebar: state => state.app.sidebar,
     visitedViews: state => state.tagsView.visitedViews,

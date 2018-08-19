@@ -21,18 +21,18 @@
         <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
     </resultMap>
     <resultMap id="SysPermission" type="com.rabbit.smart.dao.entity.SysPermission">
-        <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="code" property="code" jdbcType="VARCHAR" />
-        <result column="name" property="name" jdbcType="VARCHAR" />
-        <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
-        <result column="url" property="url" jdbcType="VARCHAR" />
-        <result column="type" property="type" jdbcType="INTEGER" />
-        <result column="is_menu_open" property="isMenuOpen" jdbcType="BIT" />
-        <result column="menu_sort" property="menuSort" jdbcType="INTEGER" />
-        <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
-        <result column="is_log" property="isLog" jdbcType="BIT" />
-        <result column="status" property="status" jdbcType="INTEGER" />
-        <result column="description" property="description" jdbcType="VARCHAR" />
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="parent_code" property="parentCode" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="is_menu_open" property="isMenuOpen" jdbcType="BIT"/>
+        <result column="menu_sort" property="menuSort" jdbcType="INTEGER"/>
+        <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR"/>
+        <result column="is_log" property="isLog" jdbcType="BIT"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--用户-->
@@ -78,6 +78,9 @@
         select p.code,p.url,p.name
         from sys_permission p
         where p.type=3 and p.status=1
+        <if test="isLog!=null and isLog">
+            and p.is_log=1
+        </if>
     </select>
     <select id="queryRequestPermissionName" resultType="java.lang.String" parameterType="java.lang.Integer">
         select p.name
