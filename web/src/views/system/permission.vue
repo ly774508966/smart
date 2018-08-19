@@ -22,6 +22,7 @@
         <template slot-scope="scope">
           <el-button size="mini" type="success">添加子权限</el-button>
           <el-button size="mini" type="warning">编辑</el-button>
+          <el-button size="mini" type="danger">删除</el-button>
         </template>
       </el-table-column>
     </tree-table>
