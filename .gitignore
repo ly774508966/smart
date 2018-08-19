@@ -19,3 +19,9 @@
 /tool-job/target
 /service/target
 /web-api/target
+/smart-api/.idea
+/smart-api/api/target
+/smart-api/dao/target
+/smart-api/logs
+/smart-api/service/target
+/smart-api/util/target
