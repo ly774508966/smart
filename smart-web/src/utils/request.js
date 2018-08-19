@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {Message, MessageBox} from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 
 // create an axios instance
@@ -11,12 +11,12 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(config => {
   // Do something before request is sent
-  config.withCredentials = true;
-  var token = store.getters.token;
+  config.withCredentials = true
+  var token = store.getters.token
   if (token) {
     config.headers['token'] = token // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
   }
-  console.log("【request】->" + config.url)
+  console.log('【request】->' + config.url)
   return config
 }, error => {
   // Do something with request error
@@ -27,19 +27,19 @@ service.interceptors.request.use(config => {
 // respone interceptor
 service.interceptors.response.use(
   response => {
-    return response;
+    return response
   },
   error => {
     // console.error(error)// for debug
     if (error.response.status == 401) {
-      MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
-        confirmButtonText: '重新登录',
+      MessageBox.confirm('您没有权限，如需使用，请换切换账号', '没有权限', {
+        confirmButtonText: '切换账号',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         store.dispatch('front_logout').then(() => {
-          location.reload();// 为了重新实例化vue-router对象 避免bug
-        });
+          location.reload()// 为了重新实例化vue-router对象 避免bug
+        })
       })
     }
     else if (error.response.status == 400) {

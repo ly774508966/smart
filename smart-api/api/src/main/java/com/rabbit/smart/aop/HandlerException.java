@@ -6,6 +6,7 @@ import com.rabbit.smart.service.SysOperationLogService;
 import com.rabbit.smart.service.SysPermissionService;
 import com.rabbit.smart.util.param.ParamError;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,9 @@ public class HandlerException {
 
         dbLog(request, ex);
         if (ex instanceof ParamError) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);//参数错误 400
+        } else if (ex instanceof UnauthorizedException) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);//没有权限 401
         } else {
             txtLog(ex, request);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

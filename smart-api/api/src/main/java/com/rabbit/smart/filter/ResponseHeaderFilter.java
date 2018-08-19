@@ -28,6 +28,7 @@ public class ResponseHeaderFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "Content-Type,token");//跨域
         response.setHeader("Access-Control-Allow-Credentials", "true");//跨域
         response.addHeader("P3P", "CP=CAO PSA OUR");//IE嵌入不同域名iframe，cookie失效问题
+//        logger.info(request.getRequestURI());
         if (request.getMethod().equals("OPTIONS")) {
             response.setStatus(200);
         } else {

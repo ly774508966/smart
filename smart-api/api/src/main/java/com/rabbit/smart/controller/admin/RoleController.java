@@ -8,6 +8,7 @@ import com.rabbit.smart.dto.in.RoleModifyDto;
 import com.rabbit.smart.service.SysRoleService;
 import com.rabbit.smart.util.param.Validator;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class RoleController {
     private DiySysUserMapper diySysUserMapper;
 
     //region 增删改查
+    @RequiresPermissions("admin:role:add")
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<Void> add(RoleAddDto params) {
         Validator.checkNotNull(params.getName(), "角色名称");
@@ -44,6 +46,7 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @RequiresPermissions("admin:role:remove")
     @RequestMapping(value = "remove", method = RequestMethod.POST)
     public ResponseEntity<Void> remove(int id) {
         Validator.checkNotNull(id, "角色编号");
@@ -51,6 +54,7 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @RequiresPermissions("admin:role:modify")
     @RequestMapping(value = "modify", method = RequestMethod.POST)
     public ResponseEntity<Void> modify(RoleModifyDto params) {
         Validator.checkNotNull(params.getId(), "角色编号");
@@ -63,6 +67,7 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @RequiresPermissions("admin:role:get:permissions")
     @RequestMapping(value = "get/permissions", method = RequestMethod.POST)
     public ResponseEntity<List<Integer>> get_permissions(Integer roleId) {
         Validator.checkNotNull(roleId, "角色编号");
@@ -70,6 +75,7 @@ public class RoleController {
         return new ResponseEntity(permissions, HttpStatus.OK);
     }
 
+    @RequiresPermissions("admin:role:modify:permissions")
     @RequestMapping(value = "modify/permissions", method = RequestMethod.POST)
     public ResponseEntity<Void> modify_permissions(Integer roleId, String permissionIds) {
         Validator.checkNotNull(roleId, "角色编号");
@@ -79,6 +85,7 @@ public class RoleController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @RequiresPermissions("admin:role:query")
     @RequestMapping(value = "query", method = RequestMethod.POST)
     public ResponseEntity<List<SysRole>> query() {
         List<SysRole> roles = roleService.query();

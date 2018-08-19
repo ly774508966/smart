@@ -33,12 +33,12 @@ public class ControllerAspect {
     @Autowired
     private SysPermissionService permissionService;
 
-    private Map<String, String> urlNameMaps;
+    private Map<String, String> logUrls;
 
     @PostConstruct
     public void init() {
-        urlNameMaps = permissionService.queryRequestUrlAndName(true);
-        logger.info(JSONObject.toJSONString(urlNameMaps));
+        logUrls = permissionService.queryRequestUrlAndName(true);
+//        logger.info(JSONObject.toJSONString(logUrls));
     }
 
     /**
@@ -81,7 +81,7 @@ public class ControllerAspect {
     private void dbLog(HttpServletRequest request, int cost) {
         String url = request.getRequestURI();
         String params = JSONObject.toJSONString(request.getParameterMap());
-        Object permissionName = urlNameMaps.get(url);
+        Object permissionName = logUrls.get(url);
         if (permissionName != null && SecurityUtils.getSubject().isAuthenticated()) {
             SysOperationLog log = new SysOperationLog();
             log.setCost(cost);

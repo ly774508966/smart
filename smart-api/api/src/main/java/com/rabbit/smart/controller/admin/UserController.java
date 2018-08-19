@@ -14,6 +14,7 @@ import com.rabbit.smart.shiro.util.PasswordHelper;
 import com.rabbit.smart.util.param.Validator;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,7 @@ public class UserController {
     private SysUserService sysUserService;
 
     //region 增删改查
+    @RequiresPermissions("admin:user:add")
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<Void> add(UserAddDto params) {
         //检查
@@ -63,6 +65,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @RequiresPermissions("admin:user:remove")
     @RequestMapping(value = "remove", method = RequestMethod.POST)
     public ResponseEntity<Void> remove(String account) {
         //逻辑删除
@@ -71,6 +74,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @RequiresPermissions("admin:user:modify")
     @RequestMapping(value = "modify", method = RequestMethod.POST)
     public ResponseEntity<Void> modify(UserModifyDto params) {
         //检查
@@ -97,6 +101,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @RequiresPermissions("admin:user:query")
     @RequestMapping(value = "query", method = RequestMethod.POST)
     public ResponseEntity<PageInfo<DiySysUser>> query(UserQueryDto params) {
         Validator.checkNotNull(params.getPageIndex(), "页码");
@@ -105,6 +110,7 @@ public class UserController {
         return new ResponseEntity(users, HttpStatus.OK);
     }
 
+    @RequiresPermissions("admin:user:get")
     @RequestMapping(value = "get", method = RequestMethod.POST)
     public ResponseEntity<DiySysUser> get(String account) {
         Validator.checkNotNull(account, "账号");
