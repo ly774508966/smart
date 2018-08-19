@@ -133,7 +133,7 @@ public class AccountController {
         if (!subject.isAuthenticated())
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         DiySysUser user = (DiySysUser) subject.getSession().getAttribute(Consts.SESSION_USER);
-        Recursion<SysPermission> permissions = permissionService.queryMenuTreeByRole(user.getRoleId());
+        Recursion<SysPermission> permissions = permissionService.queryMenuTreeByRoleId(user.getRoleId());
         return new ResponseEntity(new AccountUserDto(user, permissions), HttpStatus.OK);
     }
 

@@ -49,6 +49,8 @@ public class ControllerAspect {
      */
     @Around("execution(!void com..*Controller.*(..))")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        //TODO token防csrf攻击还是要的
+
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
         //日志记录

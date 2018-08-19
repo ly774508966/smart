@@ -55,4 +55,10 @@ public class PermissionController {
         Recursion<SysPermission> tree = permissionService.queryTree();
         return new ResponseEntity(tree, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "query/tree/simple", method = RequestMethod.POST)
+    public ResponseEntity<Recursion<SysPermission>> query_tree_simple() {
+        Recursion<SysPermission> tree = permissionService.queryTreeSimple();
+        return new ResponseEntity(tree, HttpStatus.OK);
+    }
 }

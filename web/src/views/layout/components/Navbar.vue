@@ -1,6 +1,6 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
-    <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
+    <hamburger class="hamburger-container" :toggleClick="handle_toggle_silder" :isActive="sidebar.opened"></hamburger>
 
     <breadcrumb class="breadcrumb-container"></breadcrumb>
 
@@ -10,25 +10,24 @@
       </el-tooltip>
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <img class="user-avatar">
-          <span class="user-name right-menu-item">张三</span>
+          <span class="user-name right-menu-item" v-text="user.name"></span>
           <i class="el-icon-arrow-down"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item>
-            <div @click="showUserInfo">个人信息</div>
+            <div @click="show_user_info_form_visible = true">个人信息</div>
           </el-dropdown-item>
           <el-dropdown-item>
-            <div @click="showModifyPwd">修改密码</div>
+            <div @click="edit_pwd_form_visible = true">修改密码</div>
           </el-dropdown-item>
           <el-dropdown-item divided>
-            <div @click="logout">退出登录</div>
+            <div @click="handle_logout">退出登录</div>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
 
-    <el-dialog title="修改密码" width="600px" :visible.sync="userModifyPwdDialogVisible">
+    <el-dialog title="修改密码" width="500px" :visible.sync="edit_pwd_form_visible">
       <el-form size="mini" label-width="80px">
         <el-form-item label="原密码">
           <el-input placeholder="请输入原密码" type="password"></el-input>
@@ -38,29 +37,20 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="userModifyPwdDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="userModifyPwdDialogVisible = false">确 定</el-button>
+        <el-button size="mini" @click="edit_pwd_form_visible = false">取 消</el-button>
+        <el-button size="mini" type="primary" @click="edit_pwd_form_visible = false">确 定</el-button>
       </div>
     </el-dialog>
 
-    <el-dialog title="个人信息" width="600px" :visible.sync="userInfoDialogVisible">
+    <el-dialog title="个人信息" width="500px" :visible.sync="show_user_info_form_visible">
       <el-form size="mini" label-width="80px">
-        <el-form-item label="头像">
-          <el-tooltip effect="dark" content="点击可替换头像" placement="right-start">
-            <img class="user-avatar">
-          </el-tooltip>
-        </el-form-item>
         <el-form-item label="账号">
-          <span>zhangsan</span>
+          <span v-text="user.account"></span>
         </el-form-item>
         <el-form-item label="角色">
-          <span>系统管理员</span>
+          <span v-text="user.name"></span>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="userInfoDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="userInfoDialogVisible = false">确 定</el-button>
-      </div>
     </el-dialog>
 
   </el-menu>
@@ -71,17 +61,15 @@
   import Breadcrumb from '@/components/Breadcrumb'
   import Hamburger from '@/components/Hamburger'
   import Screenfull from '@/components/Screenfull'
-  import ElInput from '../../../../node_modules/element-ui/packages/input/src/input'
 
   export default {
     data() {
       return {
-        userInfoDialogVisible: false,
-        userModifyPwdDialogVisible: false
+        show_user_info_form_visible: false,
+        edit_pwd_form_visible: false
       }
     },
     components: {
-      ElInput,
       Breadcrumb,
       Hamburger,
       Screenfull
@@ -93,17 +81,11 @@
       ])
     },
     methods: {
-      showUserInfo() {
-        this.userInfoDialogVisible = true;
-      },
-      showModifyPwd() {
-        this.userModifyPwdDialogVisible = true;
-      },
-      toggleSideBar() {
+      handle_toggle_silder() {
         this.$store.dispatch('toggleSideBar')
       },
-      logout() {
-        this.$store.dispatch('LogOut').then(() => {
+      handle_logout() {
+        this.$store.dispatch('logout').then(() => {
           location.reload()// In order to re-instantiate the vue-router object to avoid bugs
         })
       }

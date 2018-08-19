@@ -1,5 +1,6 @@
 package com.rabbit.smart.controller.admin;
 
+import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
 import com.rabbit.smart.dao.entity.SysRole;
 import com.rabbit.smart.dao.mapper.SysRoleMapper;
 import com.rabbit.smart.dto.in.RoleAddDto;
@@ -28,6 +29,8 @@ public class RoleController {
     private SysRoleService roleService;
     @Autowired
     private SysRoleMapper roleMapper;
+    @Autowired
+    private DiySysUserMapper diySysUserMapper;
 
     //region 增删改查
     @RequestMapping(value = "add", method = RequestMethod.POST)
@@ -60,12 +63,21 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @RequestMapping(value = "get/permission", method = RequestMethod.POST)
-    public ResponseEntity<List<Integer>> get_permission(Integer id) {
-        Validator.checkNotNull(id, "角色编号");
-        return null;
+    @RequestMapping(value = "get/permissions", method = RequestMethod.POST)
+    public ResponseEntity<List<Integer>> get_permissions(Integer roleId) {
+        Validator.checkNotNull(roleId, "角色编号");
+        List<Integer> permissions = roleService.getRolePermission(roleId);
+        return new ResponseEntity(permissions, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "modify/permissions", method = RequestMethod.POST)
+    public ResponseEntity<Void> modify_permissions(Integer roleId, String permissionIds) {
+        Validator.checkNotNull(roleId, "角色编号");
+        Validator.checkNotNull(permissionIds, "权限列表");
+        String[] permissions = permissionIds.split(",");
+        diySysUserMapper.updateRolePermissions(roleId,permissions);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @RequestMapping(value = "query", method = RequestMethod.POST)
     public ResponseEntity<List<SysRole>> query() {

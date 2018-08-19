@@ -1,7 +1,7 @@
 <template>
   <div class="table_container">
     <div class="filter-container">
-      本页面为模板页，创建新页面时，可以直接拷贝
+      首页，根据需求添加
     </div>
   </div>
 </template>

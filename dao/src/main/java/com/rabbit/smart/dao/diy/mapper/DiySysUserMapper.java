@@ -28,5 +28,11 @@ public interface DiySysUserMapper {
 
     //查询角色菜单权限
     List<SysPermission> queryMenuPermissionByRoleId(Integer roleId);
+
+    //查询所有权限（简单）
+    List<SysPermission> queryPermissionSimple();
+
+    //更新角色权限
+    void updateRolePermissions(@Param("roleId") Integer roleId, @Param("permissionIds") String[] permissionIds);
     //endregion
 }

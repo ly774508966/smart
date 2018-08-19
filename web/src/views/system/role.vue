@@ -52,8 +52,10 @@
       <el-tree
         :data="permissions"
         show-checkbox
-        node-key="id"
-        :default-expanded-keys="[2, 3]">
+        role_get_permissions
+        :check-strictly="true"
+        ref="tree"
+        node-key="id">
       </el-tree>
       <div slot="footer">
         <el-button size="mini" @click="edit_permission_form_visible = false">取 消</el-button>
@@ -67,7 +69,8 @@
   import waves from '@/directive/waves' // 水波纹指令
   import store from '@/store'
   import {Message, MessageBox} from 'element-ui'
-  import {role_add, role_remove, role_modify} from '@/api/role'
+  import {role_add, role_remove, role_modify, role_get_permissions, role_modify_permissions} from '@/api/role'
+  import {permission_query_tree_simple} from '@/api/permission'
 
   export default {
     directives: {
@@ -90,7 +93,36 @@
         this.edit_form_visible = true
       },
       open_edit_permission: function (id) {
-        this.edit_permission_form_visible = true;
+        function convertPermissions(items, nodes) {
+          nodes.forEach(node => {
+            var tmp = {
+              id: node.node.id,
+              label: node.node.name
+            }
+            if (node.subs != null && node.subs.length > 0) {
+              tmp.children = []
+              convertPermissions(tmp.children, node.subs);
+            }
+            items.push(tmp)
+          })
+          return items;
+        }
+
+        var that = this;
+        this.edit_permission_id = id
+        //TODO 权限变化不大，客户端可以缓存下
+        permission_query_tree_simple().then(res => {
+          return new Promise((resolve, reject) => {
+            that.permissions = convertPermissions([], res.data.subs)
+            that.edit_permission_form_visible = true;
+            resolve()
+          })
+        }).then(() => {
+          role_get_permissions(id).then(res => {
+            that.$refs.tree.setCheckedKeys(res.data);
+          })
+        })
+
       },
       handle_add: function () {
         var that = this;
@@ -110,7 +142,11 @@
 
       },
       handle_edit_permission: function () {
-        this.edit_permission_form_visible = false;
+        var that = this;
+        role_modify_permissions(this.edit_permission_id, this.$refs.tree.getCheckedKeys().join(",")).then(res => {
+          that.edit_permission_form_visible = false;
+          Message({message: '修改成功', type: 'success'});
+        })
       },
       handle_delete(id) {
         var that = this;
@@ -133,7 +169,7 @@
       return {
         tableData: [],
         permissions: [],
-        edit_permission_form: {},
+        edit_permission_id: undefined,
         add_form: {},
         edit_form: {},
         add_form_visible: false,

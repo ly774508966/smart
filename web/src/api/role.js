@@ -16,3 +16,11 @@ export function role_remove(id) {
 export function role_modify(form) {
   return request.post('/role/modify', qs.stringify(form))
 }
+
+export function role_get_permissions(roleId) {
+  return request.post('/role/get/permissions', qs.stringify({roleId}))
+}
+
+export function role_modify_permissions(roleId, permissionIds) {
+  return request.post('/role/modify/permissions', qs.stringify({roleId, permissionIds}))
+}

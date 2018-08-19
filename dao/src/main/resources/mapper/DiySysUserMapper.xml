@@ -91,6 +91,16 @@
         from sys_permission p inner join sys_role_permission s on p.id=s.permission_id
         where s.role_id=#{roleId} and p.type in (1,2) and p.status=1 order by menu_sort asc
     </select>
-
-
+    <select id="queryPermissionSimple" resultMap="SysPermission">
+        select p.name,p.id,p.code,p.parent_code
+        from sys_permission p
+        where  p.status=1
+    </select>
+    <insert id="updateRolePermissions">
+        delete from sys_role_permission where role_id=#{roleId};
+        INSERT INTO sys_role_permission(role_id,permission_id) VALUES
+        <foreach collection="permissionIds" index="index" item="permissionId" separator=",">
+            (#{roleId},#{permissionId})
+        </foreach>
+    </insert>
 </mapper>

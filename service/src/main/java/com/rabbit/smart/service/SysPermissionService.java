@@ -33,7 +33,7 @@ public class SysPermissionService {
     }
 
     //查询某个用户的权限（菜单）
-    public Recursion<SysPermission> queryMenuTreeByRole(Integer roleId) {
+    public Recursion<SysPermission> queryMenuTreeByRoleId(Integer roleId) {
         List<SysPermission> permissions = diySysUserMapper.queryMenuPermissionByRoleId(roleId);
         SysPermission permission = new SysPermission();
         permission.setCode("0");
@@ -44,6 +44,15 @@ public class SysPermissionService {
     //查询所有权限（含菜单、请求）
     public Recursion<SysPermission> queryTree() {
         List<SysPermission> permissions = permissionMapper.selectByExample(new SysPermissionExample());
+        SysPermission permission = new SysPermission();
+        permission.setCode("0");
+        Recursion<SysPermission> results = new Recursion<>(permission);
+        return recursion(permissions, results);
+    }
+
+    //查询所有权限(只含id和name）
+    public Recursion<SysPermission> queryTreeSimple() {
+        List<SysPermission> permissions = diySysUserMapper.queryPermissionSimple();
         SysPermission permission = new SysPermission();
         permission.setCode("0");
         Recursion<SysPermission> results = new Recursion<>(permission);
