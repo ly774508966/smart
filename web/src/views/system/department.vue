@@ -14,29 +14,16 @@
 
 <script>
   import treeTable from '@/components/TreeTable'
-  import {department_query_tree} from '@/api/department'
+  import store from '@/store'
+
 
   export default {
     components: {treeTable},
     methods: {
       ajax_query: function () {
-        function convertDate(items, nodes) {
-          nodes.forEach(node => {
-            var tmp = {
-              name: node.node.name,
-              description: node.node.description,
-              children: []
-            }
-            convertDate(tmp.children, node.subs);
-            items.push(tmp)
-          })
-          return items;
-
-        }
-
         var that = this
-        department_query_tree().then(res => {
-          that.tableData = convertDate([], res.data.subs)
+        store.dispatch("departments", {fromCache: false}).then(departments => {
+          that.tableData = departments
         })
       }
     },

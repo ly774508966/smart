@@ -31,8 +31,12 @@
 <script>
   import treeTable from '@/components/TreeTable'
   import {permission_query_tree} from '@/api/permission'
+  import waves from '@/directive/waves' // 水波纹指令
 
   export default {
+    directives: {
+      waves
+    },
     components: {treeTable},
     methods: {
       ajax_query: function () {

@@ -3,6 +3,7 @@ package com.rabbit.smart.controller.admin;
 import com.rabbit.smart.Consts;
 import com.rabbit.smart.dao.diy.entity.DiySysUser;
 import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
+import com.rabbit.smart.dao.entity.SysDepartment;
 import com.rabbit.smart.dao.entity.SysLoginLog;
 import com.rabbit.smart.dao.entity.SysPermission;
 import com.rabbit.smart.dao.entity.SysRole;
@@ -11,6 +12,7 @@ import com.rabbit.smart.dto.Recursion;
 import com.rabbit.smart.dto.out.AccountLoginDto;
 import com.rabbit.smart.dto.out.AccountUserDto;
 import com.rabbit.smart.service.RedisService;
+import com.rabbit.smart.service.SysDepartmentService;
 import com.rabbit.smart.service.SysPermissionService;
 import com.rabbit.smart.service.SysRoleService;
 import com.rabbit.smart.shiro.util.PasswordHelper;
@@ -53,6 +55,8 @@ public class AccountController {
     private RedisService redisService;
     @Autowired
     private SysPermissionService permissionService;
+    @Autowired
+    private SysDepartmentService departmentService;
 
     @RequestMapping(value = "unauthorized", method = RequestMethod.GET)
     public ResponseEntity<String> unauthorized() {
@@ -139,8 +143,7 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         DiySysUser user = (DiySysUser) subject.getSession().getAttribute(Consts.SESSION_USER);
         Recursion<SysPermission> permissions = permissionService.queryMenuTreeByRole(user.getRoleId());
-        List<SysRole> roles=roleService.query();
-        return new ResponseEntity(new AccountUserDto(user, permissions,roles), HttpStatus.OK);
+        return new ResponseEntity(new AccountUserDto(user, permissions), HttpStatus.OK);
     }
 
     //验证码

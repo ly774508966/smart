@@ -1,17 +1,10 @@
 <template>
   <div class="table_container">
     <div class="filter-container">
-      <el-input size="mini" class="filter-item item" v-model="form.account" placeholder="账号"></el-input>
-      <el-input size="mini" class="filter-item item" v-model="form.name" placeholder="姓名"></el-input>
-      <el-select size="mini" class="filter-item item" v-model="form.deptId" placeholder="部门">
-        <el-option
-          v-for="item in all_dept"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-select size="mini" class="filter-item item" v-model="form.roleId" placeholder="角色">
+      <el-input size="mini" class="filter-item item" v-model="form.account" placeholder="请输入账号"></el-input>
+      <el-input size="mini" class="filter-item item" v-model="form.name" placeholder="请输入姓名"></el-input>
+      <el-cascader size="mini" class="filter-item item" :options="all_departments" change-on-select v-model="form.deptIds" placeholder="请选择所属部门"></el-cascader>
+      <el-select size="mini" class="filter-item item" v-model="form.roleId" placeholder="请选择用户角色">
         <el-option
           v-for="item in all_roles"
           :key="item.id"
@@ -19,7 +12,7 @@
           :value="item.id">
         </el-option>
       </el-select>
-      <el-select size="mini" class="filter-item item" v-model="form.status" placeholder="状态">
+      <el-select size="mini" class="filter-item item" v-model="form.status" placeholder="请选择用户状态">
         <el-option
           v-for="item in all_status"
           :key="item.value"
@@ -103,14 +96,7 @@
           <el-input v-model="add_form.password" placeholder="请输入用户密码"/>
         </el-form-item>
         <el-form-item label="所属部门">
-          <el-select v-model="add_form.deptId" placeholder="所属部门">
-            <el-option
-              v-for="item in all_dept"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <el-cascader :options="departments" change-on-select v-model="add_form.deptId"></el-cascader>
         </el-form-item>
         <el-form-item label="用户角色">
           <el-select v-model="add_form.roleId" placeholder="用户角色">
@@ -141,14 +127,7 @@
           <el-input v-model="update_form.password" placeholder="请输入用户密码"/>
         </el-form-item>
         <el-form-item label="所属部门">
-          <el-select v-model="update_form.deptId" placeholder="所属部门">
-            <el-option
-              v-for="item in all_dept"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
+          <el-cascader :options="departments" change-on-select v-model="update_form.deptId"></el-cascader>
         </el-form-item>
         <el-form-item label="用户角色">
           <el-select v-model="update_form.roleId" placeholder="用户角色">
@@ -196,14 +175,15 @@
           {label: '冻结', value: 2},
           {label: '删除', value: 3}
         ],
-        all_dept: [{label: "全部部门", value: 0}],
-        roles: store.getters.roles,
+        roles: [],
+        departments: [],
         form: {
-          status: 1,
+          status: undefined,
           account: undefined,
           name: undefined,
-          deptId: 0,
-          roleId: 0,
+          deptIds: undefined,
+          deptId: undefined,
+          roleId: undefined,
           pageIndex: 1,
           pageSize: 15
         },
@@ -216,11 +196,26 @@
       }
     },
     computed: {
+      all_departments: function () {
+        return [].concat({label: "全部部门", value: 0}).concat(this.departments)
+      },
       all_roles: function () {
         return [].concat([{name: '全部角色', id: 0}]).concat(this.roles)
       },
       all_status: function () {
         return [].concat([{label: '全部状态', value: 0},]).concat(this.status)
+      },
+      convertDepartmentIds: function () {
+        function convertArrayToValue(form) {
+          if (form.deptIds == undefined || form.deptIds.length == 0) {
+            form.deptId = undefined
+          } else {
+            form.deptId = form.deptIds[form.deptIds.length - 1]
+          }
+        }
+        convertArrayToValue(this.form)
+        convertArrayToValue(this.add_form)
+        convertArrayToValue(this.update_form)
       }
     },
     methods: {
@@ -229,6 +224,7 @@
           password: undefined,
           account: undefined,
           name: undefined,
+          deptIds: undefined,
           deptId: undefined,
           roleId: undefined
         }
@@ -240,6 +236,7 @@
           account: undefined,
           password: undefined,
           name: undefined,
+          deptIds: undefined,
           deptId: undefined,
           roleId: undefined
         }
@@ -308,7 +305,10 @@
       console.log("【view created】->" + this.$route.path)
     },
     mounted() {
+      var that = this;
       this.ajax_query();
+      store.dispatch("roles", {fromCache: true}).then(roles => that.roles = roles)
+      store.dispatch("departments", {fromCache: true}).then(departments => that.departments = departments)
       console.log("【view mounted】->" + this.$route.path)
     },
     destroyed() {

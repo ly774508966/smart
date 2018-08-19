@@ -55,13 +55,13 @@
         <if test="name!=null">
             and u.name like CONCAT(#{name},'%')
         </if>
-        <if test="status!=0">
+        <if test="status!=null and status!=0">
             and u.status=#{status}
         </if>
-        <if test="roleId!=0">
+        <if test="roleId!=null and roleId!=0">
             and u.role_id=#{roleId}
         </if>
-        <if test="deptId!=0">
+        <if test="deptId!=null and deptId!=0">
             and u.department_id=#{deptId}
         </if>
         order by id desc

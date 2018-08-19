@@ -46,7 +46,7 @@
 
 <script>
   import waves from '@/directive/waves' // 水波纹指令
-  import {role_query} from '@/api/role'
+  import store from '@/store'
 
   export default {
     directives: {
@@ -55,8 +55,8 @@
     methods: {
       ajax_query: function () {
         var that = this
-        role_query().then(res => {
-          that.tableData = res.data
+        store.dispatch("roles",{fromCache:false}).then(roles => {
+          that.tableData = roles
         })
       }
     },
