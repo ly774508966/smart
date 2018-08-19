@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rabbit.smart.dao.diy.mapper.DiySysUserMapper">
+    <!--返回值定义-->
+    <resultMap id="DiySysUser" type="com.rabbit.smart.dao.diy.entity.DiySysUser">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="department_id" jdbcType="INTEGER" property="departmentId"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="department_name" property="departmentName" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="SysPermission" type="com.rabbit.smart.dao.entity.SysPermission">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="parent_code" property="parentCode" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="is_menu_open" property="isMenuOpen" jdbcType="BIT"/>
+        <result column="menu_sort" property="menuSort" jdbcType="INTEGER"/>
+        <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR"/>
+        <result column="is_log" property="isLog" jdbcType="BIT"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--用户-->
+    <select id="getDiyUserByAccount" resultMap="DiySysUser" parameterType="java.lang.String">
+        select sys_user.*,sys_role.name role_name,sys_department.name department_name
+        from sys_user
+        left join sys_role on sys_user.role_id=sys_role.id
+        left join sys_department on sys_user.department_id=sys_department.id
+        where sys_user.account=#{account}
+    </select>
+    <select id="queryDiySysUser" resultMap="DiySysUser" parameterType="java.lang.String">
+        select u.id,u.account,u.name,u.status,sys_role.name role_name,sys_department.name department_name
+        from sys_user u
+        left join sys_role on u.role_id=sys_role.id
+        left join sys_department on u.department_id=sys_department.id
+        where 1=1
+        <if test="account!=null">
+            and u.account like CONCAT(#{account},'%')
+        </if>
+        <if test="name!=null">
+            and u.name like CONCAT(#{name},'%')
+        </if>
+        <if test="status!=null and status!=0">
+            and u.status=#{status}
+        </if>
+        <if test="roleId!=null and roleId!=0">
+            and u.role_id=#{roleId}
+        </if>
+        <if test="deptId!=null and deptId!=0">
+            and u.department_id=#{deptId}
+        </if>
+        order by id desc
+    </select>
+
+    <!--权限-->
+    <select id="queryRequestPermissionByRoleId" resultMap="SysPermission" parameterType="java.lang.Integer">
+        select p.code,p.url,p.name
+        from sys_permission p inner join sys_role_permission s  on p.id=s.permission_id
+        where s.role_id=#{roleId} and p.type=3 and p.status=1
+    </select>
+    <select id="queryRequestPermission" resultMap="SysPermission" parameterType="java.lang.Boolean">
+        select p.code,p.url,p.name
+        from sys_permission p
+        where p.type=3 and p.status=1
+        <if test="isLog!=null and isLog">
+            and p.is_log=1
+        </if>
+    </select>
+    <select id="queryRequestPermissionName" resultType="java.lang.String" parameterType="java.lang.Integer">
+        select p.name
+        from sys_permission p
+        where p.type=3 and p.status=1
+    </select>
+    <select id="queryMenuPermissionByRoleId" resultMap="SysPermission" parameterType="java.lang.Integer">
+        select p.code,p.name,p.parent_code,p.url,p.type,p.is_menu_open,p.menu_icon
+        from sys_permission p inner join sys_role_permission s on p.id=s.permission_id
+        where s.role_id=#{roleId} and p.type in (1,2) and p.status=1 order by menu_sort asc
+    </select>
+    <select id="queryPermissionSimple" resultMap="SysPermission">
+        select p.name,p.id,p.code,p.parent_code
+        from sys_permission p
+        where  p.status=1
+    </select>
+    <insert id="updateRolePermissions">
+        delete from sys_role_permission where role_id=#{roleId};
+        INSERT INTO sys_role_permission(role_id,permission_id) VALUES
+        <foreach collection="permissionIds" index="index" item="permissionId" separator=",">
+            (#{roleId},#{permissionId})
+        </foreach>
+    </insert>
+</mapper>
