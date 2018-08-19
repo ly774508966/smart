@@ -19,25 +19,40 @@ public class PermissionController {
     private SysPermissionService permissionService;
 
     //region 增删改查
-    @RequestMapping(method = RequestMethod.POST)
-    public void add() {
-
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    public ResponseEntity<Void> add() {
+        //TODO 需要开发
+        return null;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    public void remove() {
-
+    @RequestMapping(value = "remove", method = RequestMethod.POST)
+    public ResponseEntity<Void> remove() {
+        //TODO 需要开发
+        return null;
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public void modify() {
-
+    @RequestMapping(value = "modify", method = RequestMethod.POST)
+    public ResponseEntity<Void> modify() {
+        //TODO 需要开发
+        return null;
     }
+
+    @RequestMapping(value = "query", method = RequestMethod.POST)
+    public ResponseEntity<Void> query() {
+        //TODO 需要开发
+        return null;
+    }
+
+    @RequestMapping(value = "get", method = RequestMethod.POST)
+    public ResponseEntity<Void> get() {
+        //TODO 需要开发
+        return null;
+    }
+    //endregion
 
     @RequestMapping(value = "query/tree", method = RequestMethod.POST)
     public ResponseEntity<Recursion<SysPermission>> query_tree() {
         Recursion<SysPermission> tree = permissionService.queryTree();
         return new ResponseEntity(tree, HttpStatus.OK);
     }
-    //endregion
 }

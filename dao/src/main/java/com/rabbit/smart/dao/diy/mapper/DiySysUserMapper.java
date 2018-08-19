@@ -4,6 +4,7 @@ import com.rabbit.smart.dao.diy.entity.DiySysUser;
 import com.rabbit.smart.dao.entity.SysPermission;
 import com.rabbit.smart.dao.entity.SysUser;
 import com.rabbit.smart.dto.in.UserQueryDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface DiySysUserMapper {
     List<SysPermission> queryRequestPermissionByRoleId(Integer roleId);
 
     //查询请求权限
-    List<SysPermission> queryRequestPermission(Boolean isLog);
+    List<SysPermission> queryRequestPermission(@Param("isLog") Boolean isLog);
 
     //查询请求权限名称
     List<String> queryRequestPermissionName();

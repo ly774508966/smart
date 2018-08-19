@@ -1,5 +1,8 @@
 <template>
   <div class="table_container">
+    <div class="filter-container">
+      <el-button class="filter-item" size="mini" type="primary" icon="el-icon-plus">添加部门</el-button>
+    </div>
     <tree-table :data="tableData" border size="mini" :columns="columns" :expandAll="true">
       <el-table-column label="操作" align="center" width="500">
         <template slot-scope="scope">
@@ -40,7 +43,8 @@
           }],
         tableData: []
       }
-    }, created() {
+    },
+    created() {
       console.log("【view created】->" + this.$route.path)
     },
     mounted() {

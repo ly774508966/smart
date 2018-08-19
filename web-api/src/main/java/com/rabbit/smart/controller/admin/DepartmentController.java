@@ -27,19 +27,19 @@ public class DepartmentController {
     private SysDepartmentService departmentService;
 
     //region 增删改查
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "add", method = RequestMethod.POST)
     public void add() {
-
+        //TODO 需要开发
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value = "remove", method = RequestMethod.POST)
     public void remove() {
-
+        //TODO 需要开发
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "modify", method = RequestMethod.POST)
     public void modify() {
-
+        //TODO 需要开发
     }
 
     @RequestMapping(value = "query/tree", method = RequestMethod.POST)

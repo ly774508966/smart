@@ -114,6 +114,7 @@ const user = {
       return new Promise((resolve, reject) => {
         if (fromCache && state.departments.length > 0) {
           resolve(state.departments)
+          return
         }
         department_query_tree().then(res => {
           commit('SET_DEPARTMENTS', convertDepartments([], res.data.subs))
@@ -129,6 +130,7 @@ const user = {
       return new Promise((resolve, reject) => {
         if (fromCache && state.roles.length > 0) {
           resolve(state.roles);
+          return
         }
         role_query().then(res => {
           commit('SET_ROLES', res.data)

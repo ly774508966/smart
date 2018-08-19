@@ -7,8 +7,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.Random;
 
 public class CaptchaUtil {
-    //TODO 后续再优化，找个好点的库
-
     // 生成图片
     public static byte[] creatImage(int width, int height, String codes, int lineCount) throws Exception {
         Random random = new Random();

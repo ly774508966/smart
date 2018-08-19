@@ -90,7 +90,6 @@ public class LogController {
         return new ResponseEntity(diySysUserMapper.queryRequestPermissionName(), HttpStatus.OK);
     }
 
-
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<PageInfo<SysLoginLog>> login(LogLoginDto params) {
         //TODO 分页统一校验

@@ -3,18 +3,14 @@ package com.rabbit.smart.controller.admin;
 import com.rabbit.smart.Consts;
 import com.rabbit.smart.dao.diy.entity.DiySysUser;
 import com.rabbit.smart.dao.diy.mapper.DiySysUserMapper;
-import com.rabbit.smart.dao.entity.SysDepartment;
 import com.rabbit.smart.dao.entity.SysLoginLog;
 import com.rabbit.smart.dao.entity.SysPermission;
-import com.rabbit.smart.dao.entity.SysRole;
 import com.rabbit.smart.dao.mapper.SysLoginLogMapper;
 import com.rabbit.smart.dto.Recursion;
 import com.rabbit.smart.dto.out.AccountLoginDto;
 import com.rabbit.smart.dto.out.AccountUserDto;
 import com.rabbit.smart.service.RedisService;
-import com.rabbit.smart.service.SysDepartmentService;
 import com.rabbit.smart.service.SysPermissionService;
-import com.rabbit.smart.service.SysRoleService;
 import com.rabbit.smart.shiro.util.PasswordHelper;
 import com.rabbit.smart.util.CaptchaUtil;
 import com.rabbit.smart.util.IPUtil;
@@ -37,7 +33,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Api(value = "account", tags = "账号管理")
@@ -46,8 +41,6 @@ import java.util.UUID;
 public class AccountController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private SysRoleService roleService;
-    @Autowired
     private DiySysUserMapper diySysUserMapper;
     @Autowired
     private SysLoginLogMapper loginLogMapper;
@@ -55,8 +48,6 @@ public class AccountController {
     private RedisService redisService;
     @Autowired
     private SysPermissionService permissionService;
-    @Autowired
-    private SysDepartmentService departmentService;
 
     @RequestMapping(value = "unauthorized", method = RequestMethod.GET)
     public ResponseEntity<String> unauthorized() {
@@ -66,7 +57,6 @@ public class AccountController {
     //登录
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public ResponseEntity<AccountLoginDto> login(String account, String password, String captcha, HttpServletRequest request) {
-        //TODO 图形验证码
         //TODO Https
         //验证
         Validator.checkNotNull(account, "账号");
@@ -138,6 +128,7 @@ public class AccountController {
     //用户信息
     @RequestMapping(value = "user", method = RequestMethod.POST)
     public ResponseEntity<AccountUserDto> user() {
+        //TODO 图形验证码优化
         Subject subject = SecurityUtils.getSubject();
         if (!subject.isAuthenticated())
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

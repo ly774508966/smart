@@ -1,4 +1,4 @@
-package com.rabbit.smart.controller.admin;
+package com.rabbit.smart.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

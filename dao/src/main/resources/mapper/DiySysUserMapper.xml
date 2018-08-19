@@ -67,14 +67,13 @@
         order by id desc
     </select>
 
-
     <!--权限-->
     <select id="queryRequestPermissionByRoleId" resultMap="SysPermission" parameterType="java.lang.Integer">
         select p.code,p.url,p.name
         from sys_permission p inner join sys_role_permission s  on p.id=s.permission_id
         where s.role_id=#{roleId} and p.type=3 and p.status=1
     </select>
-    <select id="queryRequestPermission" resultMap="SysPermission" parameterType="java.lang.Integer">
+    <select id="queryRequestPermission" resultMap="SysPermission" parameterType="java.lang.Boolean">
         select p.code,p.url,p.name
         from sys_permission p
         where p.type=3 and p.status=1

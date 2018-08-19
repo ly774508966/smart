@@ -1,18 +1,16 @@
-package com.rabbit.smart.controller.admin;
+package com.rabbit.smart.controller;
 
-import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 字典管理
+ * 创建模板，创建新的controller文件时，可以直接拷贝
  */
-@Api(value = "dictionary", tags = "字典管理")
-@RestController
-@RequestMapping("dictionary")
-public class DictionaryController {
+//@Api(value = "template", tags = "创建模板")
+//@RestController
+//@RequestMapping("template")
+public class TemplateController {
     //region 增删改查
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<Void> add() {

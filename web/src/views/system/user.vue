@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-input size="mini" class="filter-item item" v-model="form.account" placeholder="请输入账号"></el-input>
       <el-input size="mini" class="filter-item item" v-model="form.name" placeholder="请输入姓名"></el-input>
-      <el-cascader size="mini" class="filter-item item" :options="all_departments" :show-all-levels="false" change-on-select @change="form_dept_change" placeholder="请选择所属部门"></el-cascader>
+      <el-cascader size="mini" class="filter-item item" :options="all_departments" :show-all-levels="false" change-on-select @change="change_form_department" placeholder="请选择所属部门"></el-cascader>
       <el-select size="mini" class="filter-item item" v-model="form.roleId" placeholder="请选择用户角色">
         <el-option
           v-for="item in all_roles"
@@ -21,7 +21,7 @@
         </el-option>
       </el-select>
       <el-button size="mini" class="filter-item" type="primary" icon="el-icon-search" @click="ajax_query" v-waves>搜索</el-button>
-      <el-button size="mini" class="filter-item" type="primary" icon="el-icon-plus" @click="add_form_open">添加</el-button>
+      <el-button size="mini" class="filter-item" type="primary" icon="el-icon-plus" @click="open_add">添加</el-button>
     </div>
 
     <el-table
@@ -66,7 +66,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" type="warning" @click="update_form_open(scope.row.account)">编辑</el-button>
+          <el-button size="mini" type="warning" @click="open_edit(scope.row.account)">编辑</el-button>
           <el-button size="mini" type="danger" :disabled="scope.row.status==3" @click="handle_delete(scope.row.account)">删除</el-button>
         </template>
       </el-table-column>
@@ -96,7 +96,7 @@
           <el-input v-model="add_form.password" placeholder="请输入用户密码"/>
         </el-form-item>
         <el-form-item label="所属部门">
-          <el-cascader :options="departments" change-on-select v-model="add_form.deptIds" :show-all-levels="false" @change="add_form_dept_change"></el-cascader>
+          <el-cascader :options="departments" change-on-select v-model="add_form.deptIds" :show-all-levels="false" @change="change_add_form_department"></el-cascader>
         </el-form-item>
         <el-form-item label="用户角色">
           <el-select v-model="add_form.roleId" placeholder="用户角色">
@@ -115,22 +115,22 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="修改用户" :visible.sync="update_form_visible" width="500px">
+    <el-dialog title="修改用户" :visible.sync="edit_form_visible" width="500px">
       <el-form size="mini" label-width="100px">
         <el-form-item label="用户账号">
-          <el-input v-model="update_form.account" placeholder="请输入用户账号" disabled/>
+          <el-input v-model="edit_form.account" placeholder="请输入用户账号" disabled/>
         </el-form-item>
         <el-form-item label="用户姓名">
-          <el-input v-model="update_form.name" placeholder="请输入用户姓名"/>
+          <el-input v-model="edit_form.name" placeholder="请输入用户姓名"/>
         </el-form-item>
         <el-form-item label="用户密码">
-          <el-input v-model="update_form.password" placeholder="请输入用户密码"/>
+          <el-input v-model="edit_form.password" placeholder="请输入用户密码"/>
         </el-form-item>
         <el-form-item label="所属部门">
-          <el-cascader :options="departments" change-on-select v-model="update_form.deptIds" :show-all-levels="false" @change="update_form_dept_change"></el-cascader>
+          <el-cascader :options="departments" change-on-select v-model="edit_form.deptIds" :show-all-levels="false" @change="change_edit_form_department"></el-cascader>
         </el-form-item>
         <el-form-item label="用户角色">
-          <el-select v-model="update_form.roleId" placeholder="用户角色">
+          <el-select v-model="edit_form.roleId" placeholder="用户角色">
             <el-option
               v-for="item in roles"
               :key="item.id"
@@ -140,7 +140,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="用户状态">
-          <el-select v-model="update_form.status" placeholder="用户状态">
+          <el-select v-model="edit_form.status" placeholder="用户状态">
             <el-option
               v-for="item in status"
               :key="item.value"
@@ -151,7 +151,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer">
-        <el-button size="mini" @click="update_form_visible = false">取 消</el-button>
+        <el-button size="mini" @click="edit_form_visible = false">取 消</el-button>
         <el-button size="mini" type="primary" @click="handle_update">确 定</el-button>
       </div>
     </el-dialog>
@@ -186,12 +186,12 @@
           pageIndex: 1,
           pageSize: 15
         },
-        add_form_visible: false,
         add_form: {},
-        update_form_visible: false,
-        update_form: {},
+        edit_form: {},
         tableData: [],
-        total: undefined
+        total: undefined,
+        add_form_visible: false,
+        edit_form_visible: false
       }
     },
     computed: {
@@ -206,28 +206,28 @@
       }
     },
     methods: {
-      add_form_dept_change(val) {
+      change_add_form_department(val) {
         if (val == undefined || val.length == 0) {
           this.add_form.deptId = undefined
         } else {
           this.add_form.deptId = val[val.length - 1]
         }
       },
-      update_form_dept_change(val) {
+      change_edit_form_department(val) {
         if (val == undefined || val.length == 0) {
-          this.update_form.deptId = undefined
+          this.edit_form.deptId = undefined
         } else {
-          this.update_form.deptId = val[val.length - 1]
+          this.edit_form.deptId = val[val.length - 1]
         }
       },
-      form_dept_change(val) {
+      change_form_department(val) {
         if (val == undefined || val.length == 0) {
           this.form.deptId = undefined
         } else {
           this.form.deptId = val[val.length - 1]
         }
       },
-      add_form_open() {
+      open_add() {
         this.add_form = {
           password: undefined,
           account: undefined,
@@ -238,8 +238,8 @@
         }
         this.add_form_visible = true
       },
-      update_form_open(account) {
-        this.update_form = {
+      open_edit(account) {
+        this.edit_form = {
           status: undefined,
           account: undefined,
           password: undefined,
@@ -249,9 +249,9 @@
           roleId: undefined
         }
         var that = this
-        this.update_form_visible = true
+        this.edit_form_visible = true
         user_get(account).then(res => {
-          that.update_form = {
+          that.edit_form = {
             status: res.data.status,
             account: res.data.account,
             name: res.data.name,
@@ -272,8 +272,8 @@
       },
       handle_update() {
         var that = this;
-        user_modify(this.update_form).then(res => {
-          that.update_form_visible = false
+        user_modify(this.edit_form).then(res => {
+          that.edit_form_visible = false
           Message({message: '修改成功', type: 'success'});
           that.ajax_query()
         })
@@ -281,18 +281,13 @@
       },
       handle_delete(account) {
         var that = this;
-        MessageBox.confirm('此操作将删除此用户, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'error'
-        }).then(() => {
+        MessageBox.confirm('此操作将删除此用户, 是否继续?', '提示').then(() => {
           user_delete(account).then(res => {
             Message({message: '删除成功', type: 'success'});
             that.ajax_query()
           })
         }).catch(() => {
         })
-
       },
       handle_add() {
         var that = this;

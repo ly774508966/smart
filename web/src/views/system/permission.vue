@@ -1,7 +1,7 @@
 <template>
   <div class="table_container">
     <div class="filter-container">
-      <el-button class="filter-item" size="mini" type="primary" icon="el-icon-plus" v-waves>添加根权限</el-button>
+      <el-button class="filter-item" size="mini" type="primary" icon="el-icon-plus" v-waves>添加权限</el-button>
     </div>
     <tree-table :data="tableData" border size="mini" :columns="columns">
       <el-table-column label="类型" align="center" width="100">
