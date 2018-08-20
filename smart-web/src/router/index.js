@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
           var routers = []
           convertMenus(routers, menus)
           //console.log(routers)
-          router.addRoutes([{path: '/', component: Layout, children: routers}])
+          router.addRoutes([{path: '/', redirect: '/home', component: Layout, children: routers}])
           next({...to, replace: true})
         }).catch(err => {
           console.error(err)
