@@ -9,7 +9,7 @@
         </template>
         <template v-for="sub in menu.subs">
           <!--有子菜单-->
-          <sidebar-item :is-nest="true" class="nest-menu" v-if="sub.subs&&sub.subs.length>0" :routes="[sub]" :key="sub.node.code"></sidebar-item>
+          <sidebar-item :is-nest="true" class="nest-menu" v-if="sub.subs&&sub.subs.length>0" :menus="[sub]" :key="sub.node.code"></sidebar-item>
           <!--无子菜单-->
           <router-link v-else :to="sub.node.url" :key="sub.node.code">
             <el-menu-item :index="sub.node.code">

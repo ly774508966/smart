@@ -12,27 +12,24 @@
 <script>
 
   export default {
-    created() {
+    created () {
       this.getBreadcrumb()
     },
-    data() {
+    data () {
       return {
         levelList: null
       }
     },
     watch: {
-      $route() {
+      $route () {
         this.getBreadcrumb()
       }
     },
     methods: {
-      getBreadcrumb() {
+      getBreadcrumb () {
         let matched = this.$route.matched.filter(item => item.name)
-        const first = matched[0]
-        if (first && first.name !== 'home') {
-          matched = [{path: '/', meta: {title: '首页'}}].concat(matched)
-        }
-        this.levelList = matched
+        //TODO 父菜单可以通过全局menus对象做映射
+        this.levelList = [{path: '/', meta: {title: 'XX管理系统'}}].concat(matched)
       }
     }
   }

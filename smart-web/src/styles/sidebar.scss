@@ -67,6 +67,10 @@
         }
       }
     }
+
+    .el-menu-item {
+      padding-left: 10px !important;
+    }
     .el-menu--collapse {
       .el-submenu {
         & > .el-submenu__title {
