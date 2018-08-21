@@ -1,8 +1,13 @@
 package com.rabbit.smart.controller.admin;
 
 import com.rabbit.smart.dao.entity.SysPermission;
+import com.rabbit.smart.dao.entity.SysPermissionExample;
+import com.rabbit.smart.dao.mapper.SysPermissionMapper;
 import com.rabbit.smart.dto.Recursion;
+import com.rabbit.smart.dto.in.PermissionAddDto;
+import com.rabbit.smart.dto.in.PermissionModifyDto;
 import com.rabbit.smart.service.SysPermissionService;
+import com.rabbit.smart.util.param.Validator;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,36 +22,77 @@ import org.springframework.web.bind.annotation.RestController;
 public class PermissionController {
     @Autowired
     private SysPermissionService permissionService;
+    @Autowired
+    private SysPermissionMapper permissionMapper;
 
     //region 增删改查
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<Void> add() {
-        //TODO 需要开发
-        return null;
+    public ResponseEntity<Void> add(PermissionAddDto params) {
+        //校验
+        Validator.checkNotNull(params.getCode(), "权限编号");
+        Validator.checkNotNull(params.getName(), "权限名称");
+        Validator.checkNotNull(params.getParentCode(), "父权限编号");
+        Validator.checkNotNull(params.getType(), "权限类型");
+
+        //填参
+        SysPermission permission = new SysPermission();
+        permission.setCode(params.getCode());
+        permission.setName(params.getName());
+        permission.setParentCode(params.getParentCode());
+        permission.setUrl(params.getUrl());
+        permission.setType(params.getType());
+        permission.setIsMenuOpen(params.getMenuOpen());
+        permission.setMenuSort(params.getMenuSort());
+        permission.setMenuIcon(params.getMenuIcon());
+        permission.setIsLog(params.getLog());
+        permission.setDescription(params.getDescription());
+        permission.setStatus(1);
+
+        permissionMapper.insertSelective(permission);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "remove", method = RequestMethod.POST)
-    public ResponseEntity<Void> remove() {
-        //TODO 需要开发
-        return null;
+    public ResponseEntity<Void> remove(Integer id) {
+        //逻辑删除
+        Validator.checkNotNull(id, "权限编号");
+        SysPermission permission = new SysPermission();
+        permission.setId(id);
+        permission.setStatus(2);
+        permissionMapper.updateByPrimaryKeySelective(permission);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "modify", method = RequestMethod.POST)
-    public ResponseEntity<Void> modify() {
-        //TODO 需要开发
-        return null;
-    }
+    public ResponseEntity<Void> modify(PermissionModifyDto params) {
+        //校验
+        Validator.checkNotNull(params.getCode(), "权限编号");
+        Validator.checkNotNull(params.getName(), "权限名称");
+        Validator.checkNotNull(params.getParentCode(), "父权限编号");
+        Validator.checkNotNull(params.getType(), "权限类型");
 
-    @RequestMapping(value = "query", method = RequestMethod.POST)
-    public ResponseEntity<Void> query() {
-        //TODO 需要开发
-        return null;
-    }
+        //条件
+        SysPermissionExample example = new SysPermissionExample();
+        example.createCriteria().andCodeEqualTo(params.getCode());
 
-    @RequestMapping(value = "get", method = RequestMethod.POST)
-    public ResponseEntity<Void> get() {
-        //TODO 需要开发
-        return null;
+        //待更新对象
+        SysPermission permission = new SysPermission();
+        permission.setCode(params.getCode());
+        permission.setName(params.getName());
+        permission.setParentCode(params.getParentCode());
+        permission.setUrl(params.getUrl());
+        permission.setType(params.getType());
+        permission.setIsMenuOpen(params.getMenuOpen());
+        permission.setMenuSort(params.getMenuSort());
+        permission.setMenuIcon(params.getMenuIcon());
+        permission.setIsLog(params.getLog());
+        permission.setDescription(params.getDescription());
+        permission.setStatus(1);
+
+        permissionMapper.updateByExampleSelective(permission, example);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
     //endregion
 

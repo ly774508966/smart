@@ -95,6 +95,7 @@
         select p.name,p.id,p.code,p.parent_code
         from sys_permission p
         where  p.status=1
+        order by menu_sort
     </select>
     <insert id="updateRolePermissions">
         delete from sys_role_permission where role_id=#{roleId};

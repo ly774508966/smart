@@ -43,7 +43,10 @@ public class SysPermissionService {
 
     //查询所有权限（含菜单、请求）
     public Recursion<SysPermission> queryTree() {
-        List<SysPermission> permissions = permissionMapper.selectByExample(new SysPermissionExample());
+        SysPermissionExample example=  new SysPermissionExample();
+        example.setOrderByClause(" menu_sort ");
+        List<SysPermission> permissions = permissionMapper.selectByExample(example);
+
         SysPermission permission = new SysPermission();
         permission.setCode("0");
         Recursion<SysPermission> results = new Recursion<>(permission);
