@@ -83,10 +83,10 @@ public class PermissionController {
         permission.setParentCode(params.getParentCode());
         permission.setUrl(params.getUrl());
         permission.setType(params.getType());
-        permission.setIsMenuOpen(params.getMenuOpen());
+        permission.setIsMenuOpen(params.getIsMenuOpen());
         permission.setMenuSort(params.getMenuSort());
         permission.setMenuIcon(params.getMenuIcon());
-        permission.setIsLog(params.getLog());
+        permission.setIsLog(params.getIsLog());
         permission.setDescription(params.getDescription());
         permission.setStatus(1);
 

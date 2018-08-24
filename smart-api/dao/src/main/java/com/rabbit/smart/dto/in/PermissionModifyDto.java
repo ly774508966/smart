@@ -55,11 +55,11 @@ public class PermissionModifyDto {
         this.type = type;
     }
 
-    public Boolean getMenuOpen() {
+    public Boolean getIsMenuOpen() {
         return isMenuOpen;
     }
 
-    public void setMenuOpen(Boolean menuOpen) {
+    public void setIsMenuOpen(Boolean menuOpen) {
         isMenuOpen = menuOpen;
     }
 
@@ -79,11 +79,11 @@ public class PermissionModifyDto {
         this.menuIcon = menuIcon;
     }
 
-    public Boolean getLog() {
+    public Boolean getIsLog() {
         return isLog;
     }
 
-    public void setLog(Boolean log) {
+    public void setIsLog(Boolean log) {
         isLog = log;
     }
 
