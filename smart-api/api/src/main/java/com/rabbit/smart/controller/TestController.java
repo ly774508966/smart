@@ -1,26 +1,29 @@
 package com.rabbit.smart.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 测试类
  */
-//@RestController
-//@RequestMapping("/test")
+@RestController
+@RequestMapping("/test")
 public class TestController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-//    @Autowired
+
+    //    @Autowired
 //    private RedisTemplate redisTemplate;
 //
-//    @RequestMapping("/index")
-//    public SessionUser index(HttpSession session) {
-//        SessionUser user = createUser();
-//        if (session.getAttribute("user") == null) {
-//            session.setAttribute("user", user);
-//        }
-//        return user;
-//    }
+    @RequestMapping("/index")
+    public String index() {
+        Subject subject = SecurityUtils.getSubject();
+        return "1";
+    }
 //
 //    @RequestMapping("/get")
 //    @Cacheable(value = RedisCacheConfig.CACHE_MINUTE, key = "#account")
