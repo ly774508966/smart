@@ -41,7 +41,9 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     NProgress.start()
 
-    var token = store.getters.token
+    //var token = store.getters.token
+
+    var token = '1'
 
     //无令牌
     if (!token) {
@@ -54,7 +56,9 @@ router.beforeEach((to, from, next) => {
 
     //有令牌
     if (token) {
-      if (!store.getters.user) {//第一次请求
+      if (to.path === '/login') {//打开登录页
+        next()
+      } else if (!store.getters.user) {//第一次请求
         store.dispatch('user').then(menus => {
           var routers = []
           convertMenus(routers, menus)
@@ -63,16 +67,13 @@ router.beforeEach((to, from, next) => {
           next({...to, replace: true})
         }).catch(err => {
           console.error(err)
-          store.dispatch('front_logout').then(() => {
-            Message.error('获取用户基本信息异常，请重新登录')
-            next({path: '/'})
-          })
+          next({path: '/login'})
+          // store.dispatch('front_logout').then(() => {
+          //   Message.error('获取用户基本信息异常，请重新登录')
+          //   next({path: '/login'})
+          // })
         })
-      }
-      else if (to.path === '/login') {//打开登录页，跳转到首页
-        next({path: '/'})
-      }
-      else {//有权限，继续
+      } else {//有权限，继续
         next()
       }
     }

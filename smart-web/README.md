@@ -1,21 +1,26 @@
-# admin
+# smart-web
 
-> 物流管理系统
+> 管理系统前端
 
-## Build Setup
+## 环境搭建
 
 ``` bash
-# install dependencies
+# 安装nodejs
+
+# 设置淘宝镜像
+npm config set registry https://registry.npmjs.org/
+
+# 切到smart-web跟目录，安装依赖
 npm install
 
-# serve with hot reload at localhost:8080
+# 运行本地服务 localhost:8080
 npm run dev
 
-# build for production with minification
+# 打包
 npm run build
 
-# build for production and view the bundle analyzer report
+# 打包带报告
 npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+

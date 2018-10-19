@@ -1,10 +1,12 @@
 package com.rabbit.smart.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.rabbit.smart.config.RedisCacheConfig;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,13 +26,14 @@ public class TestController {
         Subject subject = SecurityUtils.getSubject();
         return "1";
     }
-//
-//    @RequestMapping("/get")
-//    @Cacheable(value = RedisCacheConfig.CACHE_MINUTE, key = "#account")
-//    public SessionUser get(String account) {
-//        logger.info("get:" + account);
-//        return createUser();
-//    }
+
+    //
+    @RequestMapping("/get")
+    @Cacheable(value = RedisCacheConfig.CACHE_MINUTE, key = "#account")
+    public String get(String account) {
+        logger.info("get:" + account);
+        return account;
+    }
 //
 //    @RequestMapping("/post")
 //    @Cacheable(value = RedisCacheConfig.CACHE_MINUTE, key = "#user.account")

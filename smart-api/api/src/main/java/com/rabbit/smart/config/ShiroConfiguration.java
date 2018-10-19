@@ -64,7 +64,7 @@ public class ShiroConfiguration {
 //            logger.info("权限控制{},{}", url, perm);
 //        }
         //需登陆
-        map.put("/**", "authc");
+//        map.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
