@@ -39,8 +39,6 @@
         <el-form-item label="部门描述">
           <el-input v-model="edit_form.description" placeholder="请输入部门描述"/>
         </el-form-item>
-        </el-select>
-        </el-form-item>
       </el-form>
       <div slot="footer">
         <el-button size="mini" @click="edit_form_visible = false">取 消</el-button>
